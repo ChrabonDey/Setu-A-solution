@@ -8,7 +8,6 @@ const SERVER_URL = 'http://localhost:5000';
 const Chat = () => {
   const { email } = useParams(); // current logged-in user email
   const [access, setAccess] = useState(null);
-  const [chatPartnerEmail, setChatPartnerEmail] = useState(null);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [profiles, setProfiles] = useState({});
@@ -20,20 +19,18 @@ const Chat = () => {
     axios
       .get(`${SERVER_URL}/chat/access/${email}`)
       .then((res) => {
-        const { access, chatPartnerEmail } = res.data;
-        setAccess(access);
+        setAccess(res.data.access);
 
-        if (access) {
-          setChatPartnerEmail(chatPartnerEmail);
-
+        if (res.data.access) {
           socketRef.current = io(SERVER_URL);
+
           socketRef.current.emit('register', email);
 
-          // Fetch chat messages between the two users
+          // Join a global room or default room
+          socketRef.current.emit('join_room', 'global');
+
           axios
-            .get(
-              `${SERVER_URL}/chat/messages?user1=${email}&user2=${chatPartnerEmail}`
-            )
+            .get(`${SERVER_URL}/chat/messages/global`)
             .then((res) => {
               setMessages(res.data || []);
               const uniqueEmails = [...new Set(res.data.map((msg) => msg.sender))];
@@ -46,7 +43,10 @@ const Chat = () => {
           });
         }
       })
-      .catch(() => setAccess(false));
+      .catch((err) => {
+        console.error('Access error:', err);
+        setAccess(false);
+      });
 
     return () => {
       socketRef.current?.disconnect();
@@ -68,11 +68,11 @@ const Chat = () => {
   };
 
   const sendMessage = () => {
-    if (!input.trim() || !chatPartnerEmail) return;
+    if (!input.trim()) return;
 
     const messageData = {
       sender: email,
-      receiver: chatPartnerEmail,
+      receiver: 'global', // or undefined if you're just using rooms
       content: input,
       timestamp: new Date().toISOString(),
     };
@@ -128,7 +128,11 @@ const Chat = () => {
             </div>
           );
         })}
+        {messages.length === 0 && (
+          <p style={{ textAlign: 'center', opacity: 0.6 }}>No messages yet</p>
+        )}
       </div>
+
       <div style={styles.inputArea}>
         <input
           type="text"
@@ -138,7 +142,14 @@ const Chat = () => {
           onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
           style={styles.input}
         />
-        <button onClick={sendMessage} style={styles.sendButton}>
+        <button
+          onClick={sendMessage}
+          style={{
+            ...styles.sendButton,
+            backgroundColor: '#0078fe',
+            cursor: 'pointer',
+          }}
+        >
           Send
         </button>
       </div>
@@ -191,10 +202,8 @@ const styles = {
   sendButton: {
     padding: '10px 20px',
     borderRadius: 20,
-    backgroundColor: '#0078fe',
     color: 'white',
     border: 'none',
-    cursor: 'pointer',
   },
 };
 
