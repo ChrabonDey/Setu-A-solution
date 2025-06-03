@@ -128,7 +128,7 @@ const ChatRoom = () => {
           Send
         </button> 
       </div>
-    </div>//send
+    </div>
   );
 };
 
