@@ -56,7 +56,7 @@ const ChatRoom = () => {
       }
     };
 
-    if (isAllowed) fetchMessages();
+    if (isAllowed) fetchMessages();//send a message
   }, [isAllowed, jobId]);
 
   // Join room and listen for messages
