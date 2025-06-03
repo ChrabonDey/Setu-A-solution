@@ -6,7 +6,7 @@ import {
 import MainLayout from '../Layout/MainLayout/MainLayout';
 import Home from '../Pages/Home/Home';
 import Login from '../Pages/Login/Login';
-import SignUp from '../Pages/Signup/Signup';
+import SignUp from '../Pages/Signup/SignUp';
 import Dashboard from '../Layout/Dashboard/Dashboard';
 import Edit from '../Layout/Dashboard/Edit';
 import Profile from '../Layout/Dashboard/Profile';
