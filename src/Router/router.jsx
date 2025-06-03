@@ -18,6 +18,7 @@ import Request from '../Layout/Dashboard/Request';
 import AcceptedJobs from '../Layout/Dashboard/AcceptedJobs';
 import ChatApp from '../Layout/Dashboard/ChatApp';
 import TestMentions from '../Layout/Dashboard/TestMentions';
+import JobPostForm from '../Layout/Dashboard/JobPostForm';
 
 export const router = createBrowserRouter([
     {
@@ -80,7 +81,7 @@ export const router = createBrowserRouter([
         },
         {
           path:"/dashboard/post",
-          element:<Post_Jobs></Post_Jobs>
+          element:<JobPostForm></JobPostForm>
         },
          {
       path: "chat/:email",
