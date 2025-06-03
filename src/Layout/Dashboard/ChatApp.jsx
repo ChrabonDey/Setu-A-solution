@@ -1,144 +1,130 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
 
-const SERVER_URL = 'http://localhost:5000';
+import UseAxiosPublic from '../../hooks/UseAxiosPublic';
+import { authContext } from '../../provider/Authprovider';
 
-const Chat = () => {
-  const { email } = useParams(); // current logged-in user email
-  const [access, setAccess] = useState(null);
-  const [chatPartnerEmail, setChatPartnerEmail] = useState(null);
+const socket = io('http://localhost:5000'); // replace with your backend URL if needed
+
+const ChatRoom = () => {
+  const { jobId } = useParams();
+  const { user } = useContext(authContext)
+  const [isAllowed, setIsAllowed] = useState(false);
+  const [posterEmail, setPosterEmail] = useState('');
+  const [applicantEmail, setApplicantEmail] = useState('');
+  const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const [input, setInput] = useState('');
-  const [profiles, setProfiles] = useState({});
-  const socketRef = useRef();
+  const axiosPublic=UseAxiosPublic()
 
+  // Check access and fetch emails
   useEffect(() => {
-    if (!email) return;
+   
+    const checkAccess = async () => {
+      try {
+        const res = await axiosPublic.get(`/chat/access-job/${jobId}`);
+        const { jobPosterEmail, applicantEmail } = res.data;
+        console.log(jobPosterEmail,applicantEmail)
+         console.log(jobId)
 
-    axios
-      .get(`${SERVER_URL}/chat/access/${email}`)
-      .then((res) => {
-        const { access, chatPartnerEmail } = res.data;
-        setAccess(access);
-
-        if (access) {
-          setChatPartnerEmail(chatPartnerEmail);
-
-          socketRef.current = io(SERVER_URL);
-          socketRef.current.emit('register', email);
-
-          // Fetch chat messages between the two users
-          axios
-            .get(
-              `${SERVER_URL}/chat/messages?user1=${email}&user2=${chatPartnerEmail}`
-            )
-            .then((res) => {
-              setMessages(res.data || []);
-              const uniqueEmails = [...new Set(res.data.map((msg) => msg.sender))];
-              uniqueEmails.forEach(fetchProfile);
-            });
-
-          socketRef.current.on('receive_message', (msg) => {
-            fetchProfile(msg.sender);
-            setMessages((prev) => [...prev, msg]);
-          });
+        if (user?.email === jobPosterEmail || user?.email === applicantEmail) {
+          setIsAllowed(true);
+          setPosterEmail(jobPosterEmail);
+          setApplicantEmail(applicantEmail);
+        } else {
+          alert("You are not authorized to view this chat.");
         }
-      })
-      .catch(() => setAccess(false));
+      } catch (err) {
+        console.error("Access check failed:", err);
+        alert("Failed to verify chat access.");
+      }
+    };
+
+    checkAccess();
+  }, [jobId, user?.email]);
+
+  // Load existing messages
+  useEffect(() => {
+    const fetchMessages = async () => {
+      try {
+        const res = await axiosPublic.get(`/chat/messages`);
+        const filtered = res.data.filter(msg => msg.jobId === jobId);
+        setMessages(filtered);
+      } catch (err) {
+        console.error('Error loading chat messages:', err);
+      }
+    };
+
+    if (isAllowed) fetchMessages();
+  }, [isAllowed, jobId]);
+
+  // Join room and listen for messages
+  useEffect(() => {
+    if (!isAllowed) return;
+
+    socket.emit('join_room', {
+      jobId,
+      userEmail: user?.email,
+      otherEmail: user?.email === posterEmail ? applicantEmail : posterEmail,
+    });
+
+    socket.on('receive_message', (data) => {
+      if (data.jobId === jobId) {
+        setMessages(prev => [...prev, data]);
+      }
+    });
 
     return () => {
-      socketRef.current?.disconnect();
+      socket.off('receive_message');
     };
-  }, [email]);
+  }, [isAllowed, jobId, user?.email, posterEmail, applicantEmail]);
 
-  const fetchProfile = async (email) => {
-    if (profiles[email]) return;
-    try {
-      const res = await fetch(`${SERVER_URL}/profile-data?email=${email}`);
-      const data = await res.json();
-      setProfiles((prev) => ({
-        ...prev,
-        [email]: { firstName: data.firstName, lastName: data.lastName },
-      }));
-    } catch (err) {
-      console.error(`Failed to fetch profile for ${email}`, err);
-    }
-  };
+  // Send message
+  const handleSend = () => {
+    if (!message.trim()) return;
 
-  const sendMessage = () => {
-    if (!input.trim() || !chatPartnerEmail) return;
-
-    const messageData = {
-      sender: email,
-      receiver: chatPartnerEmail,
-      content: input,
-      timestamp: new Date().toISOString(),
+    const msg = {
+      sender: user?.email,
+      receiver: user?.email === posterEmail ? applicantEmail : posterEmail,
+      jobId,
+      content: message,
     };
 
-    socketRef.current.emit('send_message', messageData);
-    setInput('');
+    socket.emit('send_message', msg);
+    setMessage('');
   };
 
-  if (access === null) return <div>Loading...</div>;
-  if (access === false)
-    return <div style={{ color: 'red', textAlign: 'center' }}>Access Denied</div>;
+  if (!isAllowed) {
+    return <p className="text-center mt-4 text-gray-500">Checking chat access...</p>;
+  }
 
   return (
-    <div style={styles.container}>
-      <h2 style={styles.title}>Chat Room</h2>
-      <div style={styles.chatBox}>
-        {messages.map((msg, idx) => {
-          const isMine = msg.sender === email;
-          const profile = profiles[msg.sender];
-          const senderName = isMine
-            ? 'You'
-            : profile
-            ? `${profile.firstName} ${profile.lastName}`
-            : msg.sender;
-
-          return (
-            <div
-              key={idx}
-              style={{
-                display: 'flex',
-                justifyContent: isMine ? 'flex-end' : 'flex-start',
-                marginBottom: 10,
-              }}
-            >
-              <div
-                style={{
-                  ...styles.messageBubble,
-                  backgroundColor: isMine ? '#0078fe' : '#e5e5ea',
-                  color: isMine ? 'white' : 'black',
-                  alignSelf: isMine ? 'flex-end' : 'flex-start',
-                  borderTopLeftRadius: isMine ? 20 : 0,
-                  borderTopRightRadius: isMine ? 0 : 20,
-                }}
-              >
-                <div style={{ fontSize: 12, marginBottom: 4 }}>
-                  <b>{senderName}</b>
-                </div>
-                <div>{msg.content}</div>
-                <div style={styles.timestamp}>
-                  {new Date(msg.timestamp).toLocaleTimeString()}
-                </div>
-              </div>
+    <div className="max-w-3xl mx-auto px-4 py-6">
+      <h2 className="text-2xl font-bold mb-4 text-center">Setu Chat Room</h2>
+      <div className="border rounded p-4 h-[400px] overflow-y-auto bg-white shadow mb-4">
+        {messages.map((msg, index) => (
+          <div key={index} className={`mb-2 ${msg.sender === user.email ? 'text-right' : 'text-left'}`}>
+            <div className={`inline-block px-3 py-2 rounded-xl max-w-xs ${
+              msg.sender === user?.email ? 'bg-blue-500 text-white' : 'bg-gray-200 text-black'
+            }`}>
+              <p className="text-sm">{msg.content}</p>
             </div>
-          );
-        })}
+          </div>
+        ))}
       </div>
-      <div style={styles.inputArea}>
+      <div className="flex gap-2">
         <input
-          type="text"
+          className="flex-1 border rounded px-3 py-2"
           placeholder="Type a message..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-          style={styles.input}
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleSend()}
         />
-        <button onClick={sendMessage} style={styles.sendButton}>
+        <button
+          className="bg-blue-600 text-white px-4 py-2 rounded"
+          onClick={handleSend}
+        >
           Send
         </button>
       </div>
@@ -146,56 +132,4 @@ const Chat = () => {
   );
 };
 
-const styles = {
-  container: {
-    maxWidth: 600,
-    margin: '0 auto',
-    padding: 20,
-    fontFamily: 'Arial, sans-serif',
-  },
-  title: {
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  chatBox: {
-    border: '1px solid #ccc',
-    borderRadius: 10,
-    padding: 10,
-    height: 400,
-    overflowY: 'auto',
-    marginBottom: 10,
-    backgroundColor: '#f9f9f9',
-  },
-  messageBubble: {
-    padding: 10,
-    borderRadius: 20,
-    maxWidth: '70%',
-  },
-  timestamp: {
-    fontSize: 10,
-    marginTop: 5,
-    textAlign: 'right',
-    opacity: 0.6,
-  },
-  inputArea: {
-    display: 'flex',
-    gap: 10,
-  },
-  input: {
-    flex: 1,
-    padding: 10,
-    borderRadius: 20,
-    border: '1px solid #ccc',
-    outline: 'none',
-  },
-  sendButton: {
-    padding: '10px 20px',
-    borderRadius: 20,
-    backgroundColor: '#0078fe',
-    color: 'white',
-    border: 'none',
-    cursor: 'pointer',
-  },
-};
-
-export default Chat;
+export default ChatRoom;

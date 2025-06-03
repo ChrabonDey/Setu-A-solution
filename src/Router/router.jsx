@@ -6,7 +6,7 @@ import {
 import MainLayout from '../Layout/MainLayout/MainLayout';
 import Home from '../Pages/Home/Home';
 import Login from '../Pages/Login/Login';
-import SignUp from '../Pages/Signup/Signup';
+import SignUp from '../Pages/Signup/SignUp';
 import Dashboard from '../Layout/Dashboard/Dashboard';
 import Edit from '../Layout/Dashboard/Edit';
 import Profile from '../Layout/Dashboard/Profile';
@@ -18,6 +18,9 @@ import Request from '../Layout/Dashboard/Request';
 import AcceptedJobs from '../Layout/Dashboard/AcceptedJobs';
 import ChatApp from '../Layout/Dashboard/ChatApp';
 import TestMentions from '../Layout/Dashboard/TestMentions';
+import MyTask from '../Layout/Dashboard/MyTask';
+import MyWork from '../Layout/Dashboard/MyWork';
+import JobPostForm from '../Layout/Dashboard/JobPostForm';
 
 export const router = createBrowserRouter([
     {
@@ -54,6 +57,10 @@ export const router = createBrowserRouter([
         ,{
           path:"/mention",
           element:<TestMentions></TestMentions>
+        },
+        {
+          path:"/chat/:jobId",
+          element:<ChatApp></ChatApp>
         }
       ]
     },
@@ -71,7 +78,7 @@ export const router = createBrowserRouter([
            
         },
          {
-          path:"dashboard/request",
+          path:"/dashboard/request",
           element:<Request></Request>
         },
         {
@@ -80,12 +87,17 @@ export const router = createBrowserRouter([
         },
         {
           path:"/dashboard/post",
-          element:<Post_Jobs></Post_Jobs>
+          element:<JobPostForm></JobPostForm>
         },
-         {
-      path: "chat/:email",
-      element: <ChatApp />
-    },
+        {
+          path:"/dashboard/task",
+          element:<MyTask></MyTask>
+        },
+        {
+          path:"/dashboard/my-work",
+          element:<MyWork></MyWork>
+        },
+     
       //        {
       //         path:'/dashboard',
       //         element:<MyProfile></MyProfile>
