@@ -1,14 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
-  FaComments,
-  FaHome, FaList, FaProductHunt
-} from 'react-icons/fa';
-import {
-  FcBinoculars, FcBullish, FcBusinessman, FcConferenceCall
-} from 'react-icons/fc';
+  FcBinoculars,
+  FcBullish,
+  FcBusinessman,
+  FcConferenceCall,
+  FcTodoList,
+  FcSurvey
+} from 'react-icons/fc'; 
+
 import { NavLink, Outlet } from 'react-router-dom';
 import { authContext } from '../../provider/Authprovider';
 import UseAxiosPublic from '../../hooks/UseAxiosPublic';
+import { FaHome, FaList, FaProductHunt } from 'react-icons/fa';
 
 const Dashboard = () => {
   const [toggle, setToggle] = useState(false);
@@ -60,34 +63,36 @@ const [jobId, setJobId] = useState(null);
             SETU
           </h1>
         </div>
-        <ul className="px-4 py-6 space-y-2">
-          {[
-            { to: '/dashboard', icon: <FcBusinessman />, text: 'My Profile' },
-            { to: '/dashboard/post', icon: <FaProductHunt />, text: 'Post a Job' },
-            { to: 'dashboard/request', icon: <FaList />, text: 'Requested jobs' },
-            { to: '/dashboard/reviewQueue', icon: <FcBinoculars />, text: 'Job Bids' },
-            { to: '/dashboard/statistics', icon: <FcBullish />, text: 'Statistics Page' },
-            { to: '/dashboard/accept', icon: <FcConferenceCall />, text: 'Job posts' },
-            { to: '/', icon: <FaHome />, text: 'Home', extra: true }
-          ].map(({ to, icon, text, extra }) => (
-            <li key={to}>
-              {extra && <hr className="my-4 border-blue-400" />}
-              <NavLink
-                to={to}
-                className={({ isActive }) =>
-                  `flex items-center gap-3 py-2 px-3 rounded-lg transition-all duration-200 ${
-                    isActive
-                      ? 'bg-blue-500 text-white shadow'
-                      : 'hover:bg-blue-100 hover:text-blue-700'
-                  }`
-                }
-              >
-                <span className="text-xl">{icon}</span>
-                {!toggle && <span className="text-sm font-medium">{text}</span>}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
+      <ul className="px-4 py-6 space-y-2">
+  {[
+    { to: '/dashboard', icon: <FcBusinessman />, text: 'My Profile' },
+    { to: '/dashboard/post', icon: <FaProductHunt />, text: 'Post a Job' },
+    { to: '/dashboard/request', icon: <FaList/>, text: 'Requested Jobs' },
+    { to: '/dashboard/reviewQueue', icon: <FcBinoculars />, text: 'Job Bids' },
+    { to: '/dashboard/statistics', icon: <FcBullish />, text: 'Statistics Page' },
+    { to: '/dashboard/accept', icon: <FcConferenceCall />, text: 'Job Posts' },
+    { to: '/dashboard/task', icon: <FcTodoList />, text: 'My Task' }, // ✅ Consistent FC icon
+    { to: '/dashboard/my-work', icon: <FcSurvey />, text: 'My Work' },   // ✅ Consistent FC icon
+    { to: '/', icon: <FaHome />, text: 'Home', extra: true }
+  ].map(({ to, icon, text, extra }) => (
+    <li key={to}>
+      {extra && <hr className="my-4 border-blue-400" />}
+      <NavLink
+        to={to}
+        className={({ isActive }) =>
+          `flex items-center gap-3 py-2 px-3 rounded-lg transition-all duration-200 ${
+            isActive
+              ? 'bg-blue-500 text-white shadow'
+              : 'hover:bg-blue-100 hover:text-blue-700'
+          }`
+        }
+      >
+        <span className="text-xl">{icon}</span>
+        {!toggle && <span className="text-sm font-medium">{text}</span>}
+      </NavLink>
+    </li>
+  ))}
+</ul>
       </div>
 
       {/* Main Content */}

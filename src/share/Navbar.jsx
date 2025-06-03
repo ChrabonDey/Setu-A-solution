@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect, useRef } from "react";
 import img1 from "../assets/7fdb87b0-b823-427e-9078-b45260defc74.jpeg";
 import { NavLink, useNavigate } from "react-router-dom";
 import { authContext } from "../provider/Authprovider";
+import { FaCoins } from "react-icons/fa";
+import UseAxiosPublic from "../hooks/UseAxiosPublic";
 
 const Navbar = () => {
   const { user, logOut } = useContext(authContext);
@@ -9,6 +11,30 @@ const Navbar = () => {
   const [showNotifDropdown, setShowNotifDropdown] = useState(false);
   const navigate = useNavigate();
   const notifRef = useRef();
+  const [credit, setCredit] = useState(0);
+  const axiosPublic=UseAxiosPublic()
+
+useEffect(() => {
+  if (user?.email) {
+    axiosPublic.get(`/user/${user.email}`)
+      .then(res => {
+        console.log("User credits:", res.data.credits);
+        setCredit(res.data.credits);
+      })
+      .catch(err => {
+        if (err.response && err.response.status === 404) {
+          console.warn("User not found, setting credits to 0");
+          setCredit(0); // fallback if user not found
+        } else {
+          console.error("Error fetching credit:", err);
+        }
+      });
+  }
+}, [user]);
+
+
+
+
 
   // Fetch notifications for logged-in user
   useEffect(() => {
@@ -64,6 +90,9 @@ const Navbar = () => {
       });
   };
 
+  // useEffect(()=>{
+  //   axiosPublic.get('/user')
+  // })
   // Count unread notifications
   const unreadCount = notifications.filter((n) => !n.read).length;
 
@@ -99,19 +128,25 @@ const Navbar = () => {
           <NavLink className="hover:text-[#4978ff]" to="/contact">
             Contact
           </NavLink>
-           <NavLink to="/mention">
-              <button className="btn border-[#006dc7] text-black px-6 rounded-2xl font-semibold hover:bg-[#4343e5] hover:text-white transition-transform hover:scale-105">
-                Mention
-              </button>
-            </NavLink>
+           
           {user && (
             <NavLink to="/dashboard">
               <button className="btn border-[#006dc7] text-black px-6 rounded-2xl font-semibold hover:bg-[#4343e5] hover:text-white transition-transform hover:scale-105">
                 Dashboard
               </button>
             </NavLink>
+          
+
            
           )}
+           {
+            user && (
+                 <button className="btn border-[#006dc7] text-black px-6 rounded-2xl font-semibold hover:bg-[#4343e5] hover:text-white transition-transform hover:scale-105">
+                {credit} <FaCoins></FaCoins>
+                {console.log(credit)}
+              </button>
+            )
+          } 
         </div>
 
         {/* Mobile Menu */}
