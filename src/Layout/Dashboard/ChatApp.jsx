@@ -126,9 +126,9 @@ const ChatRoom = () => {
           onClick={handleSend}
         >
           Send
-        </button>
+        </button> 
       </div>
-    </div>
+    </div>//send
   );
 };
 
