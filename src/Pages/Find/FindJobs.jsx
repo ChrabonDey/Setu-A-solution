@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FiSearch } from 'react-icons/fi';
 import { motion } from 'framer-motion';
 import UseAxiosPublic from '../../hooks/UseAxiosPublic';
-import { FaMapMarkerAlt, FaDollarSign } from 'react-icons/fa';
+import { FaMapMarkerAlt, FaDollarSign, FaComments } from 'react-icons/fa';
 
 const FindJobs = () => {
   const axiosPublic = UseAxiosPublic();
@@ -113,46 +113,54 @@ const FindJobs = () => {
               🚫 No jobs found matching your criteria.
             </p>
           ) : (
-            filteredJobs.map((job) => (
-              <motion.div
-                key={job._id}
-                whileHover={{ scale: 1.03 }}
-                className="bg-white/40 backdrop-blur-md border border-white/30 shadow-xl rounded-3xl p-6 transition-all duration-300 hover:shadow-2xl flex flex-col justify-between h-full"
-              >
-                <div className="space-y-4 mb-6 text-left">
-                  {/* Title with left blue border */}
-                  <h3 className="text-2xl font-semibold text-indigo-800 border-l-4 border-blue-500 pl-3">
-                    {job.title}
-                  </h3>
+           filteredJobs.map((job) => (
+  <motion.div
+    key={job._id}
+    whileHover={{ scale: 1.03 }}
+    className="bg-white/40 backdrop-blur-md border border-white/30 shadow-xl rounded-3xl p-6 transition-all duration-300 hover:shadow-2xl flex flex-col justify-between h-full"
+  >
+    <div className="space-y-4 mb-6 text-left">
+      {/* Title */}
+      <h3 className="text-2xl font-semibold text-indigo-800 border-l-4 border-blue-500 pl-3">
+        {job.title}
+      </h3>
+      <p className="text-gray-700 text-base">{job.description.slice(0, 120)}...</p>
 
-                  {/* Description */}
-                  <p className="text-gray-700 text-base">{job.description.slice(0, 120)}...</p>
+      {/* Location & Salary */}
+      <div className="flex items-center gap-6 text-gray-600 text-base mt-2">
+        <span className="flex items-center gap-2">
+          <FaMapMarkerAlt className="text-blue-500" /> {job.location}
+        </span>
+        <span className="flex items-center gap-2">
+          <FaDollarSign className="text-green-500" /> ${job.salary}
+        </span>
+      </div>
+    </div>
 
-                  {/* Location and Salary with Icons */}
-                  <div className="flex items-center gap-6 text-gray-600 text-base mt-2">
-                    <span className="flex items-center gap-2">
-                      <FaMapMarkerAlt className="text-blue-500" /> {job.location}
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <FaDollarSign className="text-green-500" /> ${job.salary}
-                    </span>
-                  </div>
-                </div>
+    {/* Buttons */}
+    <div className="flex justify-between gap-4 mt-auto flex-wrap">
+      <button className="flex-1 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-3 rounded-full shadow-lg transition-all duration-300">
+        Apply Now
+      </button>
+      <button
+        onClick={() => navigate(`/jobs/${job._id}`)}
+        className="flex-1 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-600 hover:to-indigo-700 text-white font-semibold py-3 rounded-full shadow-lg transition-all duration-300"
+      >
+        View Details
+      </button>
 
-                {/* Buttons */}
-                <div className="flex justify-between gap-4 mt-auto">
-                  <button className="w-1/2 bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white font-semibold py-3 rounded-full shadow-lg transition-all duration-300">
-                    Apply Now
-                  </button>
-                  <button
-                    onClick={() => navigate(`/jobs/${job._id}`)}
-                    className="w-1/2 bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-600 hover:to-indigo-700 text-white font-semibold py-3 rounded-full shadow-lg transition-all duration-300"
-                  >
-                    View Details
-                  </button>
-                </div>
-              </motion.div>
-            ))
+      {/* ✅ Chat Button (only if job is accepted) */}
+      
+        <button
+          onClick={() => navigate(`/chat/${job._id}`)}
+          className="flex-1 mt-3 bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 text-white font-semibold py-3 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
+        >
+          <FaComments/> Chat
+        </button>
+    
+    </div>
+  </motion.div>
+))
           )}
         </motion.div>
       </div>
