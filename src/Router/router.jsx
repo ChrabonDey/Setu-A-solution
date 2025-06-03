@@ -54,6 +54,10 @@ export const router = createBrowserRouter([
         ,{
           path:"/mention",
           element:<TestMentions></TestMentions>
+        },
+        {
+          path:"/chat/:jobId",
+          element:<ChatApp></ChatApp>
         }
       ]
     },
@@ -82,10 +86,7 @@ export const router = createBrowserRouter([
           path:"/dashboard/post",
           element:<Post_Jobs></Post_Jobs>
         },
-         {
-      path: "chat/:email",
-      element: <ChatApp />
-    },
+     
       //        {
       //         path:'/dashboard',
       //         element:<MyProfile></MyProfile>

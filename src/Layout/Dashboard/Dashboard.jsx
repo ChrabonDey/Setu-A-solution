@@ -66,8 +66,6 @@ const [jobId, setJobId] = useState(null);
             { to: '/dashboard/post', icon: <FaProductHunt />, text: 'Post a Job' },
             { to: 'dashboard/request', icon: <FaList />, text: 'Requested jobs' },
             { to: '/dashboard/reviewQueue', icon: <FcBinoculars />, text: 'Job Bids' },
-            { to: `/dashboard/chat/${user?.email}`, icon: <FaComments />, text: 'Chat-content' },
-
             { to: '/dashboard/statistics', icon: <FcBullish />, text: 'Statistics Page' },
             { to: '/dashboard/accept', icon: <FcConferenceCall />, text: 'Job posts' },
             { to: '/', icon: <FaHome />, text: 'Home', extra: true }
