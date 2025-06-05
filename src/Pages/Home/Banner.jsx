@@ -27,7 +27,7 @@ const Banner = () => {
             <input
   type="text"
   placeholder="Search for any service"
-  className="w-full py-4 px-6 pr-14 rounded-full shadow-md bg-white/80 text-black text-base outline-none backdrop-blur-sm"
+  className="w-full py-4 px-6 pr-14 rounded-full shadow-md bg-white/90 text-black text-base outline-none backdrop-blur-sm"
 />
 
             <button className="absolute right-2 top-1/2 -translate-y-1/2 w-[48px] h-[48px] bg-orange-500 hover:bg-orange-600 rounded-full flex items-center justify-center">

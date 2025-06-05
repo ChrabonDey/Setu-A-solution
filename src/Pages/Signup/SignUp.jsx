@@ -1,9 +1,8 @@
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { updateProfile } from 'firebase/auth'; // Import updateProfile from Firebase
+import { updateProfile } from 'firebase/auth';
 import { authContext } from '../../provider/Authprovider';
-
 import ani from '../../assets/Animation - 1736907629598.json';
 import Lottie from 'lottie-react';
 import { FaGoogle } from 'react-icons/fa';
@@ -24,7 +23,7 @@ const SignUp = () => {
     createUser(data.email, data.password)
       .then((result) => {
         const loggedUser = result.user;
-       
+
         updateProfile(loggedUser, {
           displayName: data.name,
           photoURL: data.photoURL,
@@ -36,7 +35,7 @@ const SignUp = () => {
               icon: 'success',
               draggable: true,
             });
-            navigate('/'); 
+            navigate('/');
           })
           .catch((error) => {
             console.error('Profile Update Error:', error);
@@ -62,7 +61,6 @@ const SignUp = () => {
   const handleGoogle = () => {
     googleSign()
       .then((res) => {
-        console.log(res.user);
         Swal.fire({
           title: 'Signup Successful with Google!',
           icon: 'success',
@@ -79,21 +77,19 @@ const SignUp = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="flex flex-col md:flex-row bg-white shadow-lg rounded-lg overflow-hidden max-w-4xl w-full">
-      
-        <div className="md:w-1/2 flex justify-center items-center p-6"> 
-          <Lottie animationData={ani}></Lottie>
+    <div className="flex justify-center items-center min-h-[97vh] bg-white">
+     <div className="flex flex-col md:flex-row bg-white shadow-2xl rounded-2xl overflow-hidden max-w-6xl w-[98vw] border border-gray-200">
+        <div className="md:w-1/2 flex justify-center items-center p-8 bg-gradient-to-br from-[#eef2ff] to-[#fef9c3]">
+          <Lottie animationData={ani} style={{ maxWidth: 350 }} />
         </div>
 
-      
         <div className="md:w-1/2 p-8">
-          <h2 className="text-2xl font-bold text-center mb-6">Sign Up</h2>
+          <h2 className="text-3xl font-bold text-center mb-4 text-[#181f3a]">Sign Up</h2>
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-4">
+            <div className="mb-6">
               <label
                 htmlFor="name"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-[#3b3b4f] text-left"
               >
                 Full Name
               </label>
@@ -103,17 +99,17 @@ const SignUp = () => {
                 type="text"
                 id="name"
                 placeholder="Enter your full name"
-                className="input input-bordered w-full mt-2"
+                className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f6]/20 outline-none text-[#181f3a] bg-white transition"
               />
               {errors.name && (
-                <span className="text-red-500">Name is required</span>
+                <span className="text-red-500 text-sm">Name is required</span>
               )}
             </div>
 
-            <div className="mb-4">
+            <div className="mb-6">
               <label
                 htmlFor="email"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-[#3b3b4f] text-left"
               >
                 Email
               </label>
@@ -123,17 +119,17 @@ const SignUp = () => {
                 type="email"
                 id="email"
                 placeholder="Type your email"
-                className="input input-bordered w-full mt-2"
+                className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f6]/20 outline-none text-[#181f3a] bg-white transition"
               />
               {errors.email && (
-                <span className="text-red-500">Email is required</span>
+                <span className="text-red-500 text-sm">Email is required</span>
               )}
             </div>
 
-            <div className="mb-4">
+            <div className="mb-6">
               <label
                 htmlFor="password"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-[#3b3b4f] text-left"
               >
                 Password
               </label>
@@ -147,17 +143,17 @@ const SignUp = () => {
                 type="password"
                 id="password"
                 placeholder="Enter your password"
-                className="input input-bordered w-full mt-2"
+                className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f6]/20 outline-none text-[#181f3a] bg-white transition"
               />
               {errors.password && (
-                <span className="text-red-500">Password is required</span>
+                <span className="text-red-500 text-sm">Password is required</span>
               )}
             </div>
 
-            <div className="mb-4">
+            <div className="mb-6">
               <label
                 htmlFor="photoURL"
-                className="block text-sm font-medium text-gray-700"
+                className="block text-sm font-medium text-[#3b3b4f] text-left"
               >
                 Photo URL
               </label>
@@ -167,34 +163,35 @@ const SignUp = () => {
                 type="text"
                 id="photoURL"
                 placeholder="Enter a photo URL"
-                className="input input-bordered w-full mt-2"
+                className="w-full mt-2 px-4 py-2 rounded-lg border border-gray-300 focus:border-[#3b82f6] focus:ring-2 focus:ring-[#3b82f6]/20 outline-none text-[#181f3a] bg-white transition"
               />
               {errors.photoURL && (
-                <span className="text-red-500">Photo URL is required</span>
+                <span className="text-red-500 text-sm">Photo URL is required</span>
               )}
             </div>
 
-            <button type="submit" className="btn btn-primary w-full">
+            <button
+              type="submit"
+              className="w-full py-2 rounded-lg font-semibold text-lg bg-[#3b82f6] text-white shadow-md hover:bg-[#2563eb] transition"
+            >
               Sign Up
             </button>
           </form>
 
-          <div className="text-center mt-4">
-            <p>
+          <div className="text-center mt-3">
+            <p className="text-base text-[#181f3a] font-medium">
               Already have an account?{' '}
-              <Link to="/login" className="text-blue-500 hover:underline">
+              <Link to="/login" className="text-[#3b82f6] hover:underline font-semibold">
                 Login Here
               </Link>
             </p>
-            <p className="mt-4">Or sign up with</p>
-            <div className="flex justify-center space-x-4 mt-2">
+            <p className="mt-4 font-semibold text-base text-[#181f3a]">Or sign up with</p>
+            <div className="flex justify-center mt-3">
               <button
                 onClick={handleGoogle}
-                className="btn btn-primary w-full rounded-full bg-transparent btn-outline"
+                className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-lg border border-[#3b82f6] bg-white text-[#3b82f6] font-semibold shadow hover:bg-[#3b82f6] hover:text-white transition"
               >
-                <span className="icon flex justify-evenly gap-3">
-                 <span className='flex items-center justify-center'> <FaGoogle /></span> Google
-                </span>
+                <FaGoogle /> Google
               </button>
             </div>
           </div>
