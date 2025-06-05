@@ -38,10 +38,12 @@ const BluishTalentLanding = () => {
   ];
 
   return (
-    <div
-      className="relative bg-cover bg-center min-h-screen flex flex-col justify-center items-center p-6 rounded-3xl"
-      style={{ backgroundImage: `url(${bgImage})` }}
-    >
+<div
+  className="relative bg-cover bg-center min-h-screen flex flex-col justify-center items-center p-6 rounded-3xl w-[99%] mx-auto"
+  style={{ backgroundImage: `url(${bgImage})` }}
+>
+
+
       {/* Overlay */}
       <div className="absolute inset-0 bg-black bg-opacity-70 z-0 rounded-3xl"></div>
 

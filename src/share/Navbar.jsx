@@ -1,7 +1,9 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import img1 from "../assets/7fdb87b0-b823-427e-9078-b45260defc74.jpeg";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { authContext } from "../provider/Authprovider";
+
+const NOTIF_ICON = "https://i.postimg.cc/rwqvKnyJ/notification-bing-svgrepo-com.png";
 import { FaCoins } from "react-icons/fa";
 import UseAxiosPublic from "../hooks/UseAxiosPublic";
 
@@ -10,31 +12,8 @@ const Navbar = () => {
   const [notifications, setNotifications] = useState([]);
   const [showNotifDropdown, setShowNotifDropdown] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const notifRef = useRef();
-  const [credit, setCredit] = useState(0);
-  const axiosPublic=UseAxiosPublic()
-
-useEffect(() => {
-  if (user?.email) {
-    axiosPublic.get(`/user/${user.email}`)
-      .then(res => {
-        console.log("User credits:", res.data.credits);
-        setCredit(res.data.credits);
-      })
-      .catch(err => {
-        if (err.response && err.response.status === 404) {
-          console.warn("User not found, setting credits to 0");
-          setCredit(0); // fallback if user not found
-        } else {
-          console.error("Error fetching credit:", err);
-        }
-      });
-  }
-}, [user]);
-
-
-
-
 
   // Fetch notifications for logged-in user
   useEffect(() => {
@@ -48,7 +27,6 @@ useEffect(() => {
     }
   }, [user]);
 
-  // Close notification dropdown if clicking outside
   useEffect(() => {
     function handleClickOutside(event) {
       if (notifRef.current && !notifRef.current.contains(event.target)) {
@@ -59,23 +37,16 @@ useEffect(() => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Mark notification as read on click
   const handleNotificationClick = async (notif) => {
     setShowNotifDropdown(false);
     navigate(`/job/${notif.jobId}#comments`);
-
     if (notif.read) return;
-
-    // Mark as read on backend
     try {
       await fetch(`/notifications/${notif._id}`, {
         method: "PATCH",
       });
-      // Update state locally to mark as read
       setNotifications((prev) =>
-        prev.map((n) =>
-          n._id === notif._id ? { ...n, read: true } : n
-        )
+        prev.map((n) => (n._id === notif._id ? { ...n, read: true } : n))
       );
     } catch (error) {
       console.error("Failed to mark notification as read:", error);
@@ -90,74 +61,156 @@ useEffect(() => {
       });
   };
 
-  // useEffect(()=>{
-  //   axiosPublic.get('/user')
-  // })
   // Count unread notifications
   const unreadCount = notifications.filter((n) => !n.read).length;
 
+  // Utility: Get initial from name or email
+  const getInitial = () => {
+    if (user?.displayName && user.displayName.length > 0) {
+      return user.displayName[0].toUpperCase();
+    }
+    if (user?.email && user.email.length > 0) {
+      return user.email[0].toUpperCase();
+    }
+    return "?";
+  };
+
+  // Scroll to bottom handler for Contact
+  const handleContactClick = (e) => {
+    e.preventDefault();
+    if (location.pathname === "/") {
+      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+    } else {
+      navigate("/#contact");
+      setTimeout(() => {
+        window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+      }, 200); // Wait for navigation
+    }
+  };
+
   return (
-    <div className="w-full bg-white sticky top-0 z-50">
-      <div className="navbar px-4 md:px-8 py-3 text-black font-semibold justify-between">
+    <div
+      className="w-full sticky top-0 z-50 shadow-xl" // Added shadow-xl class here
+      style={{
+        background: "#f9fafb",
+        borderRadius: "10px",
+        boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.12), 0 4px 24px 0 rgba(80,80,120,0.08)" // Enhanced drop shadow
+      }}
+    >
+      <div
+        className="navbar px-4 md:px-8 py-3 font-semibold justify-between"
+        style={{ color: "#181f3a" }}
+      >
         {/* Navbar Start */}
         <div className="flex items-center gap-3">
           <img
             src={img1}
             alt="Logo"
-            className="w-10 h-10 p-1 border rounded-full shadow-sm"
+            className="w-10 h-10 p-1 border rounded-full shadow-md" // shadow-md for logo
+            style={{ borderColor: "#f5b942" }}
           />
-          <span className="text-[#006dc7] text-2xl lg:text-3xl font-bold hidden md:block">
+          <span
+            className="text-[#181f3a] text-2xl lg:text-3xl font-bold hidden md:block tracking-wide"
+            style={{ color: "#181f3a" }}
+          >
             SETU
           </span>
         </div>
 
         {/* Navbar Center */}
-        <div className="hidden lg:flex gap-6 items-center">
-          <NavLink className="hover:text-[#4978ff]" to="/">
+        <div className="hidden lg:flex gap-3 items-center">
+          <NavLink
+            className={({ isActive }) =>
+              "hover:text-[#3b82f6]" +
+              (isActive ? " text-[#3b82f6]" : " text-[#181f3a]")
+            }
+            to="/"
+          >
             Home
           </NavLink>
-          <NavLink className="hover:text-[#4978ff]" to="/about">
+          <NavLink
+            className={({ isActive }) =>
+              "hover:text-[#f5b942]" +
+              (isActive ? " text-[#f5b942]" : " text-[#181f3a]")
+            }
+            to="/about"
+          >
+            Hire
+          </NavLink>
+          <NavLink
+            className={({ isActive }) =>
+              "hover:text-[#3b82f6]" +
+              (isActive ? " text-[#3b82f6]" : " text-[#181f3a]")
+            }
+            to="/find-jobs"
+          >
             Find Jobs
           </NavLink>
-          <NavLink className="hover:text-[#4978ff]" to="/why">
-            Why Setu
+          <NavLink
+            className={({ isActive }) =>
+              "hover:text-[#3b82f6]" +
+              (isActive ? " text-[#3b82f6]" : " text-[#181f3a]")
+            }
+            to="/why"
+          >
+            Why SETU
           </NavLink>
-          <NavLink className="hover:text-[#4978ff]" to="/find-jobs">
-            Find Jobs
-          </NavLink>
-          <NavLink className="hover:text-[#4978ff]" to="/contact">
+          {/* Contact link scrolls to bottom */}
+          <a
+            href="#contact"
+            onClick={handleContactClick}
+            className="hover:text-[#f5b942] text-[#181f3a] cursor-pointer"
+            style={{ fontWeight: 600 }}
+          >
             Contact
+          </a>
+          <NavLink to="/freelancer">
+            <button
+              className="btn border-0 px-4 rounded-2xl font-semibold transition-transform hover:scale-105 flex items-center shadow" // shadow for freelancer button
+              style={{
+                background: "#f5b942",
+                color: "#181f3a",
+                border: "1px solid #f5b942",
+                marginRight: "0.4rem",
+                fontWeight: 600
+              }}
+            >
+              Freelancer?
+            </button>
           </NavLink>
-           
           {user && (
             <NavLink to="/dashboard">
-              <button className="btn border-[#006dc7] text-black px-6 rounded-2xl font-semibold hover:bg-[#4343e5] hover:text-white transition-transform hover:scale-105">
+              <button
+                className="btn border-0 px-6 rounded-2xl font-semibold transition-transform hover:scale-105 shadow" // shadow for dashboard button
+                style={{
+                  background: "#3b82f6",
+                  color: "#fff",
+                  border: "1px solid #3b82f6",
+                  marginLeft: 0,
+                }}
+              >
                 Dashboard
               </button>
             </NavLink>
-          
-
            
           )}
-           {
-            user && (
-                 <button className="btn border-[#006dc7] text-black px-6 rounded-2xl font-semibold hover:bg-[#4343e5] hover:text-white transition-transform hover:scale-105">
-                {credit} <FaCoins></FaCoins>
-                {console.log(credit)}
-              </button>
-            )
-          } 
         </div>
 
         {/* Mobile Menu */}
         <div className="dropdown lg:hidden">
-          <div tabIndex={0} role="button" className="btn btn-ghost">
+          <div
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost dropdown-toggle"
+            style={{ color: "#3b82f6", background: "transparent" }}
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-6 w-6"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
+              style={{ display: "block" }}
             >
               <path
                 strokeLinecap="round"
@@ -167,24 +220,35 @@ useEffect(() => {
               />
             </svg>
           </div>
-          <ul className="menu dropdown-content mt-3 z-[1] p-3 shadow bg-base-100 rounded-box w-52 space-y-2">
-            <NavLink to="/" className="hover:text-[#4978ff]">
+          <ul
+            className="menu dropdown-content mt-3 z-[1] p-3 shadow-lg rounded-box w-52 space-y-2" // shadow-lg for mobile
+            style={{ background: "#f9fafb", color: "#181f3a", borderRadius: "0 0 16px 16px" }}
+          >
+            <NavLink to="/" className="hover:text-[#3b82f6]">
               Home
             </NavLink>
-            <NavLink to="/about" className="hover:text-[#4978ff]">
-              Find Jobs
+            <NavLink to="/about" className="hover:text-[#f5b942]">
+              Hire
             </NavLink>
-            <NavLink to="/why" className="hover:text-[#4978ff]">
-              Why Setu
-            </NavLink>
-            <NavLink to="/find-jobs" className="hover:text-[#4978ff]">
+            <NavLink to="/find-jobs" className="hover:text-[#3b82f6]">
               Find jobs
             </NavLink>
-            <NavLink to="/contact" className="hover:text-[#4978ff]">
+            <NavLink to="/why" className="hover:text-[#3b82f6]">
+              Why Setu
+            </NavLink>
+            <a
+              href="#contact"
+              onClick={handleContactClick}
+              className="hover:text-[#f5b942] text-[#181f3a] cursor-pointer"
+              style={{ fontWeight: 600 }}
+            >
               Contact
+            </a>
+            <NavLink to="/freelancer" className="hover:text-[#f5b942] flex items-center">
+              Freelancer?
             </NavLink>
             {user && (
-              <NavLink to="/dashboard" className="hover:text-[#4978ff]">
+              <NavLink to="/dashboard" className="hover:text-[#3b82f6]">
                 Dashboard
               </NavLink>
             )}
@@ -195,66 +259,75 @@ useEffect(() => {
         <div className="flex items-center gap-4">
           {/* Notification Bell */}
           {user && (
-            <div className="relative" ref={notifRef}>
+            <div
+              className="relative flex items-center"
+              ref={notifRef}
+              style={{ height: "40px" }}
+            >
               <button
-                onClick={() => setShowNotifDropdown(!showNotifDropdown)}
-                className="relative focus:outline-none"
+                onClick={() => {
+                  if (notifications.length > 0) setShowNotifDropdown(!showNotifDropdown);
+                }}
+                className="relative focus:outline-none flex items-center justify-center shadow" // shadow for bell
                 aria-label="Notifications"
+                style={{
+                  height: "38px",
+                  width: "38px",
+                  borderRadius: "50%",
+                  background: "#f0f4fa",
+                  border: "none",
+                  marginRight: "2px",
+                  padding: 0,
+                  display: "flex",
+                }}
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6 text-gray-700 hover:text-[#006dc7]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 00-9.33-5.106"
-                  />
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M13 21h-2a2 2 0 002-2v0a2 2 0 002 2z"
-                  />
-                </svg>
-                {/* Red dot for unread */}
+                <img
+                  src={NOTIF_ICON}
+                  alt="Notifications"
+                  style={{
+                    width: 23,
+                    height: 23,
+                    display: "block",
+                    objectFit: "contain",
+                  }}
+                />
                 {unreadCount > 0 && (
-                  <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-600"></span>
+                  <span className="absolute top-1 right-1 block h-2 w-2 rounded-full bg-[#3b82f6]"></span>
                 )}
               </button>
 
-              {/* Notification Dropdown */}
-              {showNotifDropdown && (
-                <div className="absolute right-0 mt-2 w-72 max-h-80 overflow-y-auto bg-white rounded shadow-lg z-50">
-                  {notifications.length === 0 ? (
-                    <p className="p-4 text-center text-gray-500">
-                      No notifications
-                    </p>
-                  ) : (
-                    notifications.map((notif) => (
-                      <div
-                        key={notif._id}
-                        onClick={() => handleNotificationClick(notif)}
-                        className={`cursor-pointer p-3 border-b last:border-none hover:bg-gray-100 ${
-                          notif.read ? "bg-white" : "bg-blue-50 font-semibold"
-                        }`}
-                      >
-                        <p>
-                          <span className="font-semibold text-[#006dc7]">
-                            {notif.commentBy}
-                          </span>{" "}
-                          mentioned you in a comment.
-                        </p>
-                        <p className="text-xs text-gray-500">
-                          {new Date(notif.timestamp).toLocaleString()}
-                        </p>
-                      </div>
-                    ))
-                  )}
+              {/* Notification Dropdown - only show if there are notifications */}
+              {showNotifDropdown && notifications.length > 0 && (
+                <div
+                  className="absolute right-0 mt-2 w-72 max-h-80 overflow-y-auto rounded shadow-lg z-50"
+                  style={{
+                    background: "#ffffff",
+                    color: "#181f3a",
+                    borderRadius: "0 0 16px 16px",
+                  }}
+                >
+                  {notifications.map((notif) => (
+                    <div
+                      key={notif._id}
+                      onClick={() => handleNotificationClick(notif)}
+                      className={`cursor-pointer p-3 border-b last:border-none hover:bg-[#f3f4f6] ${
+                        notif.read
+                          ? "bg-[#ffffff]"
+                          : "bg-[#f0f8ff] font-semibold"
+                      }`}
+                      style={{ borderColor: "#e5e7eb", borderRadius: "8px" }}
+                    >
+                      <p>
+                        <span className="font-semibold text-[#3b82f6]">
+                          {notif.commentBy}
+                        </span>{" "}
+                        mentioned you in a comment.
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        {new Date(notif.timestamp).toLocaleString()}
+                      </p>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -263,32 +336,91 @@ useEffect(() => {
           {/* Auth Buttons */}
           {!user ? (
             <>
-              <NavLink to="/login">
-                <button className="text-black hover:text-[#4978ff] transition-transform hover:scale-105">
-                  Login
-                </button>
-              </NavLink>
+<NavLink to="/login">
+  <button
+    className="transition-transform hover:scale-105"
+    style={{
+      color: "#3b82f6",
+      background: "none",
+    }}
+  >
+    Login
+  </button>
+</NavLink>
               <NavLink to="/signup">
-                <button className="btn bg-[#006dc7] text-white px-6 rounded-2xl font-semibold hover:bg-[#4343e5] hover:scale-105 transition">
+                <button
+                  className="btn px-6 rounded-2xl font-semibold hover:scale-105 transition shadow" // shadow for signup
+                  style={{
+                    background: "#3b82f6",
+                    color: "#fff",
+                    border: "1px solid #3b82f6",
+                  }}
+                >
                   Sign Up
                 </button>
               </NavLink>
             </>
           ) : (
             <div className="dropdown dropdown-end">
-              <div tabIndex={0} role="button" className="avatar cursor-pointer">
-                <div className="w-10 h-10 rounded-full ring ring-[#006dc7] ring-offset-base-100 ring-offset-2">
-                  <img src={user.photoURL} alt="User Avatar" />
-                </div>
+              <div
+                tabIndex={0}
+                className="avatar cursor-pointer dropdown-toggle shadow" // shadow for avatar
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}
+              >
+                {user.photoURL ? (
+                  <div
+                    className="w-10 h-10 rounded-full ring shadow"
+                    style={{
+                      ringColor: "#3b82f6",
+                      borderColor: "#3b82f6",
+                      overflow: "hidden",
+                      background: "#f0f4fa",
+                    }}
+                  >
+                    <img src={user.photoURL} alt="User Avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  </div>
+                ) : (
+                  <div
+                    className="w-10 h-10 rounded-full ring flex items-center justify-center text-lg font-bold shadow"
+                    style={{
+                      ringColor: "#3b82f6",
+                      borderColor: "#3b82f6",
+                      background: "#e8eaf6",
+                      color: "#3b82f6",
+                      userSelect: "none",
+                    }}
+                  >
+                    {getInitial()}
+                  </div>
+                )}
               </div>
-              <ul className="dropdown-content menu p-3 shadow bg-white rounded-box w-56 space-y-2">
+              <ul
+                className="dropdown-content menu p-3 shadow-lg rounded-box w-56 space-y-2" // shadow-lg for dropdown menu
+                style={{
+                  background: "#f9fafb",
+                  color: "#181f3a",
+                  borderRadius: "0 0 14px 14px",
+                }}
+              >
                 <li className="font-medium text-sm text-gray-600">
                   {user.displayName || user.email}
                 </li>
                 <li>
                   <button
                     onClick={handleLogout}
-                    className="btn w-full bg-[#006dc7] text-white font-semibold hover:bg-[#4343e5] transition"
+                    className="btn w-full font-semibold hover:bg-[#3b82f6] hover:text-white transition shadow"
+                    style={{
+                      background: "#f5b942",
+                      color: "#181f3a",
+                      border: "1px solid #f5b942",
+                      borderRadius: "8px",
+                    }}
                   >
                     Logout
                   </button>
