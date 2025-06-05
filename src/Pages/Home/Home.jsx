@@ -1,5 +1,6 @@
 import React from 'react';
 import Banner from './Banner';
+import Banner2 from './Banner2';
 import About from './About';
 import SetuLandingPage from '../SetuLandingPage';
 import BluishTalentLanding from '../BluishTalentLanding';
@@ -10,8 +11,8 @@ const Home = () => {
         <div className=''>
           <div className='my-10'>
           <Banner></Banner>
-          </div>
-          <div className='my-10'>
+          </div>         
+          <div className='my-5'>
           <SetuLandingPage></SetuLandingPage>
           </div>
           <div className='my-10'>

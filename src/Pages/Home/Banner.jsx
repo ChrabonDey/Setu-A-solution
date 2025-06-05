@@ -25,10 +25,11 @@ const Banner = () => {
           {/* Search Bar */}
           <div className="relative w-full max-w-md mb-8">
             <input
-              type="text"
-              placeholder="Search for any service"
-              className="w-full py-4 px-6 pr-14 rounded-full shadow-md bg-[#f8f8f8] text-black text-base outline-none"
-            />
+  type="text"
+  placeholder="Search for any service"
+  className="w-full py-4 px-6 pr-14 rounded-full shadow-md bg-white/80 text-black text-base outline-none backdrop-blur-sm"
+/>
+
             <button className="absolute right-2 top-1/2 -translate-y-1/2 w-[48px] h-[48px] bg-orange-500 hover:bg-orange-600 rounded-full flex items-center justify-center">
               <FaSearch className="text-white" />
             </button>
