@@ -3,7 +3,7 @@ import { FaSearch } from 'react-icons/fa';
 
 const Banner = () => {
   return (
-    <div className="relative w-[95%] h-[600px] mx-auto overflow-hidden rounded-xl">
+    <div className="relative w-[99%] h-[600px] mx-auto overflow-hidden rounded-xl">
       {/* Flipped Background Image */}
       <img
         src="https://i.postimg.cc/J453wzX7/1d480cce-533e-49d7-9c27-576d3810500a-upscaled.jpg"
@@ -27,9 +27,9 @@ const Banner = () => {
             <input
               type="text"
               placeholder="Search for any service"
-              className="w-full py-4 px-6 pr-14 rounded-full shadow-md text-black text-base outline-none"
+              className="w-full py-4 px-6 pr-14 rounded-full shadow-md bg-[#f8f8f8] text-black text-base outline-none"
             />
-            <button className="absolute right-1 top-1 bottom-1 w-11 h-11 bg-orange-500 hover:bg-orange-600 rounded-full flex items-center justify-center">
+            <button className="absolute right-2 top-1/2 -translate-y-1/2 w-[48px] h-[48px] bg-orange-500 hover:bg-orange-600 rounded-full flex items-center justify-center">
               <FaSearch className="text-white" />
             </button>
           </div>
