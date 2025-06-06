@@ -31,7 +31,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (user?.email) {
-      fetch(`http://localhost:5000/Profile-data?email=${user.email}`)
+      fetch(`https://setu-backend-1slc.onrender.com/Profile-data?email=${user.email}`)
         .then((res) => res.json())
         .then((data) => setProfile(data));
     }

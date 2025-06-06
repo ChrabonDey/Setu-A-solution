@@ -13,7 +13,7 @@ export default function ChatApp({ userEmail }) {
   const chatBoxRef = useRef(null);
 
   useEffect(() => {
-    socketRef.current = io('http://localhost:5000');
+    socketRef.current = io('https://setu-backend-1slc.onrender.com');
 
     if (userEmail) {
       socketRef.current.emit('register', userEmail);

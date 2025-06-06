@@ -12,7 +12,7 @@ const Edit = () => {
   // Fetch user profile data
 useEffect(() => {
   if (user?.email) {
-    fetch(`http://localhost:5000/profile-data?email=${user.email}`)
+    fetch(`https://setu-backend-1slc.onrender.com/profile-data?email=${user.email}`)
       .then(res => res.json())
       .then(data => {
         if (data && data._id) {
@@ -69,8 +69,8 @@ useEffect(() => {
 
   const method = formData?._id ? 'PATCH' : 'POST';
 const url = formData?._id
-  ? `http://localhost:5000/profile-data/${formData._id}`
-  : `http://localhost:5000/profile-data`;
+  ? `https://setu-backend-1slc.onrender.com/profile-data/${formData._id}`
+  : `https://setu-backend-1slc.onrender.com/profile-data`;
 
 
     fetch(url, {

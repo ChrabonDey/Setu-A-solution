@@ -14,7 +14,7 @@ const ViewProfile = () => {
 
   useEffect(() => {
     if (email) {
-      fetch(`http://localhost:5000/profile-data?email=${email}`)
+      fetch(`https://setu-backend-1slc.onrender.com/profile-data?email=${email}`)
         .then((res) => res.json())
         .then((data) => {
           setProfile(data);
