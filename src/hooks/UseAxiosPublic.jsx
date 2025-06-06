@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosPublic=axios.create({
-    baseURL:'https://setu-backend-1slc.onrender.com'
+    baseURL:'http://localhost:5000'
 })
 const UseAxiosPublic = () => {
     return axiosPublic;
