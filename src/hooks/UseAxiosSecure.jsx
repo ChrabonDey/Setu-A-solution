@@ -5,7 +5,7 @@ import { authContext } from '../provider/Authprovider';
 
 // Create the secure instance once
 export const axiosSecure = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: 'https://setu-backend-1slc.onrender.com',
 });
 
 const UseAxiosSecure = () => {
