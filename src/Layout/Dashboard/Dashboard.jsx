@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { authContext } from '../../provider/Authprovider';
 import UseAxiosPublic from '../../hooks/UseAxiosPublic';
+import  "./Dashboard.css";
 
 // ICONS
 import { MdSpaceDashboard, MdPostAdd, MdBarChart, MdWorkOutline, MdAssignmentTurnedIn } from 'react-icons/md';
@@ -39,45 +40,41 @@ const Dashboard = () => {
     );
   }
 
+  const navItems = [
+    { to: '/dashboard', icon: <MdSpaceDashboard />, text: 'Dashboard' },
+    { to: '/dashboard/profile', icon: <CgProfile />, text: 'My Profile' },
+    { to: '/dashboard/post', icon: <MdPostAdd />, text: 'Post a Job' },
+    { to: '/dashboard/request', icon: <BsClipboardCheck />, text: 'Requested Jobs' },
+    { to: '/dashboard/reviewQueue', icon: <BsBoxArrowInUpRight />, text: 'Job Bids' },
+    { to: '/dashboard/statistics', icon: <MdBarChart />, text: 'Statistics Page' },
+    { to: '/dashboard/accept', icon: <MdWorkOutline />, text: 'Job Posts' },
+    { to: '/dashboard/task', icon: <BsListTask />, text: 'My Task' },
+    { to: '/dashboard/my-work', icon: <MdAssignmentTurnedIn />, text: 'My Work' },
+    { to: '/', icon: <AiOutlineHome />, text: 'Home', extra: true }
+  ];
+
   return (
-    <div className="flex h-screen bg-[#f4f6fa] font-sans transition-all duration-300 overflow-hidden">
+    <div className="dashboard-container">
       {/* Sidebar */}
-      <div className={`${
-        toggle ? 'w-20' : 'w-64'
-      } bg-gradient-to-b from-blue-100 to-blue-200 shadow-lg text-gray-800 transition-all duration-300 rounded-tl-[5px] rounded-tr-[5px]`}>
-        <div className="text-center py-6 border-b border-blue-300">
-          <h1 className={`text-2xl font-extrabold tracking-wide text-blue-700 uppercase transition-all duration-300 ${toggle ? 'text-sm' : 'text-3xl'}`}>
+      <div className={`sidebar ${toggle ? 'collapsed' : 'expanded'}`}>
+        <div className="sidebar-header">
+          <h1 className={`sidebar-title ${toggle ? 'collapsed' : 'expanded'}`}>
             SETU
           </h1>
         </div>
-        <ul className="px-4 py-6 space-y-2">
-          {[
-            { to: '/dashboard', icon: <MdSpaceDashboard />, text: 'Dashboard' },
-            { to: '/dashboard/profile', icon: <CgProfile />, text: 'My Profile' },
-            { to: '/dashboard/post', icon: <MdPostAdd />, text: 'Post a Job' },
-            { to: '/dashboard/request', icon: <BsClipboardCheck />, text: 'Requested Jobs' },
-            { to: '/dashboard/reviewQueue', icon: <BsBoxArrowInUpRight />, text: 'Job Bids' },
-            { to: '/dashboard/statistics', icon: <MdBarChart />, text: 'Statistics Page' },
-            { to: '/dashboard/accept', icon: <MdWorkOutline />, text: 'Job Posts' },
-            { to: '/dashboard/task', icon: <BsListTask />, text: 'My Task' },
-            { to: '/dashboard/my-work', icon: <MdAssignmentTurnedIn />, text: 'My Work' },
-            { to: '/', icon: <AiOutlineHome />, text: 'Home', extra: true }
-          ].map(({ to, icon, text, extra }) => (
-            <li key={to}>
+        <ul className="sidebar-list">
+          {navItems.map(({ to, icon, text, extra }) => (
+            <li key={to} className="sidebar-item">
               {extra && <hr className="my-4 border-blue-400" />}
               <NavLink
                 to={to}
                 end={to === '/dashboard'}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 py-2 px-3 rounded-lg transition-all duration-200 ${
-                    isActive
-                      ? 'bg-blue-500 text-white shadow'
-                      : 'hover:bg-blue-100 hover:text-blue-700'
-                  }`
+                  `sidebar-link ${isActive ? 'active' : ''}`
                 }
               >
-                <span className="text-xl">{icon}</span>
-                {!toggle && <span className="text-sm font-medium">{text}</span>}
+                <span className="sidebar-icon">{icon}</span>
+                {!toggle && <span className="sidebar-text">{text}</span>}
               </NavLink>
             </li>
           ))}
@@ -85,12 +82,12 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col h-screen overflow-hidden">
+      <div className="main-content">
         {/* Navbar */}
-        <div className="bg-white px-6 py-4 shadow-md flex justify-between items-center shrink-0">
+        <div className="navbar">
           <button
             onClick={handleToggle}
-            className="btn btn-sm bg-blue-100 hover:bg-blue-200 text-blue-600 transition-all"
+            className="btn btn-sm toggle-button"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +101,7 @@ const Dashboard = () => {
           </button>
           <div className="flex items-center gap-4">
             {/* Cart */}
-            <div className="relative">
+            <div className="avatar-container">
               <button className="btn btn-ghost btn-circle">
                 <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path
@@ -114,13 +111,13 @@ const Dashboard = () => {
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
                   />
                 </svg>
-                <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1.5">8</span>
+                <span className="cart-badge">8</span>
               </button>
             </div>
             {/* Avatar */}
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 h-10 rounded-full ring ring-[#006dc7] ring-offset-base-100 ring-offset-2">
+                <div className="avatar-image avatar-ring">
                   <img
                     src={user?.photoURL || '/default-avatar.png'}
                     alt="User Avatar"
@@ -139,7 +136,7 @@ const Dashboard = () => {
           </div>
         </div>
         {/* Main Content Area */}
-        <div className="flex-1 min-h-0 px-6 py-4 overflow-y-auto bg-gray-50">
+        <div className="content-area">
           <Outlet />
         </div>
       </div>
