@@ -16,21 +16,15 @@ import { FaHome, FaList, FaProductHunt } from 'react-icons/fa';
 const Dashboard = () => {
   const [toggle, setToggle] = useState(false);
   const { user } = useContext(authContext);
-  const axiosPublic=UseAxiosPublic()
-
-const [jobId, setJobId] = useState(null);
-
-
+  const axiosPublic = UseAxiosPublic();
+  const [jobId, setJobId] = useState(null);
 
   useEffect(() => {
     if (!user?.email) return;
-
-    // Fetch applications for jobs posted by current user
     axiosPublic.get(`/apply-jobs?posterEmail=${user.email}`)
       .then(res => {
         const applications = res.data;
         if (applications.length > 0) {
-          // Pick first application's jobId (or logic to pick which one you want)
           setJobId(applications[0].jobId);
         }
       })
@@ -43,7 +37,6 @@ const [jobId, setJobId] = useState(null);
     setToggle(!toggle);
   };
 
-  // Optional: Show loading message until user is available
   if (!user) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -63,36 +56,38 @@ const [jobId, setJobId] = useState(null);
             SETU
           </h1>
         </div>
-      <ul className="px-4 py-6 space-y-2">
-  {[
-    { to: '/dashboard', icon: <FcBusinessman />, text: 'My Profile' },
-    { to: '/dashboard/post', icon: <FaProductHunt />, text: 'Post a Job' },
-    { to: '/dashboard/request', icon: <FaList/>, text: 'Requested Jobs' },
-    { to: '/dashboard/reviewQueue', icon: <FcBinoculars />, text: 'Job Bids' },
-    { to: '/dashboard/statistics', icon: <FcBullish />, text: 'Statistics Page' },
-    { to: '/dashboard/accept', icon: <FcConferenceCall />, text: 'Job Posts' },
-    { to: '/dashboard/task', icon: <FcTodoList />, text: 'My Task' }, // ✅ Consistent FC icon
-    { to: '/dashboard/my-work', icon: <FcSurvey />, text: 'My Work' },   // ✅ Consistent FC icon
-    { to: '/', icon: <FaHome />, text: 'Home', extra: true }
-  ].map(({ to, icon, text, extra }) => (
-    <li key={to}>
-      {extra && <hr className="my-4 border-blue-400" />}
-      <NavLink
-        to={to}
-        className={({ isActive }) =>
-          `flex items-center gap-3 py-2 px-3 rounded-lg transition-all duration-200 ${
-            isActive
-              ? 'bg-blue-500 text-white shadow'
-              : 'hover:bg-blue-100 hover:text-blue-700'
-          }`
-        }
-      >
-        <span className="text-xl">{icon}</span>
-        {!toggle && <span className="text-sm font-medium">{text}</span>}
-      </NavLink>
-    </li>
-  ))}
-</ul>
+        <ul className="px-4 py-6 space-y-2">
+          {[
+            { to: '/dashboard', icon: <FaHome />, text: 'Dashboard' }, // New: Dashboard menu item
+            { to: '/dashboard/profile', icon: <FcBusinessman />, text: 'My Profile' },
+            { to: '/dashboard/post', icon: <FaProductHunt />, text: 'Post a Job' },
+            { to: '/dashboard/request', icon: <FaList/>, text: 'Requested Jobs' },
+            { to: '/dashboard/reviewQueue', icon: <FcBinoculars />, text: 'Job Bids' },
+            { to: '/dashboard/statistics', icon: <FcBullish />, text: 'Statistics Page' },
+            { to: '/dashboard/accept', icon: <FcConferenceCall />, text: 'Job Posts' },
+            { to: '/dashboard/task', icon: <FcTodoList />, text: 'My Task' },
+            { to: '/dashboard/my-work', icon: <FcSurvey />, text: 'My Work' },
+            { to: '/', icon: <FaHome />, text: 'Home', extra: true }
+          ].map(({ to, icon, text, extra }) => (
+            <li key={to}>
+              {extra && <hr className="my-4 border-blue-400" />}
+              <NavLink
+                to={to}
+                end={to === '/dashboard'} // ensures exact match for dashboard root
+                className={({ isActive }) =>
+                  `flex items-center gap-3 py-2 px-3 rounded-lg transition-all duration-200 ${
+                    isActive
+                      ? 'bg-blue-500 text-white shadow'
+                      : 'hover:bg-blue-100 hover:text-blue-700'
+                  }`
+                }
+              >
+                <span className="text-xl">{icon}</span>
+                {!toggle && <span className="text-sm font-medium">{text}</span>}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* Main Content */}

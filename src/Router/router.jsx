@@ -1,8 +1,7 @@
 import React from 'react';
 import {
     createBrowserRouter,
-
-  } from "react-router-dom";
+} from "react-router-dom";
 import MainLayout from '../Layout/MainLayout/MainLayout';
 import Home from '../Pages/Home/Home';
 import Login from '../Pages/Login/Login';
@@ -21,6 +20,7 @@ import TestMentions from '../Layout/Dashboard/TestMentions';
 import MyTask from '../Layout/Dashboard/MyTask';
 import MyWork from '../Layout/Dashboard/MyWork';
 import JobPostForm from '../Layout/Dashboard/JobPostForm';
+import FreelancerDashboard from '../Layout/Dashboard/FreelancerDashboard'; // <-- import
 
 export const router = createBrowserRouter([
     {
@@ -30,12 +30,10 @@ export const router = createBrowserRouter([
         {
             path:"/",
             element:<Home></Home>
-
         },
         {
             path:"/find-jobs",
             element:<FindJobs></FindJobs>
-
         },
         {
           path:"/jobs/:id",
@@ -45,7 +43,6 @@ export const router = createBrowserRouter([
           path:"/view-profile/:email",
           element:<ViewProfile></ViewProfile>
         },
-       
         {
           path:"/login",
           element:<Login></Login>
@@ -53,8 +50,8 @@ export const router = createBrowserRouter([
         {
           path:"/signup",
           element:<SignUp></SignUp>
-        }
-        ,{
+        },
+        {
           path:"/mention",
           element:<TestMentions></TestMentions>
         },
@@ -67,78 +64,40 @@ export const router = createBrowserRouter([
     {
       path: 'dashboard',
       element: <Dashboard></Dashboard>,
-       children:[
+      children:[
         {
-          path:"/dashboard/edit",
+          index: true,
+          element: <FreelancerDashboard />  // <-- show this on /dashboard
+        },
+        {
+          path:"profile",                  // <-- move profile to /dashboard/profile
+          element:<Profile></Profile>,
+        },
+        {
+          path:"edit",
           element:<Edit></Edit>
         },
         {
-           index:true,
-          element:<Profile></Profile>,
-           
-        },
-         {
-          path:"/dashboard/request",
+          path:"request",
           element:<Request></Request>
         },
         {
-          path:"/dashboard/accept",
+          path:"accept",
           element:<AcceptedJobs></AcceptedJobs>
         },
         {
-          path:"/dashboard/post",
+          path:"post",
           element:<JobPostForm></JobPostForm>
         },
         {
-          path:"/dashboard/task",
+          path:"task",
           element:<MyTask></MyTask>
         },
         {
-          path:"/dashboard/my-work",
+          path:"my-work",
           element:<MyWork></MyWork>
         },
-     
-      //        {
-      //         path:'/dashboard',
-      //         element:<MyProfile></MyProfile>
-      //        },
-      //        {
-      //         path:'/dashboard/addProduct',
-      //         element:<AddProductPage></AddProductPage>
-      //        },
-      //        {
-      //         path:'/dashboard/myProducts',
-      //         element:<MyProductsPage></MyProductsPage>
-      //        },
-      //        {
-      //         path:'/dashboard/payment',
-      //         element:<Payment></Payment>
-      //        },
-      //        {
-      //         path:'update-product/:id',
-      //         element:<UpdateProductPage></UpdateProductPage>
-      //        },
-      //        {
-      //         path:'/dashboard/reviewQueue',
-      //         element:<Product></Product>
-      //        },
-      //        {
-      //         path:'/dashboard/reportedContents',
-      //         element:<ReportedContent></ReportedContent>
-      //        },
-      //        {
-      //         path:'/dashboard/manageCoupons',
-      //         element:<AdminCouponsPage></AdminCouponsPage>
-      //        },
-      //        {
-      //         path:'/dashboard/manageUsers',
-      //         element:<ManageUsers></ManageUsers>
-      //        }
-      //        ,{
-      //         path:'/dashboard/statistics',
-      //         element:<AdminStatistics></AdminStatistics>
-      //        }
-       ]
-  },
-  ]);
-
+        // Add other dashboard routes here as needed
+      ]
+    },
+]);

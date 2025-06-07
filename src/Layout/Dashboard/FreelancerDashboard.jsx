@@ -1,5 +1,5 @@
 import React from "react";
-import "./FreelancerDashboard.css"; // Move the style block to this CSS file
+import "./FreelancerDashboard.css";
 
 const FreelancerDashboard = () => {
   // Simulate state for onboarding progress (could use useState for real app)
@@ -103,19 +103,19 @@ const FreelancerDashboard = () => {
   const statCards = [
     {
       icon: "fa-briefcase",
-      className: "icon-blue",
+      className: "free-icon-blue",
       value: "0",
       label: "Job Proposals",
     },
     {
       icon: "fa-dollar-sign",
-      className: "icon-green",
+      className: "free-icon-green",
       value: "$0",
       label: "Earned this month",
     },
     {
       icon: "fa-star",
-      className: "icon-purple",
+      className: "free-icon-purple",
       value: "0",
       label: "Client Rating",
     },
@@ -128,7 +128,7 @@ const FreelancerDashboard = () => {
       e.preventDefault();
       window.location.hash = "#add-project";
     };
-    const items = document.querySelectorAll(".portfolio-item");
+    const items = document.querySelectorAll(".free-portfolio-item");
     items.forEach((item) => {
       item.addEventListener("click", handlePortfolioClick);
     });
@@ -140,8 +140,8 @@ const FreelancerDashboard = () => {
   }, []);
 
   return (
-    <main className="main-content">
-      <section className="welcome-section">
+    <main className="free-main-content">
+      <section className="free-welcome-section">
         <h1>Get Started, John! <span role="img" aria-label="wave">👋</span></h1>
         <p>
           Ready to find your next project? Complete your profile to get matched with the best opportunities.
@@ -149,13 +149,13 @@ const FreelancerDashboard = () => {
       </section>
 
       {/* Stats Cards */}
-      <div className="stats-container">
+      <div className="free-stats-container">
         {statCards.map(({ icon, className, value, label }, idx) => (
-          <div className="stat-card" key={idx}>
-            <div className={`stat-icon ${className}`}>
+          <div className="free-stat-card" key={idx}>
+            <div className={`free-stat-icon ${className}`}>
               <i className={`fas ${icon}`}></i>
             </div>
-            <div className="stat-info">
+            <div className="free-stat-info">
               <h3>{value}</h3>
               <p>{label}</p>
             </div>
@@ -164,8 +164,8 @@ const FreelancerDashboard = () => {
       </div>
 
       {/* Portfolio Showcase */}
-      <div className="section-showcase">
-        <div className="section-title">
+      <div className="free-section-showcase">
+        <div className="free-section-title">
           <h2>
             <i className="fas fa-briefcase"></i> Showcase Your Work
           </h2>
@@ -173,11 +173,11 @@ const FreelancerDashboard = () => {
             Add Project <i className="fas fa-plus"></i>
           </a>
         </div>
-        <div className="portfolio-showcase">
+        <div className="free-portfolio-showcase">
           {portfolio.map((item, idx) => (
-            <div className="portfolio-item" key={idx}>
-              <div className="portfolio-image">{item.preview}</div>
-              <div className="portfolio-info">
+            <div className="free-portfolio-item" key={idx}>
+              <div className="free-portfolio-image">{item.preview}</div>
+              <div className="free-portfolio-info">
                 <h4>{item.title}</h4>
                 <p>{item.desc}</p>
               </div>
@@ -187,45 +187,45 @@ const FreelancerDashboard = () => {
       </div>
 
       {/* Dashboard Grid */}
-      <div className="dashboard-grid">
+      <div className="free-dashboard-grid">
         {/* Left Column */}
         <div className="left-column">
           {/* Onboarding Card */}
-          <div className="card onboarding-card">
+          <div className="free-card free-onboarding-card">
             <h3>
               <i className="fas fa-tasks"></i> Complete Your Profile
             </h3>
-            <div className="progress-container">
-              <div className="progress-header">
+            <div className="free-progress-container">
+              <div className="free-progress-header">
                 <span>Profile Strength</span>
                 <span>{profileProgress}%</span>
               </div>
-              <div className="progress-bar">
+              <div className="free-progress-bar">
                 <div
-                  className="progress-fill"
+                  className="free-progress-fill"
                   style={{ width: profileProgress + "%" }}
                 ></div>
               </div>
             </div>
             {onboarding.map((item, idx) => (
               <div
-                className={`onboarding-item${item.completed ? " completed" : ""}`}
+                className={`free-onboarding-item${item.completed ? " free-completed" : ""}`}
                 key={idx}
                 onClick={() => handleOnboardingClick(idx)}
                 style={{ cursor: item.completed ? "default" : "pointer" }}
               >
-                <div className="check-circle">
+                <div className="free-check-circle">
                   <i className={`fas ${item.completed ? "fa-check" : "fa-plus"}`}></i>
                 </div>
-                <div className="onboarding-info">
+                <div className="free-onboarding-info">
                   <h4>{item.title}</h4>
                   <p>{item.desc}</p>
                 </div>
                 {!item.completed && (
-                  <button className="btn btn-primary">{item.btn}</button>
+                  <button className="free-btn free-btn-primary">{item.btn}</button>
                 )}
                 {item.completed && item.btn && (
-                  <button className="btn btn-outline" disabled>
+                  <button className="free-btn free-btn-outline" disabled>
                     {item.btn}
                   </button>
                 )}
@@ -234,7 +234,7 @@ const FreelancerDashboard = () => {
           </div>
 
           {/* Recommended Jobs */}
-          <div className="section-title">
+          <div className="free-section-title">
             <h2>
               <i className="fas fa-fire"></i> Recommended Jobs
             </h2>
@@ -243,14 +243,14 @@ const FreelancerDashboard = () => {
             </a>
           </div>
 
-          <div className="card">
+          <div className="free-card">
             {jobs.map((job, idx) => (
-              <div className="job-card" key={idx}>
+              <div className="free-job-card" key={idx}>
                 <h4>
                   {job.title}
-                  {job.badge && <span className="job-badge">{job.badge}</span>}
+                  {job.badge && <span className="free-job-badge">{job.badge}</span>}
                 </h4>
-                <div className="job-meta">
+                <div className="free-job-meta">
                   {job.meta.map((m, i) => (
                     <span key={i}>
                       <i className={`fas ${m.icon}`}></i> {m.text}
@@ -258,9 +258,9 @@ const FreelancerDashboard = () => {
                   ))}
                 </div>
                 <p>{job.desc}</p>
-                <div className="job-footer">
-                  <div className="job-price">{job.price}</div>
-                  <button className="btn btn-outline">Apply Now</button>
+                <div className="free-job-footer">
+                  <div className="free-job-price">{job.price}</div>
+                  <button className="free-btn free-btn-outline">Apply Now</button>
                 </div>
               </div>
             ))}
@@ -269,42 +269,42 @@ const FreelancerDashboard = () => {
         {/* Right Column */}
         <div className="right-column">
           {/* Getting Started */}
-          <div className="card">
-            <div className="section-title">
+          <div className="free-card">
+            <div className="free-section-title">
               <h2>
                 <i className="fas fa-graduation-cap"></i> Getting Started
               </h2>
             </div>
             <p>Boost your freelancing career with these tips:</p>
             {testimonials.map((t, idx) => (
-              <div className="testimonial-card" key={idx}>
-                <div className="testimonial-content">
+              <div className="free-testimonial-card" key={idx}>
+                <div className="free-testimonial-content">
                   <p>{t.quote}</p>
-                  <div className="testimonial-author">{t.author}</div>
-                  <div className="testimonial-role">{t.role}</div>
+                  <div className="free-testimonial-author">{t.author}</div>
+                  <div className="free-testimonial-role">{t.role}</div>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Earnings Potential */}
-          <div className="card">
-            <div className="section-title">
+          <div className="free-card">
+            <div className="free-section-title">
               <h2>
                 <i className="fas fa-chart-line"></i> Your Earning Potential
               </h2>
             </div>
             <p>Based on your skills and experience, you could earn:</p>
-            <div className="stat-card" style={{ marginTop: "1rem" }}>
-              <div className="stat-icon icon-green">
+            <div className="free-stat-card" style={{ marginTop: "1rem" }}>
+              <div className="free-stat-icon free-icon-green">
                 <i className="fas fa-dollar-sign"></i>
               </div>
-              <div className="stat-info">
+              <div className="free-stat-info">
                 <h3>$5,200/mo</h3>
                 <p>Top freelancers in your field</p>
               </div>
             </div>
-            <button className="btn btn-primary" style={{ width: "100%", marginTop: "1.5rem" }}>
+            <button className="free-btn free-btn-primary" style={{ width: "100%", marginTop: "1.5rem" }}>
               <i className="fas fa-bolt"></i> Boost Your Profile
             </button>
           </div>
