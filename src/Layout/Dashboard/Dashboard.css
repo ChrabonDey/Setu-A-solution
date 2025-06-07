@@ -3,7 +3,6 @@
   height: 100vh;
   font-family: sans-serif;
   transition: all 0.3s ease;
-  overflow: hidden;
 }
 
 .sidebar {
@@ -89,8 +88,7 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
-  overflow: hidden;
-
+  overflow: hidden; /* Prevent scroll on main-content */
 }
 
 .navbar {
@@ -117,8 +115,8 @@
   flex: 1;
   min-height: 0;
   padding: 1rem 1.5rem;
-  overflow-y: auto;
-  background-color: #fffffff7;
+  overflow-y: auto; /* Enable scroll only for content area */
+  background-color: #ffffffe9;
 }
 
 .avatar-container {
