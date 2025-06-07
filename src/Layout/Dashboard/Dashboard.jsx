@@ -1,17 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  FcBinoculars,
-  FcBullish,
-  FcBusinessman,
-  FcConferenceCall,
-  FcTodoList,
-  FcSurvey
-} from 'react-icons/fc'; 
-
 import { NavLink, Outlet } from 'react-router-dom';
 import { authContext } from '../../provider/Authprovider';
 import UseAxiosPublic from '../../hooks/UseAxiosPublic';
-import { FaHome, FaList, FaProductHunt } from 'react-icons/fa';
+
+// ICONS
+import { MdSpaceDashboard, MdPostAdd, MdBarChart, MdWorkOutline, MdAssignmentTurnedIn } from 'react-icons/md';
+import { CgProfile } from 'react-icons/cg';
+import { AiOutlineHome } from 'react-icons/ai';
+import { BsClipboardCheck, BsBoxArrowInUpRight, BsListTask } from 'react-icons/bs';
 
 const Dashboard = () => {
   const [toggle, setToggle] = useState(false);
@@ -33,24 +29,22 @@ const Dashboard = () => {
       });
   }, [user?.email]);
 
-  const handleToggle = () => {
-    setToggle(!toggle);
-  };
+  const handleToggle = () => setToggle(!toggle);
 
   if (!user) {
     return (
-      <div className="flex justify-center items-center h-screen">
+      <div className="flex justify-center items-center h-screen overflow-hidden">
         <p className="text-lg text-gray-600">Loading user information...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex min-h-screen bg-gray-100 font-sans transition-all duration-300">
+    <div className="flex h-screen bg-[#f4f6fa] font-sans transition-all duration-300 overflow-hidden">
       {/* Sidebar */}
       <div className={`${
         toggle ? 'w-20' : 'w-64'
-      } bg-gradient-to-b from-blue-100 to-blue-200 shadow-lg text-gray-800 transition-all duration-300`}>
+      } bg-gradient-to-b from-blue-100 to-blue-200 shadow-lg text-gray-800 transition-all duration-300 rounded-tl-[5px] rounded-tr-[5px]`}>
         <div className="text-center py-6 border-b border-blue-300">
           <h1 className={`text-2xl font-extrabold tracking-wide text-blue-700 uppercase transition-all duration-300 ${toggle ? 'text-sm' : 'text-3xl'}`}>
             SETU
@@ -58,22 +52,22 @@ const Dashboard = () => {
         </div>
         <ul className="px-4 py-6 space-y-2">
           {[
-            { to: '/dashboard', icon: <FaHome />, text: 'Dashboard' }, // New: Dashboard menu item
-            { to: '/dashboard/profile', icon: <FcBusinessman />, text: 'My Profile' },
-            { to: '/dashboard/post', icon: <FaProductHunt />, text: 'Post a Job' },
-            { to: '/dashboard/request', icon: <FaList/>, text: 'Requested Jobs' },
-            { to: '/dashboard/reviewQueue', icon: <FcBinoculars />, text: 'Job Bids' },
-            { to: '/dashboard/statistics', icon: <FcBullish />, text: 'Statistics Page' },
-            { to: '/dashboard/accept', icon: <FcConferenceCall />, text: 'Job Posts' },
-            { to: '/dashboard/task', icon: <FcTodoList />, text: 'My Task' },
-            { to: '/dashboard/my-work', icon: <FcSurvey />, text: 'My Work' },
-            { to: '/', icon: <FaHome />, text: 'Home', extra: true }
+            { to: '/dashboard', icon: <MdSpaceDashboard />, text: 'Dashboard' },
+            { to: '/dashboard/profile', icon: <CgProfile />, text: 'My Profile' },
+            { to: '/dashboard/post', icon: <MdPostAdd />, text: 'Post a Job' },
+            { to: '/dashboard/request', icon: <BsClipboardCheck />, text: 'Requested Jobs' },
+            { to: '/dashboard/reviewQueue', icon: <BsBoxArrowInUpRight />, text: 'Job Bids' },
+            { to: '/dashboard/statistics', icon: <MdBarChart />, text: 'Statistics Page' },
+            { to: '/dashboard/accept', icon: <MdWorkOutline />, text: 'Job Posts' },
+            { to: '/dashboard/task', icon: <BsListTask />, text: 'My Task' },
+            { to: '/dashboard/my-work', icon: <MdAssignmentTurnedIn />, text: 'My Work' },
+            { to: '/', icon: <AiOutlineHome />, text: 'Home', extra: true }
           ].map(({ to, icon, text, extra }) => (
             <li key={to}>
               {extra && <hr className="my-4 border-blue-400" />}
               <NavLink
                 to={to}
-                end={to === '/dashboard'} // ensures exact match for dashboard root
+                end={to === '/dashboard'}
                 className={({ isActive }) =>
                   `flex items-center gap-3 py-2 px-3 rounded-lg transition-all duration-200 ${
                     isActive
@@ -91,9 +85,9 @@ const Dashboard = () => {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col h-screen overflow-hidden">
         {/* Navbar */}
-        <div className="bg-white px-6 py-4 shadow-md flex justify-between items-center">
+        <div className="bg-white px-6 py-4 shadow-md flex justify-between items-center shrink-0">
           <button
             onClick={handleToggle}
             className="btn btn-sm bg-blue-100 hover:bg-blue-200 text-blue-600 transition-all"
@@ -108,7 +102,6 @@ const Dashboard = () => {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           </button>
-
           <div className="flex items-center gap-4">
             {/* Cart */}
             <div className="relative">
@@ -124,7 +117,6 @@ const Dashboard = () => {
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-xs px-1.5">8</span>
               </button>
             </div>
-
             {/* Avatar */}
             <div className="dropdown dropdown-end">
               <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
@@ -146,9 +138,8 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-
         {/* Main Content Area */}
-        <div className="flex-1 px-6 py-4 overflow-y-auto bg-gray-50">
+        <div className="flex-1 min-h-0 px-6 py-4 overflow-y-auto bg-gray-50">
           <Outlet />
         </div>
       </div>
