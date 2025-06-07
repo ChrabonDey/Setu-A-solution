@@ -109,7 +109,7 @@ padding: 30px 20px 0 20px;
 }
 
 .navbar {
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   padding: 1rem 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -119,7 +119,7 @@ padding: 30px 20px 0 20px;
 }
 
 .toggle-button {
-  background-color: #ebf8ff;
+  background-color: #00a6ff;
   transition: all 0.3s ease;
 }
 
@@ -133,7 +133,7 @@ padding: 30px 20px 0 20px;
   min-height: 0;
   padding: 1rem 1.5rem;
   overflow-y: auto; /* Enable scroll only for content area */
-  background-color: #ffffffe9;
+  background-color: #f9f9f9;
 }
 
 .avatar-container {
