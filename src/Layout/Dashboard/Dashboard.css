@@ -6,21 +6,19 @@
 
 }
 .dashu{
-      height: 90vh;
-  width: 90vw;
-    max-height: 95vh;
-    max-width: 95vw;
-    padding: 20px;
+      height: 98vh;
+  width: 100vw;
+
+padding: 30px 20px 0 20px;
 }
 .dashboard-container {
   display: flex;
-  height: 100vh;
+  height: 96vh;
   font-family: sans-serif;
   transition: all 0.3s ease;
   overflow: hidden;
   margin: 0;
   padding: 0;
-  background-color: #ef4444;
 }
 
 
@@ -106,7 +104,7 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 95vh;
   overflow: hidden; /* Prevent scroll on main-content */
 }
 
