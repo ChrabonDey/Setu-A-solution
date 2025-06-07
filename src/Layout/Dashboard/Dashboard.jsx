@@ -54,6 +54,7 @@ const Dashboard = () => {
   ];
 
   return (
+    <div clasname="dashu">
     <div className="dashboard-container">
       {/* Sidebar */}
       <div className={`sidebar ${toggle ? 'collapsed' : 'expanded'}`}>
@@ -140,6 +141,7 @@ const Dashboard = () => {
           <Outlet />
         </div>
       </div>
+    </div>
     </div>
   );
 };
