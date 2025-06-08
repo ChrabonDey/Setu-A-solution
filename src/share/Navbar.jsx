@@ -7,6 +7,10 @@ const NOTIF_ICON = "https://i.postimg.cc/rwqvKnyJ/notification-bing-svgrepo-com.
 import { FaCoins } from "react-icons/fa";
 import UseAxiosPublic from "../hooks/UseAxiosPublic";
 
+const NAV_LINK_INACTIVE = "#7a7a8c"; // grayish
+const NAV_LINK_ACTIVE = "#3b82f6";
+const NAV_LINK_SIZE = "15px";
+
 const Navbar = () => {
   const { user, logOut } = useContext(authContext);
   const [notifications, setNotifications] = useState([]);
@@ -82,17 +86,19 @@ const Navbar = () => {
     <div
       className="w-full sticky top-0 z-50 shadow-xl"
       style={{
-        background: "#f9fafb",
         borderRadius: "14px",
         boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.12), 0 4px 24px 0 rgba(80,80,120,0.08)",
-        overflow: "hidden"
+        // removed overflow: hidden to allow dropdowns to show
       }}
     >
       <div
-        className="navbar px-4 md:px-8 py-3 font-semibold justify-between"
+        className="navbar px-4 md:px-8 font-semibold justify-between"
         style={{
           color: "#181f3a",
-          background: "transparent"
+          
+          borderRadius: "10px",
+          paddingTop: "10px",
+          paddingBottom: "10px",
         }}
       >
         {/* Navbar Start */}
@@ -112,53 +118,49 @@ const Navbar = () => {
         </div>
 
         {/* Navbar Center */}
-        <div className="hidden lg:flex gap-3 items-center">
-          <NavLink
-            className={({ isActive }) =>
-              "hover:text-[#3b82f6]" +
-              (isActive ? " text-[#3b82f6]" : " text-[#181f3a]")
-            }
-            to="/"
-          >
-            Home
-          </NavLink>
-          <NavLink
-            className={({ isActive }) =>
-              "hover:text-[#f5b942]" +
-              (isActive ? " text-[#f5b942]" : " text-[#181f3a]")
-            }
-            to="/about"
-          >
-            Hire Freelancer
-          </NavLink>
-          <NavLink
-            className={({ isActive }) =>
-              "hover:text-[#3b82f6]" +
-              (isActive ? " text-[#3b82f6]" : " text-[#181f3a]")
-            }
-            to="/find-jobs"
-          >
-            Find Jobs
-          </NavLink>
-          <NavLink
-            className={({ isActive }) =>
-              "hover:text-[#3b82f6]" +
-              (isActive ? " text-[#3b82f6]" : " text-[#181f3a]")
-            }
-            to="/why"
-          >
-            Why SETU
-          </NavLink>
+        <div className="hidden lg:flex gap-2 items-center">
+          {[
+            { to: "/", label: "Home" },
+            { to: "/about", label: "Hire Freelancer" },
+            { to: "/find-jobs", label: "Find Jobs" },
+            { to: "/why", label: "Why SETU" }
+          ].map(link => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              className={({ isActive }) =>
+                "nav-link-custom" + (isActive ? " nav-link-active" : "")
+              }
+              style={{
+                fontSize: NAV_LINK_SIZE,
+                fontWeight: 500,
+                margin: 0,
+                padding: "0 5px",
+                background: "none",
+                borderRadius: 0,
+                transition: "color 0.12s",
+              }}
+            >
+              {link.label}
+            </NavLink>
+          ))}
           {/* Contact link scrolls to bottom */}
           <a
             href="#contact"
             onClick={handleContactClick}
-            className="hover:text-[#f5b942] text-[#181f3a] cursor-pointer"
-            style={{ fontWeight: 600 }}
+            className="nav-link-custom"
+            style={{
+              fontWeight: 500,
+              fontSize: NAV_LINK_SIZE,
+              margin: 0,
+              padding: "0 5px",
+              background: "none",
+              borderRadius: 0,
+              color: NAV_LINK_INACTIVE,
+            }}
           >
             Contact
           </a>
-          {/* Freelancer button removed */}
           {user && (
             <NavLink to="/dashboard">
               <button
@@ -168,6 +170,7 @@ const Navbar = () => {
                   color: "#fff",
                   border: "1px solid #3b82f6",
                   marginLeft: 0,
+                  fontSize: NAV_LINK_SIZE,
                 }}
               >
                 Dashboard
@@ -204,33 +207,31 @@ const Navbar = () => {
             className="menu dropdown-content mt-3 z-[1] p-3 shadow-lg rounded-box w-52 space-y-2"
             style={{
               background: "#f9fafb",
-              color: "#181f3a",
+              color: NAV_LINK_INACTIVE,
               borderRadius: "0 0 16px 16px"
             }}
           >
-            <NavLink to="/" className="hover:text-[#3b82f6]">
+            <NavLink to="/" className="nav-link-custom">
               Home
             </NavLink>
-            <NavLink to="/about" className="hover:text-[#f5b942]">
+            <NavLink to="/about" className="nav-link-custom">
               Hire Freelancer
             </NavLink>
-            <NavLink to="/find-jobs" className="hover:text-[#3b82f6]">
-              Find jobs
+            <NavLink to="/find-jobs" className="nav-link-custom">
+              Find Jobs
             </NavLink>
-            <NavLink to="/why" className="hover:text-[#3b82f6]">
-              Why Setu
+            <NavLink to="/why" className="nav-link-custom">
+              Why SETU
             </NavLink>
             <a
               href="#contact"
               onClick={handleContactClick}
-              className="hover:text-[#f5b942] text-[#181f3a] cursor-pointer"
-              style={{ fontWeight: 600 }}
+              className="nav-link-custom cursor-pointer"
             >
               Contact
             </a>
-            {/* Freelancer button removed in mobile too */}
             {user && (
-              <NavLink to="/dashboard" className="hover:text-[#3b82f6]">
+              <NavLink to="/dashboard" className="nav-link-custom">
                 Dashboard
               </NavLink>
             )}
@@ -250,13 +251,13 @@ const Navbar = () => {
                 onClick={() => {
                   if (notifications.length > 0) setShowNotifDropdown(!showNotifDropdown);
                 }}
-                className="relative focus:outline-none flex items-center justify-center shadow"
+                className="relative focus:outline-none flex items-center justify-center "
                 aria-label="Notifications"
                 style={{
                   height: "38px",
                   width: "38px",
                   borderRadius: "50%",
-                  background: "#f0f4fa",
+                  
                   border: "none",
                   marginRight: "2px",
                   padding: 0,
@@ -333,7 +334,7 @@ const Navbar = () => {
                 <button
                   className="btn px-6 rounded-2xl font-semibold hover:scale-105 transition shadow"
                   style={{
-                    background: "#3b82f6",
+                    
                     color: "#fff",
                     border: "1px solid #3b82f6",
                   }}
@@ -346,13 +347,14 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
-                className="avatar cursor-pointer dropdown-toggle shadow"
+                className="avatar cursor-pointer dropdown-toggle "
                 style={{
                   width: "40px",
                   height: "40px",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center"
+                  justifyContent: "center",
+                  background: "transparent"
                 }}
               >
                 {user.photoURL ? (
@@ -362,7 +364,7 @@ const Navbar = () => {
                       ringColor: "#3b82f6",
                       borderColor: "#3b82f6",
                       overflow: "hidden",
-                      background: "#f0f4fa",
+                      background: "transparent",
                     }}
                   >
                     <img src={user.photoURL} alt="User Avatar" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -373,7 +375,7 @@ const Navbar = () => {
                     style={{
                       ringColor: "#3b82f6",
                       borderColor: "#3b82f6",
-                      background: "#e8eaf6",
+                      background: "transparent",
                       color: "#3b82f6",
                       userSelect: "none",
                     }}
@@ -412,6 +414,25 @@ const Navbar = () => {
           )}
         </div>
       </div>
+      {/* NAV LINK CUSTOM STYLE */}
+      <style>{`
+        .nav-link-custom {
+          color: ${NAV_LINK_INACTIVE};
+          background: none !important;
+          border-radius: 0 !important;
+          padding: 0 5px;
+          text-decoration: none;
+        }
+        .nav-link-custom:hover {
+          color: ${NAV_LINK_ACTIVE};
+          background: none !important;
+        }
+        .nav-link-active {
+          color: ${NAV_LINK_ACTIVE} !important;
+          font-weight: 600;
+          background: none !important;
+        }
+      `}</style>
     </div>
   );
 };
