@@ -86,7 +86,8 @@ const Navbar = () => {
     <div
       className="w-full sticky top-0 z-50 shadow-xl"
       style={{
-        borderRadius: "14px",
+        background: "#f9fafb",
+        borderRadius: "10px",
         boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.12), 0 4px 24px 0 rgba(80,80,120,0.08)",
         // removed overflow: hidden to allow dropdowns to show
       }}
@@ -95,8 +96,8 @@ const Navbar = () => {
         className="navbar px-4 md:px-8 font-semibold justify-between"
         style={{
           color: "#181f3a",
-          
           borderRadius: "10px",
+          background: "white",
           paddingTop: "10px",
           paddingBottom: "10px",
         }}
@@ -120,10 +121,10 @@ const Navbar = () => {
         {/* Navbar Center */}
         <div className="hidden lg:flex gap-2 items-center">
           {[
-            { to: "/", label: "Home" },
-            { to: "/about", label: "Hire Freelancer" },
-            { to: "/find-jobs", label: "Find Jobs" },
-            { to: "/why", label: "Why SETU" }
+            { to: "/", label: "HOME" },
+            { to: "/about", label: "HIRE FREELANCER" },
+            { to: "/find-jobs", label: "FIND JOBS" },
+            { to: "/why", label: "WHY SETU" }
           ].map(link => (
             <NavLink
               key={link.to}
@@ -159,7 +160,7 @@ const Navbar = () => {
               color: NAV_LINK_INACTIVE,
             }}
           >
-            Contact
+            CONTACT
           </a>
           {user && (
             <NavLink to="/dashboard">
@@ -212,23 +213,23 @@ const Navbar = () => {
             }}
           >
             <NavLink to="/" className="nav-link-custom">
-              Home
+              HOME
             </NavLink>
             <NavLink to="/about" className="nav-link-custom">
-              Hire Freelancer
+              HIRE FREELANCER
             </NavLink>
             <NavLink to="/find-jobs" className="nav-link-custom">
-              Find Jobs
+              FIND JOBS
             </NavLink>
             <NavLink to="/why" className="nav-link-custom">
-              Why SETU
+              WHY SETU
             </NavLink>
             <a
               href="#contact"
               onClick={handleContactClick}
               className="nav-link-custom cursor-pointer"
             >
-              Contact
+              CONTACT
             </a>
             {user && (
               <NavLink to="/dashboard" className="nav-link-custom">
@@ -334,7 +335,7 @@ const Navbar = () => {
                 <button
                   className="btn px-6 rounded-2xl font-semibold hover:scale-105 transition shadow"
                   style={{
-                    
+                    background: "#3b82f6",
                     color: "#fff",
                     border: "1px solid #3b82f6",
                   }}
@@ -359,7 +360,7 @@ const Navbar = () => {
               >
                 {user.photoURL ? (
                   <div
-                    className="w-10 h-10 rounded-full ring shadow"
+                    className="w-10 h-10 rounded-full ring "
                     style={{
                       ringColor: "#3b82f6",
                       borderColor: "#3b82f6",
