@@ -119,12 +119,12 @@ const Navbar = () => {
         </div>
 
         {/* Navbar Center */}
-        <div className="hidden lg:flex gap-2 items-center">
+        <div className="hidden lg:flex gap-1 items-center">
           {[
-            { to: "/", label: "HOME" },
-            { to: "/about", label: "HIRE FREELANCER" },
-            { to: "/find-jobs", label: "FIND JOBS" },
-            { to: "/why", label: "WHY SETU" }
+            { to: "/", label: "Home" },
+            { to: "/about", label: "Hire Freelancer" },
+            { to: "/find-jobs", label: "Find Jobs" },
+            { to: "/why", label: "Why SETU" }
           ].map(link => (
             <NavLink
               key={link.to}
@@ -160,7 +160,7 @@ const Navbar = () => {
               color: NAV_LINK_INACTIVE,
             }}
           >
-            CONTACT
+            Contact
           </a>
           {user && (
             <NavLink to="/dashboard">
@@ -229,7 +229,7 @@ const Navbar = () => {
               onClick={handleContactClick}
               className="nav-link-custom cursor-pointer"
             >
-              CONTACT
+              Contact
             </a>
             {user && (
               <NavLink to="/dashboard" className="nav-link-custom">
