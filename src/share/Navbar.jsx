@@ -15,7 +15,6 @@ const Navbar = () => {
   const location = useLocation();
   const notifRef = useRef();
 
-  // Fetch notifications for logged-in user
   useEffect(() => {
     if (user?.email) {
       fetch(`/notifications/${user.email}`)
@@ -42,9 +41,7 @@ const Navbar = () => {
     navigate(`/job/${notif.jobId}#comments`);
     if (notif.read) return;
     try {
-      await fetch(`/notifications/${notif._id}`, {
-        method: "PATCH",
-      });
+      await fetch(`/notifications/${notif._id}`, { method: "PATCH" });
       setNotifications((prev) =>
         prev.map((n) => (n._id === notif._id ? { ...n, read: true } : n))
       );
@@ -54,17 +51,11 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    logOut()
-      .then(() => {})
-      .catch((error) => {
-        console.log(error);
-      });
+    logOut().catch((error) => { console.log(error); });
   };
 
-  // Count unread notifications
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  // Utility: Get initial from name or email
   const getInitial = () => {
     if (user?.displayName && user.displayName.length > 0) {
       return user.displayName[0].toUpperCase();
@@ -75,7 +66,6 @@ const Navbar = () => {
     return "?";
   };
 
-  // Scroll to bottom handler for Contact
   const handleContactClick = (e) => {
     e.preventDefault();
     if (location.pathname === "/") {
@@ -84,29 +74,33 @@ const Navbar = () => {
       navigate("/#contact");
       setTimeout(() => {
         window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
-      }, 200); // Wait for navigation
+      }, 200);
     }
   };
 
   return (
     <div
-      className="w-full sticky top-0 z-50 shadow-xl" // Added shadow-xl class here
+      className="w-full sticky top-0 z-50 shadow-xl"
       style={{
         background: "#f9fafb",
-        borderRadius: "10px",
-        boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.12), 0 4px 24px 0 rgba(80,80,120,0.08)" // Enhanced drop shadow
+        borderRadius: "14px",
+        boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.12), 0 4px 24px 0 rgba(80,80,120,0.08)",
+        overflow: "hidden"
       }}
     >
       <div
         className="navbar px-4 md:px-8 py-3 font-semibold justify-between"
-        style={{ color: "#181f3a" }}
+        style={{
+          color: "#181f3a",
+          background: "transparent"
+        }}
       >
         {/* Navbar Start */}
         <div className="flex items-center gap-3">
           <img
             src={img1}
             alt="Logo"
-            className="w-10 h-10 p-1 border rounded-full shadow-md" // shadow-md for logo
+            className="w-10 h-10 p-1 border rounded-full shadow-md"
             style={{ borderColor: "#f5b942" }}
           />
           <span
@@ -135,7 +129,7 @@ const Navbar = () => {
             }
             to="/about"
           >
-            Hire
+            Hire Freelancer
           </NavLink>
           <NavLink
             className={({ isActive }) =>
@@ -164,24 +158,11 @@ const Navbar = () => {
           >
             Contact
           </a>
-          <NavLink to="/freelancer">
-            <button
-              className="btn border-0 px-4 rounded-2xl font-semibold transition-transform hover:scale-105 flex items-center shadow" // shadow for freelancer button
-              style={{
-                background: "#f5b942",
-                color: "#181f3a",
-                border: "1px solid #f5b942",
-                marginRight: "0.4rem",
-                fontWeight: 600
-              }}
-            >
-              Freelancer?
-            </button>
-          </NavLink>
+          {/* Freelancer button removed */}
           {user && (
             <NavLink to="/dashboard">
               <button
-                className="btn border-0 px-6 rounded-2xl font-semibold transition-transform hover:scale-105 shadow" // shadow for dashboard button
+                className="btn border-0 px-6 rounded-2xl font-semibold transition-transform hover:scale-105 shadow"
                 style={{
                   background: "#3b82f6",
                   color: "#fff",
@@ -192,7 +173,6 @@ const Navbar = () => {
                 Dashboard
               </button>
             </NavLink>
-           
           )}
         </div>
 
@@ -221,14 +201,18 @@ const Navbar = () => {
             </svg>
           </div>
           <ul
-            className="menu dropdown-content mt-3 z-[1] p-3 shadow-lg rounded-box w-52 space-y-2" // shadow-lg for mobile
-            style={{ background: "#f9fafb", color: "#181f3a", borderRadius: "0 0 16px 16px" }}
+            className="menu dropdown-content mt-3 z-[1] p-3 shadow-lg rounded-box w-52 space-y-2"
+            style={{
+              background: "#f9fafb",
+              color: "#181f3a",
+              borderRadius: "0 0 16px 16px"
+            }}
           >
             <NavLink to="/" className="hover:text-[#3b82f6]">
               Home
             </NavLink>
             <NavLink to="/about" className="hover:text-[#f5b942]">
-              Hire
+              Hire Freelancer
             </NavLink>
             <NavLink to="/find-jobs" className="hover:text-[#3b82f6]">
               Find jobs
@@ -244,9 +228,7 @@ const Navbar = () => {
             >
               Contact
             </a>
-            <NavLink to="/freelancer" className="hover:text-[#f5b942] flex items-center">
-              Freelancer?
-            </NavLink>
+            {/* Freelancer button removed in mobile too */}
             {user && (
               <NavLink to="/dashboard" className="hover:text-[#3b82f6]">
                 Dashboard
@@ -268,7 +250,7 @@ const Navbar = () => {
                 onClick={() => {
                   if (notifications.length > 0) setShowNotifDropdown(!showNotifDropdown);
                 }}
-                className="relative focus:outline-none flex items-center justify-center shadow" // shadow for bell
+                className="relative focus:outline-none flex items-center justify-center shadow"
                 aria-label="Notifications"
                 style={{
                   height: "38px",
@@ -303,7 +285,7 @@ const Navbar = () => {
                   style={{
                     background: "#ffffff",
                     color: "#181f3a",
-                    borderRadius: "0 0 16px 16px",
+                    borderRadius: "0 0 16px 16px"
                   }}
                 >
                   {notifications.map((notif) => (
@@ -336,20 +318,20 @@ const Navbar = () => {
           {/* Auth Buttons */}
           {!user ? (
             <>
-<NavLink to="/login">
-  <button
-    className="transition-transform hover:scale-105"
-    style={{
-      color: "#3b82f6",
-      background: "none",
-    }}
-  >
-    Login
-  </button>
-</NavLink>
+              <NavLink to="/login">
+                <button
+                  className="transition-transform hover:scale-105"
+                  style={{
+                    color: "#3b82f6",
+                    background: "none",
+                  }}
+                >
+                  Login
+                </button>
+              </NavLink>
               <NavLink to="/signup">
                 <button
-                  className="btn px-6 rounded-2xl font-semibold hover:scale-105 transition shadow" // shadow for signup
+                  className="btn px-6 rounded-2xl font-semibold hover:scale-105 transition shadow"
                   style={{
                     background: "#3b82f6",
                     color: "#fff",
@@ -364,7 +346,7 @@ const Navbar = () => {
             <div className="dropdown dropdown-end">
               <div
                 tabIndex={0}
-                className="avatar cursor-pointer dropdown-toggle shadow" // shadow for avatar
+                className="avatar cursor-pointer dropdown-toggle shadow"
                 style={{
                   width: "40px",
                   height: "40px",
@@ -401,11 +383,11 @@ const Navbar = () => {
                 )}
               </div>
               <ul
-                className="dropdown-content menu p-3 shadow-lg rounded-box w-56 space-y-2" // shadow-lg for dropdown menu
+                className="dropdown-content menu p-3 shadow-lg rounded-box w-56 space-y-2"
                 style={{
                   background: "#f9fafb",
                   color: "#181f3a",
-                  borderRadius: "0 0 14px 14px",
+                  borderRadius: "0 0 14px 14px"
                 }}
               >
                 <li className="font-medium text-sm text-gray-600">
