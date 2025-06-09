@@ -21,6 +21,7 @@ import MyTask from '../Layout/Dashboard/MyTask';
 import MyWork from '../Layout/Dashboard/MyWork';
 import JobPostForm from '../Layout/Dashboard/JobPostForm';
 import FreelancerDashboard from '../Layout/Dashboard/FreelancerDashboard'; // <-- import
+import DashboardNex from '../Layout/Dashboard/dashboardnex';
 
 export const router = createBrowserRouter([
     {
