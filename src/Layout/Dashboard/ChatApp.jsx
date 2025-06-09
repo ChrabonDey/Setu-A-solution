@@ -6,7 +6,7 @@ import axios from 'axios';
 import UseAxiosPublic from '../../hooks/UseAxiosPublic';
 import { authContext } from '../../provider/Authprovider';
 
-const socket = io('http://localhost:5000'); // replace with your backend URL if needed
+const socket = io('https://setu-backend-1slc.onrender.com'); // replace with your backend URL if needed
 
 const ChatRoom = () => {
   const { jobId } = useParams();
