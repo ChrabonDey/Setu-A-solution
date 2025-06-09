@@ -20,7 +20,7 @@ import TestMentions from '../Layout/Dashboard/TestMentions';
 import MyTask from '../Layout/Dashboard/MyTask';
 import MyWork from '../Layout/Dashboard/MyWork';
 import JobPostForm from '../Layout/Dashboard/JobPostForm';
-import FreelancerDashboard from '../Layout/Dashboard/FreelancerDashboard'; // <-- import
+import FreelancerDashboard from '../Layout/Dashboard/FreelancerDashboard';
 import DashboardNex from '../Layout/Dashboard/dashboardnex';
 
 export const router = createBrowserRouter([
@@ -68,10 +68,10 @@ export const router = createBrowserRouter([
       children:[
         {
           index: true,
-          element: <FreelancerDashboard />  // <-- show this on /dashboard
+          element: <FreelancerDashboard />
         },
         {
-          path:"profile",                  // <-- move profile to /dashboard/profile
+          path:"profile",
           element:<Profile></Profile>,
         },
         {
@@ -101,4 +101,8 @@ export const router = createBrowserRouter([
         // Add other dashboard routes here as needed
       ]
     },
+    {
+      path: "/dashboard-nex",
+      element: <DashboardNex />
+    }
 ]);

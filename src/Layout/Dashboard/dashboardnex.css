@@ -34,7 +34,7 @@ body, html, #root {
 .sidebar {
   width: 240px;
   background: var(--sidebar-bg);
-  padding: 12px;
+  padding:0px 12px;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
@@ -46,20 +46,20 @@ body, html, #root {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 6px;
+  margin-bottom: 0px;
 }
 
 .logo img {
-  width: 220px;
-  height: 60px;
+  width: 320px;
+  height: 90px;
   object-fit: contain;
 }
 
 .separator {
-  height: 2px;
+  height: 3px;
   width: 100%;
-  background: #fff;
-  border-radius: 1px;
+  background: #b5e8ff;
+  border-radius: 10px;
   margin: 12px 0 14px 0;
 }
 
