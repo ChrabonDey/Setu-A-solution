@@ -7,7 +7,7 @@ const NOTIF_ICON = "https://i.postimg.cc/rwqvKnyJ/notification-bing-svgrepo-com.
 import { FaCoins } from "react-icons/fa";
 import UseAxiosPublic from "../hooks/UseAxiosPublic";
 
-const NAV_LINK_INACTIVE = "#7a7a8c"; // grayish
+const NAV_LINK_INACTIVE = "#7a7a8c";
 const NAV_LINK_ACTIVE = "#3b82f6";
 const NAV_LINK_SIZE = "15px";
 
@@ -89,7 +89,6 @@ const Navbar = () => {
         background: "#f9fafb",
         borderRadius: "10px",
         boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.12), 0 4px 24px 0 rgba(80,80,120,0.08)",
-        // removed overflow: hidden to allow dropdowns to show
       }}
     >
       <div
@@ -134,7 +133,7 @@ const Navbar = () => {
               }
               style={{
                 fontSize: NAV_LINK_SIZE,
-                fontWeight: 500,
+                fontWeight: 400,
                 margin: 0,
                 padding: "0 5px",
                 background: "none",
@@ -151,7 +150,7 @@ const Navbar = () => {
             onClick={handleContactClick}
             className="nav-link-custom"
             style={{
-              fontWeight: 500,
+              fontWeight: 400,
               fontSize: NAV_LINK_SIZE,
               margin: 0,
               padding: "0 5px",
@@ -162,16 +161,49 @@ const Navbar = () => {
           >
             Contact
           </a>
+          {/* Tutorial Button (smaller) */}
+          <NavLink to="/tutorial">
+            <button
+              className="transition-transform hover:scale-105 font-bold nav-btn-custom"
+              style={{
+                marginLeft: "8px",
+                background: "#ff9345",
+                color: "#fff",
+                border: "none",
+                borderRadius: "8px",
+                padding: "4px 14px",
+                fontSize: "13px",
+                boxShadow: "0 2px 8px rgba(249, 115, 22, 0.12)",
+                cursor: "pointer",
+                letterSpacing: "0.5px",
+                fontWeight: "bold",
+                height: "30px",
+                minWidth: "80px",
+                display: "inline-block",
+              }}
+            >
+              Tutorial?
+            </button>
+          </NavLink>
           {user && (
             <NavLink to="/dashboard">
               <button
-                className="btn border-0 px-6 rounded-2xl font-semibold transition-transform hover:scale-105 shadow"
+                className="transition-transform hover:scale-105 font-bold nav-btn-custom"
                 style={{
+                  marginLeft: "8px",
                   background: "#3b82f6",
                   color: "#fff",
-                  border: "1px solid #3b82f6",
-                  marginLeft: 0,
-                  fontSize: NAV_LINK_SIZE,
+                  border: "none",
+                  borderRadius: "8px",
+                  padding: "4px 14px",
+                  fontSize: "13px",
+                  boxShadow: "0 2px 8px rgba(59, 130, 246, 0.12)",
+                  cursor: "pointer",
+                  letterSpacing: "0.5px",
+                  fontWeight: "bold",
+                  height: "30px",
+                  minWidth: "80px",
+                  display: "inline-block",
                 }}
               >
                 Dashboard
@@ -212,27 +244,31 @@ const Navbar = () => {
               borderRadius: "0 0 16px 16px"
             }}
           >
-            <NavLink to="/" className="nav-link-custom">
+            <NavLink to="/" className="nav-link-custom" style={{ fontWeight: "bold" }}>
               HOME
             </NavLink>
-            <NavLink to="/about" className="nav-link-custom">
+            <NavLink to="/about" className="nav-link-custom" style={{ fontWeight: "bold" }}>
               HIRE FREELANCER
             </NavLink>
-            <NavLink to="/find-jobs" className="nav-link-custom">
+            <NavLink to="/find-jobs" className="nav-link-custom" style={{ fontWeight: "bold" }}>
               FIND JOBS
             </NavLink>
-            <NavLink to="/why" className="nav-link-custom">
+            <NavLink to="/why" className="nav-link-custom" style={{ fontWeight: "bold" }}>
               WHY SETU
             </NavLink>
             <a
               href="#contact"
               onClick={handleContactClick}
               className="nav-link-custom cursor-pointer"
+              style={{ fontWeight: "bold" }}
             >
               Contact
             </a>
+            <NavLink to="/tutorial" className="nav-link-custom" style={{ fontWeight: "bold", color: "#116530" }}>
+              Tutorial?
+            </NavLink>
             {user && (
-              <NavLink to="/dashboard" className="nav-link-custom">
+              <NavLink to="/dashboard" className="nav-link-custom" style={{ fontWeight: "bold" }}>
                 Dashboard
               </NavLink>
             )}
@@ -258,7 +294,6 @@ const Navbar = () => {
                   height: "38px",
                   width: "38px",
                   borderRadius: "50%",
-                  
                   border: "none",
                   marginRight: "2px",
                   padding: 0,
@@ -280,7 +315,6 @@ const Navbar = () => {
                 )}
               </button>
 
-              {/* Notification Dropdown - only show if there are notifications */}
               {showNotifDropdown && notifications.length > 0 && (
                 <div
                   className="absolute right-0 mt-2 w-72 max-h-80 overflow-y-auto rounded shadow-lg z-50"
@@ -417,22 +451,34 @@ const Navbar = () => {
       </div>
       {/* NAV LINK CUSTOM STYLE */}
       <style>{`
-        .nav-link-custom {
-          color: ${NAV_LINK_INACTIVE};
-          background: none !important;
-          border-radius: 0 !important;
-          padding: 0 5px;
-          text-decoration: none;
-        }
-        .nav-link-custom:hover {
-          color: ${NAV_LINK_ACTIVE};
-          background: none !important;
-        }
-        .nav-link-active {
-          color: ${NAV_LINK_ACTIVE} !important;
-          font-weight: 600;
-          background: none !important;
-        }
+.nav-link-custom {
+  color: #7a7a8c;
+  background: none !important;
+  border-radius: 0 !important;
+  padding: 0 5px;
+  text-decoration: none;
+  font-weight: 400 !important; /* not bold for desktop navbar */
+}
+.nav-link-custom:hover {
+  color: #3b82f6;
+  background: none !important;
+}
+.nav-link-active {
+  color: #3b82f6 !important;
+  font-weight: bold !important; /* only active link is bold */
+  background: none !important;
+}
+.nav-btn-custom {
+  border-radius: 8px !important;
+  padding: 4px 14px !important;
+  font-size: 13px !important;
+  font-weight: bold !important;
+  height: 30px !important;
+  min-width: 80px !important;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.12) !important;
+  letter-spacing: 0.5px !important;
+  transition: background .15s, color .15s, transform .15s;
+}
       `}</style>
     </div>
   );
