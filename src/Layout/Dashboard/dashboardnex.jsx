@@ -14,6 +14,7 @@ import {
   MdNotificationsNone,
   MdSearch
 } from "react-icons/md";
+import FreelancerDashboard from "./FreelancerDashboard";
 
 const menuData = [
   {
@@ -79,6 +80,15 @@ const DashboardNex = () => {
 
   const handleDropdownClick = (item) => {
     setOpenDropdown(openDropdown === item.label ? "" : item.label);
+  };
+
+  // Render content based on selected menu
+  const renderContent = () => {
+    if (selected === "Dashboard") {
+      return <FreelancerDashboard />;
+    }
+    // Add additional content renders for other menu items if needed
+    return null;
   };
 
   return (
@@ -178,7 +188,9 @@ const DashboardNex = () => {
             </div>
           </div>
         </header>
-        <div className="content-area">{/* Content goes here */}</div>
+        <div className="content-area">
+          {renderContent()}
+        </div>
       </main>
     </div>
   );
