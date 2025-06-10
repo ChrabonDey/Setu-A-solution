@@ -10,24 +10,48 @@ import {
   FaMapMarkerAlt,
   FaGraduationCap,
   FaPlus,
-  FaTrash,
   FaImage,
   FaBuilding,
   FaTimes,
+  FaStar,
+  FaArrowLeft,
+  FaSave
 } from "react-icons/fa";
 
-const segmentBg = [
-  "bg-blue-50",
-  "bg-green-50",
-  "bg-yellow-50",
-  "bg-teal-50",
-  "bg-purple-50",
-  "bg-orange-50",
-  "bg-pink-50",
-  "bg-indigo-50"
+// Colors
+const segmentBgColor = "bg-[#ecf8fd]";
+const usernameTextColor = "text-green-700";
+const cartoonBorderColor = "border-[#b6e0fa]"; // light blue border for avatars
+
+const cartoonAvatars = [
+  "https://api.dicebear.com/7.x/adventurer/svg?seed=Jack",
+  "https://api.dicebear.com/7.x/adventurer/svg?seed=Anna",
+  "https://api.dicebear.com/7.x/adventurer/svg?seed=Max",
+  "https://api.dicebear.com/7.x/adventurer/svg?seed=Mia",
+  "https://api.dicebear.com/7.x/adventurer/svg?seed=Leo"
 ];
 
-const EditProfile = ({ profile, onSubmit }) => {
+const segmentBg = Array(8).fill(segmentBgColor);
+
+const smallBtnStyle =
+  "flex items-center justify-center gap-1 px-3 h-[30px] rounded-full bg-blue-600 text-white font-semibold hover:bg-blue-800 shadow transition text-xs whitespace-nowrap";
+
+const SkillPercentInput = ({ value, onChange }) => (
+  <div className="relative w-16">
+    <input
+      type="number"
+      min={0}
+      max={100}
+      value={value}
+      onChange={onChange}
+      className="w-full pr-6 pl-2 py-1.5 border border-blue-200 rounded bg-white text-right text-sm"
+      style={{ appearance: "textfield" }}
+    />
+    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600 text-xs pointer-events-none select-none">%</span>
+  </div>
+);
+
+const EditProfile = ({ profile, onSubmit, onBack }) => {
   const [form, setForm] = useState(profile);
   const [interestInput, setInterestInput] = useState("");
   const fileInputRef = useRef(null);
@@ -47,6 +71,11 @@ const EditProfile = ({ profile, onSubmit }) => {
       setForm((prev) => ({ ...prev, photoURL: reader.result }));
     };
     reader.readAsDataURL(file);
+  };
+
+  // --- Cartoon avatar selection handler ---
+  const handleCartoonAvatarSelect = (url) => {
+    setForm((prev) => ({ ...prev, photoURL: url }));
   };
 
   // --- Experience ---
@@ -120,9 +149,8 @@ const EditProfile = ({ profile, onSubmit }) => {
 
   // --- Interests as tags ---
   const handleInterestInputChange = (e) => setInterestInput(e.target.value);
-  const handleInterestInputKeyDown = (e) => {
-    if ((e.key === "Enter" || e.key === ",") && interestInput.trim()) {
-      e.preventDefault();
+  const handleAddInterest = () => {
+    if (interestInput.trim()) {
       if (
         !form.interests
           .map((it) => it.toLowerCase())
@@ -136,6 +164,12 @@ const EditProfile = ({ profile, onSubmit }) => {
       setInterestInput("");
     }
   };
+  const handleInterestInputKeyDown = (e) => {
+    if ((e.key === "Enter" || e.key === ",") && interestInput.trim()) {
+      e.preventDefault();
+      handleAddInterest();
+    }
+  };
   const handleRemoveInterest = (idx) => {
     setForm((prev) => ({
       ...prev,
@@ -147,17 +181,43 @@ const EditProfile = ({ profile, onSubmit }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (onSubmit) onSubmit(form);
+    // Go back to profile view after saving (handled in Profile.jsx via onSubmit)
   };
 
-  // Responsive grid for dashboard layout, no horizontal overflow
+  // --- Back handler: go to profile content area (not navigation!)
+  const handleBack = (e) => {
+    e.preventDefault();
+    if (onBack) onBack();
+  };
+
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-transparent py-10">
+    <div className="w-full min-h-screen flex flex-col items-center justify-center bg-transparent pt-[10px] pb-10 px-4
+">
+      {/* Top Bar */}
+      <div className="w-full max-w-7xl flex items-center justify-between px-4 md:px-10 mb-4">
+        <button
+          type="button"
+          onClick={handleBack}
+          className="flex items-center gap-2 text-blue-700 font-semibold hover:text-blue-900 transition"
+          title="Back"
+        >
+          <FaArrowLeft size={22} />
+        </button>
+        <button
+          type="submit"
+          form="edit-profile-form"
+          className="flex items-center gap-2 px-6 py-2 rounded bg-blue-600 text-white font-bold hover:bg-blue-800 shadow transition"
+        >
+          <FaSave /> Save
+        </button>
+      </div>
       <form
+        id="edit-profile-form"
         onSubmit={handleSubmit}
-        className="w-full max-w-7xl grid gap-6 p-4 md:p-10"
+        className="w-full max-w-7xl grid gap-6 p-4 md:pt-4 md:pb-10 pt-2 pb-6"
         style={{
           gridTemplateColumns: "repeat(7, 1fr)",
-          gridTemplateRows: "repeat(6, minmax(95px, auto))",
+          gridTemplateRows: "repeat(7, minmax(95px, auto))",
         }}
       >
         {/* Profile Image Segment */}
@@ -170,7 +230,7 @@ const EditProfile = ({ profile, onSubmit }) => {
             minWidth: 0,
           }}
         >
-          <div className="relative flex flex-col items-center">
+          <div className="relative flex flex-col items-center w-full">
             <img
               src={form.photoURL}
               alt="Profile"
@@ -182,7 +242,7 @@ const EditProfile = ({ profile, onSubmit }) => {
               onClick={() => fileInputRef.current.click()}
               title="Upload profile image"
             >
-              <FaImage className="inline mr-2" /> Choose
+              <FaImage className="inline mr-2" size={14} /> Choose
             </button>
             <input
               type="file"
@@ -191,6 +251,34 @@ const EditProfile = ({ profile, onSubmit }) => {
               className="hidden"
               onChange={handleImageUpload}
             />
+            {/* Username Input Area and label */}
+            <div className="w-full mt-4 flex flex-col items-center" style={{ marginBottom: 10 }}>
+              <label className="block text-xs text-gray-600 font-semibold mb-1 text-left w-full pl-2">Username</label>
+              <div className="flex items-center w-full rounded-full px-3 py-2 border border-blue-200 bg-white">
+                <span className={`font-bold select-none pr-1 ${usernameTextColor}`}>
+                  @{form.username || ""}
+                </span>
+              </div>
+              {/* Cartoon avatar choices */}
+              <div className="flex flex-row gap-3 mt-4 justify-center w-full flex-wrap">
+                {cartoonAvatars.map((url, i) => (
+                  <button
+                    type="button"
+                    key={url}
+                    className={`rounded-full border-4 ${cartoonBorderColor} ${form.photoURL === url ? "ring-2 ring-blue-400" : ""} p-1 hover:border-blue-400 transition`}
+                    onClick={() => handleCartoonAvatarSelect(url)}
+                    title={`Choose avatar ${i + 1}`}
+                    tabIndex={0}
+                  >
+                    <img
+                      src={url}
+                      alt={`Avatar ${i + 1}`}
+                      className="w-12 h-12 rounded-full object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
@@ -270,7 +358,7 @@ const EditProfile = ({ profile, onSubmit }) => {
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs text-gray-600 font-semibold">First Name</label>
+              <label className="text-xs text-gray-600 font-semibold text-left block">First Name</label>
               <input
                 type="text"
                 name="firstName"
@@ -280,7 +368,7 @@ const EditProfile = ({ profile, onSubmit }) => {
               />
             </div>
             <div>
-              <label className="text-xs text-gray-600 font-semibold">Last Name</label>
+              <label className="text-xs text-gray-600 font-semibold text-left block">Last Name</label>
               <input
                 type="text"
                 name="lastName"
@@ -290,17 +378,19 @@ const EditProfile = ({ profile, onSubmit }) => {
               />
             </div>
             <div>
-              <label className="text-xs text-gray-600 font-semibold">Username</label>
+              <label className="text-xs text-gray-600 font-semibold text-left block">Username</label>
               <input
                 type="text"
                 name="username"
                 value={form.username}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-blue-200 rounded bg-white"
+                placeholder="Username"
+                autoComplete="off"
               />
             </div>
             <div>
-              <label className="text-xs text-gray-600 font-semibold">Email</label>
+              <label className="text-xs text-gray-600 font-semibold text-left block">Email</label>
               <input
                 type="email"
                 name="Email"
@@ -310,7 +400,7 @@ const EditProfile = ({ profile, onSubmit }) => {
               />
             </div>
             <div>
-              <label className="text-xs text-gray-600 font-semibold flex items-center gap-1"><FaPhone /> Phone</label>
+              <label className="text-xs text-gray-600 font-semibold flex items-center gap-1 text-left block"><FaPhone /> Phone</label>
               <input
                 type="text"
                 name="phone"
@@ -320,7 +410,7 @@ const EditProfile = ({ profile, onSubmit }) => {
               />
             </div>
             <div>
-              <label className="text-xs text-gray-600 font-semibold flex items-center gap-1"><FaMapMarkerAlt /> City</label>
+              <label className="text-xs text-gray-600 font-semibold flex items-center gap-1 text-left block"><FaMapMarkerAlt /> City</label>
               <input
                 type="text"
                 name="city"
@@ -330,7 +420,7 @@ const EditProfile = ({ profile, onSubmit }) => {
               />
             </div>
             <div className="md:col-span-2">
-              <label className="text-xs text-gray-600 font-semibold flex items-center gap-1">Address</label>
+              <label className="text-xs text-gray-600 font-semibold flex items-center gap-1 text-left block">Address</label>
               <input
                 type="text"
                 name="address"
@@ -374,13 +464,17 @@ const EditProfile = ({ profile, onSubmit }) => {
         >
           <div className="flex justify-between items-center mb-2">
             <label className="text-xs text-gray-600 font-semibold">Skills</label>
-            <button
-              type="button"
-              className="flex items-center gap-1 text-blue-600 font-semibold hover:underline"
-              onClick={handleAddSkill}
-            >
-              <FaPlus /> Add Skill
-            </button>
+            <div>
+              <button
+                type="button"
+                className={smallBtnStyle}
+                onClick={handleAddSkill}
+                title="Add Skill"
+              >
+                <FaPlus size={14} />
+                <span>Add Skill</span>
+              </button>
+            </div>
           </div>
           <div className="space-y-2">
             {form.skills.map((skill, idx) => (
@@ -389,25 +483,20 @@ const EditProfile = ({ profile, onSubmit }) => {
                   type="text"
                   value={skill.name}
                   placeholder="Skill"
-                  onChange={(e) => handleSkillChange(idx, "name", e.target.value)}
+                  onChange={e => handleSkillChange(idx, "name", e.target.value)}
                   className="w-1/2 px-3 py-1.5 border border-blue-200 rounded bg-white"
                 />
-                <input
-                  type="number"
+                <SkillPercentInput
                   value={skill.level}
-                  min={0}
-                  max={100}
-                  placeholder="Level"
-                  onChange={(e) => handleSkillChange(idx, "level", e.target.value)}
-                  className="w-1/3 px-3 py-1.5 border border-blue-200 rounded bg-white"
+                  onChange={e => handleSkillChange(idx, "level", e.target.value)}
                 />
                 <button
                   type="button"
-                  className="text-red-500 hover:text-red-700"
+                  className="hover:bg-gray-200 text-gray-400 hover:text-gray-700 flex items-center justify-center w-[30px] h-[30px] rounded-full transition"
                   onClick={() => handleRemoveSkill(idx)}
                   title="Remove skill"
                 >
-                  <FaTrash />
+                  <FaTimes size={16} />
                 </button>
               </div>
             ))}
@@ -426,13 +515,17 @@ const EditProfile = ({ profile, onSubmit }) => {
         >
           <div className="flex justify-between items-center mb-2">
             <label className="text-xs text-gray-600 font-semibold flex items-center gap-2"><FaBuilding /> Experience</label>
-            <button
-              type="button"
-              className="flex items-center gap-1 text-blue-600 font-semibold hover:underline"
-              onClick={handleAddExp}
-            >
-              <FaPlus /> Add Experience
-            </button>
+            <div>
+              <button
+                type="button"
+                className={smallBtnStyle}
+                onClick={handleAddExp}
+                title="Add Experience"
+              >
+                <FaPlus size={14} />
+                <span>Add Experience</span>
+              </button>
+            </div>
           </div>
           <div className="space-y-2">
             {(form.experience || []).map((ex, idx) => (
@@ -442,37 +535,37 @@ const EditProfile = ({ profile, onSubmit }) => {
                     type="text"
                     value={ex.role}
                     placeholder="Role/Title"
-                    onChange={(e) => handleExpChange(idx, "role", e.target.value)}
+                    onChange={e => handleExpChange(idx, "role", e.target.value)}
                     className="w-full md:w-1/4 px-3 py-1.5 border border-blue-200 rounded bg-white"
                   />
                   <input
                     type="text"
                     value={ex.company}
                     placeholder="Company"
-                    onChange={(e) => handleExpChange(idx, "company", e.target.value)}
+                    onChange={e => handleExpChange(idx, "company", e.target.value)}
                     className="w-full md:w-1/4 px-3 py-1.5 border border-blue-200 rounded bg-white"
                   />
                   <input
                     type="text"
                     value={ex.duration}
                     placeholder="Duration"
-                    onChange={(e) => handleExpChange(idx, "duration", e.target.value)}
+                    onChange={e => handleExpChange(idx, "duration", e.target.value)}
                     className="w-full md:w-1/6 px-3 py-1.5 border border-blue-200 rounded bg-white"
                   />
                   <button
                     type="button"
-                    className="text-red-500 hover:text-red-700"
+                    className="hover:bg-gray-200 text-gray-400 hover:text-gray-700 flex items-center justify-center w-[30px] h-[30px] rounded-full transition"
                     onClick={() => handleRemoveExp(idx)}
                     title="Remove experience"
                   >
-                    <FaTrash />
+                    <FaTimes size={16} />
                   </button>
                 </div>
                 <input
                   type="text"
                   value={ex.description}
                   placeholder="Description"
-                  onChange={(e) => handleExpChange(idx, "description", e.target.value)}
+                  onChange={e => handleExpChange(idx, "description", e.target.value)}
                   className="w-full px-3 py-1.5 border border-blue-200 rounded bg-white"
                 />
               </div>
@@ -484,7 +577,7 @@ const EditProfile = ({ profile, onSubmit }) => {
         <div
           className={`shadow-xl rounded-2xl p-6 ${segmentBg[6]}`}
           style={{
-            gridColumn: "3 / 5",
+            gridColumn: "3 / 8",
             gridRow: "5 / 7",
             minHeight: 0,
             minWidth: 0,
@@ -492,13 +585,17 @@ const EditProfile = ({ profile, onSubmit }) => {
         >
           <div className="flex justify-between items-center mb-2">
             <label className="text-xs text-gray-600 font-semibold flex items-center gap-2"><FaGraduationCap /> Education</label>
-            <button
-              type="button"
-              className="flex items-center gap-1 text-blue-600 font-semibold hover:underline"
-              onClick={handleAddEducation}
-            >
-              <FaPlus /> Add Education
-            </button>
+            <div>
+              <button
+                type="button"
+                className={smallBtnStyle}
+                onClick={handleAddEducation}
+                title="Add Education"
+              >
+                <FaPlus size={14} />
+                <span>Add Education</span>
+              </button>
+            </div>
           </div>
           <div className="space-y-2">
             {form.education.map((ed, idx) => (
@@ -507,30 +604,30 @@ const EditProfile = ({ profile, onSubmit }) => {
                   type="text"
                   value={ed.degree}
                   placeholder="Degree"
-                  onChange={(e) => handleEducationChange(idx, "degree", e.target.value)}
+                  onChange={e => handleEducationChange(idx, "degree", e.target.value)}
                   className="w-full md:w-1/3 px-3 py-1.5 border border-blue-200 rounded bg-white"
                 />
                 <input
                   type="text"
                   value={ed.institute}
                   placeholder="Institute"
-                  onChange={(e) => handleEducationChange(idx, "institute", e.target.value)}
+                  onChange={e => handleEducationChange(idx, "institute", e.target.value)}
                   className="w-full md:w-1/3 px-3 py-1.5 border border-blue-200 rounded bg-white"
                 />
                 <input
                   type="text"
                   value={ed.year}
                   placeholder="Year"
-                  onChange={(e) => handleEducationChange(idx, "year", e.target.value)}
+                  onChange={e => handleEducationChange(idx, "year", e.target.value)}
                   className="w-full md:w-1/4 px-3 py-1.5 border border-blue-200 rounded bg-white"
                 />
                 <button
                   type="button"
-                  className="text-red-500 hover:text-red-700"
+                  className="hover:bg-gray-200 text-gray-400 hover:text-gray-700 flex items-center justify-center w-[30px] h-[30px] rounded-full transition"
                   onClick={() => handleRemoveEducation(idx)}
                   title="Remove education"
                 >
-                  <FaTrash />
+                  <FaTimes size={16} />
                 </button>
               </div>
             ))}
@@ -539,23 +636,24 @@ const EditProfile = ({ profile, onSubmit }) => {
 
         {/* Interests */}
         <div
-          className={`shadow-xl rounded-2xl p-6 ${segmentBg[7]}`}
+          className={`shadow-xl rounded-2xl p-6 flex flex-col ${segmentBg[7]} overflow-visible`}
           style={{
-            gridColumn: "5 / 8",
+            gridColumn: "1 / 3",
             gridRow: "5 / 7",
             minHeight: 0,
             minWidth: 0,
           }}
         >
-          <div className="mb-2">
-            <label className="text-xs text-gray-600 font-semibold">Interests</label>
+          <div className="mb-2 flex items-center gap-2">
+            <FaStar className="text-yellow-500" />
+            <label className="text-xs text-gray-600 font-semibold text-left">Interests</label>
           </div>
           {/* Tag input */}
           <div className="mb-3 flex flex-wrap gap-2">
             {form.interests.map((it, idx) => (
               <span
                 key={idx}
-                className="inline-flex items-center bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold shadow gap-1"
+                className="inline-flex items-center bg-blue-200 text-blue-700 px-3 py-1 rounded-full text-xs font-semibold shadow gap-1"
               >
                 {it}
                 <button
@@ -569,19 +667,37 @@ const EditProfile = ({ profile, onSubmit }) => {
               </span>
             ))}
           </div>
-          <input
-            type="text"
-            value={interestInput}
-            onChange={handleInterestInputChange}
-            onKeyDown={handleInterestInputKeyDown}
-            className="w-full px-3 py-2 border border-blue-200 rounded bg-white"
-            placeholder="Type interest and press Enter"
-          />
+          {/* Add Interest Button */}
+          <div className="flex flex-row items-center gap-2 w-full">
+            <div className="flex-1 flex">
+              <input
+                type="text"
+                value={interestInput}
+                onChange={handleInterestInputChange}
+                onKeyDown={handleInterestInputKeyDown}
+                className="w-full px-4 py-2 border border-blue-300 rounded-full bg-white"
+                placeholder="Type interest"
+                style={{ borderRadius: "9999px" }}
+              />
+            </div>
+            <div>
+              <button
+                type="button"
+                onClick={handleAddInterest}
+                className={smallBtnStyle}
+                title="Add Interest"
+                style={{ borderRadius: "9999px" }}
+              >
+                <FaPlus size={14} />
+                <span>Add</span>
+              </button>
+            </div>
+          </div>
         </div>
 
-        {/* Actions */}
+        {/* Actions (hidden because now in top bar) */}
         <div
-          className="flex justify-end items-center mt-8 mb-2 col-span-7"
+          className="hidden"
           style={{
             gridRow: "7",
             gridColumn: "1 / 8",
