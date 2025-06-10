@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaPlus, FaTimes } from "react-icons/fa";
 
-const InterestsSegment = ({ interests, setInterests }) => {
+const InterestsSegment = ({ interests = [], setInterests }) => {
   const [interestInput, setInterestInput] = useState("");
 
   const handleInputChange = (e) => setInterestInput(e.target.value);

@@ -2,7 +2,7 @@ import React from "react";
 import { FaGraduationCap, FaPlus, FaTrash } from "react-icons/fa";
 
 const EducationSegment = ({
-  education,
+  education = [], // 🚩 default to empty array!
   handleEducationChange,
   handleAddEducation,
   handleRemoveEducation,
