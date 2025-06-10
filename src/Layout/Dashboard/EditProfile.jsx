@@ -15,7 +15,8 @@ import {
   FaTimes,
   FaStar,
   FaArrowLeft,
-  FaSave
+  FaSave,
+  FaLanguage,
 } from "react-icons/fa";
 
 // Colors
@@ -28,7 +29,7 @@ const cartoonAvatars = [
   "https://api.dicebear.com/7.x/adventurer/svg?seed=Anna",
   "https://api.dicebear.com/7.x/adventurer/svg?seed=Max",
   "https://api.dicebear.com/7.x/adventurer/svg?seed=Mia",
-  "https://api.dicebear.com/7.x/adventurer/svg?seed=Leo"
+  "https://api.dicebear.com/7.x/adventurer/svg?seed=Leo",
 ];
 
 const segmentBg = Array(8).fill(segmentBgColor);
@@ -47,13 +48,16 @@ const SkillPercentInput = ({ value, onChange }) => (
       className="w-full pr-6 pl-2 py-1.5 border border-blue-200 rounded bg-white text-right text-sm"
       style={{ appearance: "textfield" }}
     />
-    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600 text-xs pointer-events-none select-none">%</span>
+    <span className="absolute right-2 top-1/2 -translate-y-1/2 text-blue-600 text-xs pointer-events-none select-none">
+      %
+    </span>
   </div>
 );
 
 const EditProfile = ({ profile, onSubmit, onBack }) => {
   const [form, setForm] = useState(profile);
   const [interestInput, setInterestInput] = useState("");
+  const [languageInput, setLanguageInput] = useState("");
   const fileInputRef = useRef(null);
 
   // --- Handlers ---
@@ -92,8 +96,8 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
       ...prev,
       experience: [
         ...(prev.experience || []),
-        { company: "", role: "", duration: "", description: "" }
-      ]
+        { company: "", role: "", duration: "", description: "" },
+      ],
     }));
   };
   const handleRemoveExp = (idx) => {
@@ -107,7 +111,9 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
   const handleSkillChange = (idx, field, value) => {
     setForm((prev) => {
       const skills = prev.skills.map((s, i) =>
-        i === idx ? { ...s, [field]: field === "level" ? parseInt(value, 10) : value } : s
+        i === idx
+          ? { ...s, [field]: field === "level" ? parseInt(value, 10) : value }
+          : s
       );
       return { ...prev, skills };
     });
@@ -177,11 +183,38 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
     }));
   };
 
+  // --- Languages as tags ---
+  const handleLanguageInputChange = (e) => setLanguageInput(e.target.value);
+  const handleAddLanguage = () => {
+    if (languageInput.trim()) {
+      if (
+        !form.languages?.map((l) => l.toLowerCase()).includes(languageInput.trim().toLowerCase())
+      ) {
+        setForm((prev) => ({
+          ...prev,
+          languages: [...(prev.languages || []), languageInput.trim()],
+        }));
+      }
+      setLanguageInput("");
+    }
+  };
+  const handleLanguageInputKeyDown = (e) => {
+    if ((e.key === "Enter" || e.key === ",") && languageInput.trim()) {
+      e.preventDefault();
+      handleAddLanguage();
+    }
+  };
+  const handleRemoveLanguage = (idx) => {
+    setForm((prev) => ({
+      ...prev,
+      languages: prev.languages.filter((_, i) => i !== idx),
+    }));
+  };
+
   // --- Save ---
   const handleSubmit = (e) => {
     e.preventDefault();
     if (onSubmit) onSubmit(form);
-    // Go back to profile view after saving (handled in Profile.jsx via onSubmit)
   };
 
   // --- Back handler: go to profile content area (not navigation!)
@@ -191,8 +224,7 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center bg-transparent pt-[10px] pb-10 px-4
-">
+    <div className="w-full min-h-screen flex flex-col items-center justify-center bg-transparent pt-[10px] pb-10 px-4">
       {/* Top Bar */}
       <div className="w-full max-w-7xl flex items-center justify-between px-4 md:px-10 mb-4">
         <button
@@ -220,7 +252,8 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
           gridTemplateRows: "repeat(7, minmax(95px, auto))",
         }}
       >
-        {/* Profile Image Segment */}
+        {/* ...all previous segments (profile image, social links, name, about, skills, experience, education) remain unchanged... */}
+                {/* Profile Image Segment */}
         <div
           className={`shadow-xl rounded-2xl flex flex-col items-center justify-center p-6 ${segmentBg[0]}`}
           style={{
@@ -634,19 +667,82 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
           </div>
         </div>
 
+        {/* Languages */}
+        <div
+          className={`shadow-xl rounded-2xl p-6 flex flex-col ${segmentBg[7]} overflow-visible`}
+          style={{
+            gridColumn: "1 / 3",
+            gridRow: "5 / 6",
+            minHeight: 0,
+            minWidth: 0,
+          }}
+        >
+          <div className="mb-2 flex items-center gap-2">
+            <FaLanguage className="text-blue-500" />
+            <label className="text-xs text-gray-600 font-semibold text-left">
+              Languages
+            </label>
+          </div>
+          <div className="mb-3 flex flex-wrap gap-2">
+            {(form.languages || []).map((lang, idx) => (
+              <span
+                key={idx}
+                className="inline-flex items-center bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold shadow gap-1"
+              >
+                {lang}
+                <button
+                  type="button"
+                  className="ml-2 focus:outline-none"
+                  title="Remove language"
+                  onClick={() => handleRemoveLanguage(idx)}
+                >
+                  <FaTimes className="text-green-400 hover:text-red-600 text-xs" />
+                </button>
+              </span>
+            ))}
+          </div>
+          <div className="flex flex-row items-center gap-2 w-full">
+            <div className="flex-1 flex">
+              <input
+                type="text"
+                value={languageInput}
+                onChange={handleLanguageInputChange}
+                onKeyDown={handleLanguageInputKeyDown}
+                className="w-full px-4 py-2 border border-green-300 rounded-full bg-white"
+                placeholder="Add language"
+                style={{ borderRadius: "9999px" }}
+              />
+            </div>
+            <div>
+              <button
+                type="button"
+                onClick={handleAddLanguage}
+                className="flex items-center gap-1 px-3 h-[30px] rounded-full bg-green-600 text-white font-semibold hover:bg-green-800 shadow transition text-xs whitespace-nowrap"
+                title="Add Language"
+                style={{ borderRadius: "9999px" }}
+              >
+                <FaPlus size={14} />
+                <span>Add</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Interests */}
         <div
           className={`shadow-xl rounded-2xl p-6 flex flex-col ${segmentBg[7]} overflow-visible`}
           style={{
             gridColumn: "1 / 3",
-            gridRow: "5 / 7",
+            gridRow: "6 / 7",
             minHeight: 0,
             minWidth: 0,
           }}
         >
           <div className="mb-2 flex items-center gap-2">
             <FaStar className="text-yellow-500" />
-            <label className="text-xs text-gray-600 font-semibold text-left">Interests</label>
+            <label className="text-xs text-gray-600 font-semibold text-left">
+              Interests
+            </label>
           </div>
           {/* Tag input */}
           <div className="mb-3 flex flex-wrap gap-2">

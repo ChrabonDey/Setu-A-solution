@@ -17,12 +17,12 @@ import {
   FaThumbsUp,
   FaGraduationCap,
   FaShareAlt,
-  FaBuilding
+  FaBuilding,
+  FaLanguage
 } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
 import EditProfile from "./EditProfile";
 
-// Added experience array to DEMO_PROFILE
 const DEMO_PROFILE = {
   firstName: "Shamim",
   lastName: "Kabir Kazim",
@@ -72,6 +72,7 @@ const DEMO_PROFILE = {
     }
   ],
   interests: ["Collaboration", "Web Apps", "Startups", "Learning", "AI"],
+  languages: ["Bangla", "English", "Hindi"], // <-- Added languages here
   exp_years: 8,
   reward: 15,
   awards: 5,
@@ -210,6 +211,36 @@ const Profile = () => {
               <p className="text-xs font-semibold">Participated</p>
             </div>
           </div>
+
+
+
+
+          {/* Languages */}
+          {profile.languages && profile.languages.length > 0 && (
+            <>
+              <div className="mt-8">
+                <h3 className="font-semibold text-lg text-blue-700 mb-3 flex items-center gap-2">
+                  <FaLanguage /> Languages
+                </h3>
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {profile.languages.map((lang, i) => (
+                    <span
+                      key={i}
+                      className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-semibold shadow"
+                    >
+                      {lang}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Separator after languages with 5px margin top and bottom */}
+
+<div
+  className="w-2/3 mx-auto border-b-2 border-blue-100"
+  style={{ marginTop: "0.9125rem", marginBottom: "0.9125rem" }} // 5px = 0.3125rem
+></div>
+
+
           {/* Profile Social Stats */}
           <div className="flex justify-between items-center mt-6 px-5">
             <div className="flex flex-col items-center gap-1">
@@ -228,6 +259,11 @@ const Profile = () => {
               <span className="text-xs text-gray-400">Likes</span>
             </div>
           </div>
+
+              </div>
+              
+            </>
+          )}
         </div>
         {/* Details Card */}
         <div className="col-span-2 bg-white rounded-2xl shadow-xl p-8 border border-blue-50">
