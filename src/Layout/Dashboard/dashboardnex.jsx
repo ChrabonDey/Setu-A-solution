@@ -15,6 +15,8 @@ import {
   MdSearch
 } from "react-icons/md";
 import FreelancerDashboard from "./FreelancerDashboard";
+import ClientDashboard from "./ClientDashboard";
+
 
 const menuData = [
   {
@@ -85,7 +87,7 @@ const DashboardNex = () => {
   // Render content based on selected menu
   const renderContent = () => {
     if (selected === "Dashboard") {
-      return <FreelancerDashboard />;
+      return <ClientDashboard />;
     }
     // Add additional content renders for other menu items if needed
     return null;
