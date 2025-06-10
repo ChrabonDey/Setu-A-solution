@@ -16,6 +16,7 @@ import {
 } from "react-icons/md";
 import FreelancerDashboard from "./FreelancerDashboard";
 import ClientDashboard from "./ClientDashboard";
+import BothDashboard from "./BothDashboard";
 
 
 const menuData = [
@@ -87,7 +88,7 @@ const DashboardNex = () => {
   // Render content based on selected menu
   const renderContent = () => {
     if (selected === "Dashboard") {
-      return <ClientDashboard />;
+      return <BothDashboard />;
     }
     // Add additional content renders for other menu items if needed
     return null;
