@@ -1,0 +1,69 @@
+/* Home Page Styles */
+
+.home-container {
+  width: 100%;
+  min-height: 100vh;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* Add margin to the main sections for spacing */
+.home-section {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Banner sections customization */
+.home-banner-section {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Landing page section */
+.home-landing-section {
+  margin-top: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Talent/BluishTalent section */
+.home-talent-section {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* Portfolio categories section */
+.home-portfolio-section {
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* About section at the end */
+.home-about-section {
+  margin-top: 2.5rem;
+  margin-bottom: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .home-section,
+  .home-banner-section,
+  .home-landing-section,
+  .home-talent-section,
+  .home-portfolio-section,
+  .home-about-section {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+/* General utility classes if needed */
+.text-center {
+  text-align: center;
+}
+
+.px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}

@@ -1,0 +1,8 @@
+/* MainLayout global styles */
+
+.main-layout-container {
+  padding: 15px;
+  min-height: 100vh;
+  background: #fff;
+  box-sizing: border-box;
+}

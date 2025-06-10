@@ -5,6 +5,7 @@ import About from './About';
 import SetuLandingPage from '../SetuLandingPage';
 import BluishTalentLanding from '../BluishTalentLanding';
 import BrowsePortfolioCategories from '../BrowsePortfolioCategories';
+import './Home.css';
 
 const Home = () => {
     return (
