@@ -17,7 +17,7 @@ import {
 import FreelancerDashboard from "./FreelancerDashboard";
 import ClientDashboard from "./ClientDashboard";
 import BothDashboard from "./BothDashboard";
-
+import Profile from "./Profile"; // Import Profile.jsx
 
 const menuData = [
   {
@@ -89,6 +89,9 @@ const DashboardNex = () => {
   const renderContent = () => {
     if (selected === "Dashboard") {
       return <BothDashboard />;
+    }
+    if (selected === "Profile_My Profile" || selected === "Profile") {
+      return <Profile />;
     }
     // Add additional content renders for other menu items if needed
     return null;

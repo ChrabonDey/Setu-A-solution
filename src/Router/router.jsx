@@ -23,6 +23,15 @@ import JobPostForm from '../Layout/Dashboard/JobPostForm';
 import FreelancerDashboard from '../Layout/Dashboard/FreelancerDashboard';
 import DashboardNex from '../Layout/Dashboard/dashboardnex';
 
+import ProfileImageSegment from "../Layout/Dashboard/segments/ProfileImageSegment";
+import SocialMediaSegment from "../Layout/Dashboard/segments/SocialMediaSegment";
+import NameSegment from "../Layout/Dashboard/segments/NameSegment";
+import AboutSegment from "../Layout/Dashboard/segments/AboutSegment";
+import SkillsSegment from "../Layout/Dashboard/segments/SkillsSegment";
+import ExperienceSegment from "../Layout/Dashboard/segments/ExperienceSegment";
+import EducationSegment from "../Layout/Dashboard/segments/EducationSegment";
+import InterestsSegment from "../Layout/Dashboard/segments/InterestsSegment";
+
 export const router = createBrowserRouter([
     {
       path: "/",
