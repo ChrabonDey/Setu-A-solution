@@ -10,7 +10,7 @@ import {
   MdAssignment,
   MdPayment,
   MdHelpOutline,
-  MdInfoOutline,
+  MdHome, // Import Home icon
   MdNotificationsNone,
   MdSearch
 } from "react-icons/md";
@@ -66,15 +66,24 @@ const menuData = [
     label: "Support",
     icon: <MdHelpOutline size={18} />,
   },
-  {
-    label: "About",
-    icon: <MdInfoOutline size={18} />,
-  },
 ];
+
+// Home item with Home icon
+const homeMenuItem = {
+  label: "Home",
+  icon: <MdHome size={18} />,
+};
 
 const DashboardNex = () => {
   const [selected, setSelected] = useState("Dashboard");
   const [openDropdown, setOpenDropdown] = useState("");
+
+  // Insert Home and separator before Home
+  const sidebarMenu = [
+    ...menuData.slice(0, menuData.length),
+    { separator: true },
+    homeMenuItem,
+  ];
 
   const handleNavClick = (item) => {
     setSelected(item.label);
@@ -106,54 +115,58 @@ const DashboardNex = () => {
         </div>
         <div className="separator"></div>
         <nav className="nav">
-          {menuData.map((item) => (
-            <React.Fragment key={item.label}>
-              <div
-                className={`nav-item${selected === item.label ? " selected" : ""}${item.dropdown ? " dropdown" : ""}${openDropdown === item.label ? " open" : ""}`}
-                onClick={() => {
-                  if (item.dropdown) {
-                    handleDropdownClick(item);
-                  } else {
-                    handleNavClick(item);
-                  }
-                }}
-                tabIndex={0}
-                style={{ userSelect: "none" }}
-              >
-                <span className="menu-icon">
-                  {item.icon}
-                </span>
-                {item.label}
-                {item.dropdown && (
-                  <img
-                    className="dropdown-icon"
-                    src="https://i.postimg.cc/0201gnBh/dropdown-arrow-svgrepo-com.png"
-                    alt="dropdown arrow"
-                  />
-                )}
-              </div>
-              {item.dropdown && (
+          {sidebarMenu.map((item, idx) =>
+            item.separator ? (
+              <div key={`separator-${idx}`} className="separator"></div>
+            ) : (
+              <React.Fragment key={item.label}>
                 <div
-                  className="submenu"
-                  style={{ display: openDropdown === item.label ? "flex" : "none" }}
+                  className={`nav-item${selected === item.label ? " selected" : ""}${item.dropdown ? " dropdown" : ""}${openDropdown === item.label ? " open" : ""}`}
+                  onClick={() => {
+                    if (item.dropdown) {
+                      handleDropdownClick(item);
+                    } else {
+                      handleNavClick(item);
+                    }
+                  }}
+                  tabIndex={0}
+                  style={{ userSelect: "none" }}
                 >
-                  {item.submenu.map((sub) => (
-                    <div
-                      className={`nav-item${selected === sub + "_" + item.label ? " selected" : ""}`}
-                      key={sub}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setSelected(sub + "_" + item.label);
-                        setOpenDropdown(item.label);
-                      }}
-                    >
-                      {sub}
-                    </div>
-                  ))}
+                  <span className="menu-icon">
+                    {item.icon}
+                  </span>
+                  {item.label}
+                  {item.dropdown && (
+                    <img
+                      className="dropdown-icon"
+                      src="https://i.postimg.cc/0201gnBh/dropdown-arrow-svgrepo-com.png"
+                      alt="dropdown arrow"
+                    />
+                  )}
                 </div>
-              )}
-            </React.Fragment>
-          ))}
+                {item.dropdown && (
+                  <div
+                    className="submenu"
+                    style={{ display: openDropdown === item.label ? "flex" : "none" }}
+                  >
+                    {item.submenu.map((sub) => (
+                      <div
+                        className={`nav-item${selected === sub + "_" + item.label ? " selected" : ""}`}
+                        key={sub}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelected(sub + "_" + item.label);
+                          setOpenDropdown(item.label);
+                        }}
+                      >
+                        {sub}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </React.Fragment>
+            )
+          )}
         </nav>
       </aside>
       {/* Main Content */}

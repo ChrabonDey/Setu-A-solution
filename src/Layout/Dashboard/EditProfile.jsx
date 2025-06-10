@@ -66,6 +66,14 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle username, always keep @ at start, only allow user to edit after @
+  const handleUsernameChange = (e) => {
+    let value = e.target.value;
+    // Remove leading/trailing spaces and any prefix @
+    value = value.replace(/^@+/, "").trim();
+    setForm((prev) => ({ ...prev, username: value }));
+  };
+
   // --- Image upload handler ---
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -252,8 +260,7 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
           gridTemplateRows: "repeat(7, minmax(95px, auto))",
         }}
       >
-        {/* ...all previous segments (profile image, social links, name, about, skills, experience, education) remain unchanged... */}
-                {/* Profile Image Segment */}
+        {/* Profile Image Segment */}
         <div
           className={`shadow-xl rounded-2xl flex flex-col items-center justify-center p-6 ${segmentBg[0]}`}
           style={{
@@ -284,21 +291,22 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
               className="hidden"
               onChange={handleImageUpload}
             />
-            {/* Username Input Area and label */}
-            <div className="w-full mt-4 flex flex-col items-center" style={{ marginBottom: 10 }}>
-              <label className="block text-xs text-gray-600 font-semibold mb-1 text-left w-full pl-2">Username</label>
-              <div className="flex items-center w-full rounded-full px-3 py-2 border border-blue-200 bg-white">
-                <span className={`font-bold select-none pr-1 ${usernameTextColor}`}>
-                  @{form.username || ""}
-                </span>
-              </div>
+              <div
+                className="w-full border-b-2 border-blue-100"
+                style={{ marginTop: 10, marginBottom: 10 }}
+              ></div>
+            
               {/* Cartoon avatar choices */}
-              <div className="flex flex-row gap-3 mt-4 justify-center w-full flex-wrap">
+
+
+              <div className="flex flex-row gap-3 mt-2 justify-center w-full flex-wrap">
                 {cartoonAvatars.map((url, i) => (
                   <button
                     type="button"
                     key={url}
-                    className={`rounded-full border-4 ${cartoonBorderColor} ${form.photoURL === url ? "ring-2 ring-blue-400" : ""} p-1 hover:border-blue-400 transition`}
+                    className={`rounded-full border-4 ${cartoonBorderColor} ${
+                      form.photoURL === url ? "ring-2 ring-blue-400" : ""
+                    } p-1 hover:border-blue-400 transition`}
                     onClick={() => handleCartoonAvatarSelect(url)}
                     title={`Choose avatar ${i + 1}`}
                     tabIndex={0}
@@ -311,9 +319,39 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
                   </button>
                 ))}
               </div>
+
+
+                            <div
+                className="w-full border-b-2 border-blue-100"
+                style={{ marginTop: 10, marginBottom: 10 }}
+              ></div>
+
+            {/* Username Input Area and label (NORMAL INPUT, not extra round, text green, input like others, @ inside input, separator below) */}
+            <div className="w-full mt-4 flex flex-col items-center" style={{ marginBottom: 10 }}>
+              <label className="block text-xs text-gray-600 font-semibold mb-1 text-left w-full pl-2">
+                Username
+              </label>
+              <div className="relative w-full">
+                <input
+                  type="text"
+                  name="username"
+                  value={`@${form.username}`}
+                  onChange={handleUsernameChange}
+                  className={`w-full px-3 py-2 border border-blue-200 rounded bg-white font-bold ${usernameTextColor}`}
+                  placeholder="@username"
+                  autoComplete="off"
+                  style={{ borderRadius: "8px" }}
+                />
+              </div>
+
+
             </div>
           </div>
         </div>
+   
+        {/* Social Links */}
+        {/* ...The rest of the code remains unchanged... */}
+        {/* (Place the rest of your code here, as in your previous version) */}
 
         {/* Social Links - below profile image, now vertical */}
         <div
@@ -378,8 +416,14 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
             </div>
           </div>
         </div>
+        
 
-        {/* Name Segment (above About, at grid row 1/2) */}
+        {/* ...The rest of your code remains unchanged... */}
+        {/* (Name, About, Skills, Experience, Education, Languages, Interests, Actions) */}
+        {/* Please copy & paste your remaining segments here or keep them as in your previous working file! */}
+        {/* This update only affects the username input section for your requirements. */}
+
+                {/* Name Segment (above About, at grid row 1/2) */}
         <div
           className={`shadow-xl rounded-2xl p-6 ${segmentBg[2]}`}
           style={{
