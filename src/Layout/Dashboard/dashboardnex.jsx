@@ -21,7 +21,7 @@ const menuData = [
   {
     label: "Dashboard",
     icon: <MdDashboard size={18} />,
-    path: "", // dashboard is just /dashboard-nex
+    path: "", // index route for dashboard
   },
   {
     label: "Find Work",
@@ -59,6 +59,7 @@ const menuData = [
       { label: "Profile", path: "my-profile/profile" },
       { label: "Reviews", path: "my-profile/reviews" },
       { label: "Settings", path: "my-profile/settings" },
+      // Do NOT add edit-profile here!
     ],
     path: "my-profile",
   },
@@ -99,7 +100,7 @@ const menuData = [
 const homeMenuItem = {
   label: "Home",
   icon: <MdHome size={18} />,
-  path: "",
+  path: "/",
 };
 
 const DashboardNex = () => {
@@ -120,13 +121,9 @@ const DashboardNex = () => {
       : []
   );
 
-  // Set selected state based on current path with normalization for edit-profile
+  // Set selected state based on current path
   useEffect(() => {
     let currentPath = location.pathname.replace(/^\/dashboard-nex\/?/, "");
-    // Normalize edit-profile route to highlight Profile submenu
-    if (currentPath === "my-profile/profile/edit-profile") {
-      currentPath = "my-profile/profile";
-    }
     if (!currentPath || currentPath === "") {
       setSelected(""); // dashboard root
       setOpenDropdown("");
@@ -148,12 +145,16 @@ const DashboardNex = () => {
     setOpenDropdown("");
   }, [location.pathname]);
 
+  // Always keep the separator outside nav so submenu doesn't interfere
+  // (top and bottom separators)
   const sidebarMenu = [...menuData, { separator: true }, homeMenuItem];
 
   const handleNavClick = (item) => {
     setSelected(item.path);
     setOpenDropdown("");
-    if (!item.path) {
+    if (item.path.startsWith("/")) {
+      navigate(item.path);
+    } else if (!item.path) {
       navigate("/dashboard-nex");
     } else {
       navigate(`/dashboard-nex/${item.path}`);
@@ -170,14 +171,8 @@ const DashboardNex = () => {
     navigate(`/dashboard-nex/${sub.path}`);
   };
 
-  // Breadcrumbs logic
   const breadcrumbs = () => {
-    // Support showing "Profile" for edit-profile as well
-    let showPath = selected;
-    if (location.pathname.replace(/^\/dashboard-nex\/?/, "") === "my-profile/profile/edit-profile") {
-      showPath = "my-profile/profile";
-    }
-    if (showPath === "") {
+    if (selected === "") {
       return (
         <>
           <span>/ Dashboard</span>
@@ -185,7 +180,7 @@ const DashboardNex = () => {
         </>
       );
     }
-    const submenu = allSubmenus.find((sub) => sub.path === showPath);
+    const submenu = allSubmenus.find((sub) => sub.path === selected);
     if (submenu) {
       return (
         <>
@@ -194,7 +189,7 @@ const DashboardNex = () => {
         </>
       );
     }
-    const menu = menuData.find((item) => item.path === showPath);
+    const menu = menuData.find((item) => item.path === selected);
     if (menu) {
       return (
         <>
@@ -206,14 +201,12 @@ const DashboardNex = () => {
     return null;
   };
 
-  // Show BothDashboard for "/dashboard-nex" and not for any child
   const isDashboardRoot =
     location.pathname === "/dashboard-nex" ||
     location.pathname === "/dashboard-nex/";
 
   return (
     <div className="container">
-      {/* Sidebar */}
       <aside className="sidebar">
         <div className="logo">
           <img src="https://i.postimg.cc/L6B4CHbf/setu-log-and-name.png" alt="SETU Logo" />
@@ -270,8 +263,8 @@ const DashboardNex = () => {
             )
           )}
         </nav>
+        <div className="separator"></div>
       </aside>
-      {/* Main Content */}
       <main className="main">
         <header className="header">
           <div className="breadcrumbs">{breadcrumbs()}</div>

@@ -21,6 +21,7 @@ import JobPostForm from '../Layout/Dashboard/JobPostForm';
 import FreelancerDashboard from '../Layout/Dashboard/FreelancerDashboard';
 import DashboardNex from '../Layout/Dashboard/dashboardnex';
 import EditProfile from '../Layout/Dashboard/EditProfile';
+import BothDashboard from '../Layout/Dashboard/BothDashboard';
 
 // Dummy components for each DashboardNex menu/submenu route
 const DashboardNexFindWork = () => <div>DashboardNex - Find Work</div>;
@@ -64,6 +65,7 @@ export const router = createBrowserRouter([
       { path: "/chat/:jobId", element: <ChatApp /> },
     ],
   },
+  // LEGACY dashboard route (if needed)
   {
     path: 'dashboard',
     element: <Dashboard />,
@@ -78,10 +80,12 @@ export const router = createBrowserRouter([
       { path: "my-work", element: <MyWork /> },
     ],
   },
+  // DASHBOARD-NEX (New Dashboard)
   {
     path: "/dashboard-nex",
     element: <DashboardNex />,
     children: [
+      { index: true, element: <BothDashboard /> }, // Dashboard (default)
       { path: "find-work", element: <DashboardNexFindWork /> },
       { path: "find-work/all", element: <DashboardNexFindWorkAll /> },
       { path: "find-work/applied", element: <DashboardNexFindWorkApplied /> },
@@ -97,10 +101,9 @@ export const router = createBrowserRouter([
 
       { path: "my-profile", element: <DashboardNexMyProfile /> },
       { path: "my-profile/profile", element: <DashboardNexMyProfileProfile /> },
-      // The edit-profile route is NOT a menu item, but is accessible via navigation
-      { path: "my-profile/profile/edit-profile", element: <EditProfile profile={null} /> },
       { path: "my-profile/reviews", element: <DashboardNexMyProfileReviews /> },
       { path: "my-profile/settings", element: <DashboardNexMyProfileSettings /> },
+      { path: "my-profile/profile/edit-profile", element: <EditProfile /> }, // <-- Fix for edit-profile
 
       { path: "messages", element: <DashboardNexMessages /> },
 
