@@ -23,6 +23,33 @@ import JobPostForm from '../Layout/Dashboard/JobPostForm';
 import FreelancerDashboard from '../Layout/Dashboard/FreelancerDashboard';
 import DashboardNex from '../Layout/Dashboard/dashboardnex';
 
+// Dummy components for each DashboardNex menu/submenu route
+const DashboardNexDashboard = () => <div>DashboardNex - Dashboard</div>;
+const DashboardNexFindWork = () => <div>DashboardNex - Find Work</div>;
+const DashboardNexFindWorkAll = () => <div>DashboardNex - Find Work (All)</div>;
+const DashboardNexFindWorkApplied = () => <div>DashboardNex - Find Work (Applied)</div>;
+const DashboardNexFindWorkAccepted = () => <div>DashboardNex - Find Work (Accepted)</div>;
+const DashboardNexFindWorkCompleted = () => <div>DashboardNex - Find Work (Completed)</div>;
+const DashboardNexPostJob = () => <div>DashboardNex - Post a Job</div>;
+const DashboardNexPostJobAll = () => <div>DashboardNex - Post a Job (All)</div>;
+const DashboardNexPostJobActive = () => <div>DashboardNex - Post a Job (Active)</div>;
+const DashboardNexPostJobFinished = () => <div>DashboardNex - Post a Job (Finished)</div>;
+const DashboardNexFreelancers = () => <div>DashboardNex - Freelancers</div>;
+const DashboardNexMyProfile = () => <div>DashboardNex - My Profile</div>;
+const DashboardNexMyProfileProfile = () => <div>DashboardNex - My Profile (Profile)</div>;
+const DashboardNexMyProfileReviews = () => <div>DashboardNex - My Profile (Reviews)</div>;
+const DashboardNexMyProfileSettings = () => <div>DashboardNex - My Profile (Settings)</div>;
+const DashboardNexMessages = () => <div>DashboardNex - Messages</div>;
+const DashboardNexProjects = () => <div>DashboardNex - Projects</div>;
+const DashboardNexProjectsActive = () => <div>DashboardNex - Projects (Active)</div>;
+const DashboardNexProjectsCompleted = () => <div>DashboardNex - Projects (Completed)</div>;
+const DashboardNexProjectsPending = () => <div>DashboardNex - Projects (Pending)</div>;
+const DashboardNexPayments = () => <div>DashboardNex - Payments</div>;
+const DashboardNexPaymentsTransactions = () => <div>DashboardNex - Payments (Transactions)</div>;
+const DashboardNexPaymentsWithdrawals = () => <div>DashboardNex - Payments (Withdrawals)</div>;
+const DashboardNexPaymentsBilling = () => <div>DashboardNex - Payments (Billing)</div>;
+const DashboardNexSupport = () => <div>DashboardNex - Support</div>;
+const DashboardNexAbout = () => <div>DashboardNex - About</div>;
 
 export const router = createBrowserRouter([
     {
@@ -98,12 +125,48 @@ export const router = createBrowserRouter([
         {
           path:"my-work",
           element:<MyWork></MyWork>
-        },
-        // Add other dashboard routes here as needed
+        }
       ]
     },
     {
       path: "/dashboard-nex",
-      element: <DashboardNex />
+      element: <DashboardNex />,
+      children: [
+        { index: true, element: <DashboardNexDashboard /> },
+        { path: "dashboard", element: <DashboardNexDashboard /> },
+
+        { path: "find-work", element: <DashboardNexFindWork /> },
+        { path: "find-work/all", element: <DashboardNexFindWorkAll /> },
+        { path: "find-work/applied", element: <DashboardNexFindWorkApplied /> },
+        { path: "find-work/accepted", element: <DashboardNexFindWorkAccepted /> },
+        { path: "find-work/completed", element: <DashboardNexFindWorkCompleted /> },
+
+        { path: "post-job", element: <DashboardNexPostJob /> },
+        { path: "post-job/all", element: <DashboardNexPostJobAll /> },
+        { path: "post-job/active", element: <DashboardNexPostJobActive /> },
+        { path: "post-job/finished", element: <DashboardNexPostJobFinished /> },
+
+        { path: "freelancers", element: <DashboardNexFreelancers /> },
+
+        { path: "my-profile", element: <DashboardNexMyProfile /> },
+        { path: "my-profile/profile", element: <DashboardNexMyProfileProfile /> },
+        { path: "my-profile/reviews", element: <DashboardNexMyProfileReviews /> },
+        { path: "my-profile/settings", element: <DashboardNexMyProfileSettings /> },
+
+        { path: "messages", element: <DashboardNexMessages /> },
+
+        { path: "projects", element: <DashboardNexProjects /> },
+        { path: "projects/active", element: <DashboardNexProjectsActive /> },
+        { path: "projects/completed", element: <DashboardNexProjectsCompleted /> },
+        { path: "projects/pending", element: <DashboardNexProjectsPending /> },
+
+        { path: "payments", element: <DashboardNexPayments /> },
+        { path: "payments/transactions", element: <DashboardNexPaymentsTransactions /> },
+        { path: "payments/withdrawals", element: <DashboardNexPaymentsWithdrawals /> },
+        { path: "payments/billing", element: <DashboardNexPaymentsBilling /> },
+
+        { path: "support", element: <DashboardNexSupport /> },
+        { path: "about", element: <DashboardNexAbout /> },
+      ]
     }
 ]);
