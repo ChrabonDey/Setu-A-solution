@@ -120,9 +120,13 @@ const DashboardNex = () => {
       : []
   );
 
-  // Set selected state based on current path
+  // Set selected state based on current path with normalization for edit-profile
   useEffect(() => {
     let currentPath = location.pathname.replace(/^\/dashboard-nex\/?/, "");
+    // Normalize edit-profile route to highlight Profile submenu
+    if (currentPath === "my-profile/profile/edit-profile") {
+      currentPath = "my-profile/profile";
+    }
     if (!currentPath || currentPath === "") {
       setSelected(""); // dashboard root
       setOpenDropdown("");
@@ -168,7 +172,12 @@ const DashboardNex = () => {
 
   // Breadcrumbs logic
   const breadcrumbs = () => {
-    if (selected === "") {
+    // Support showing "Profile" for edit-profile as well
+    let showPath = selected;
+    if (location.pathname.replace(/^\/dashboard-nex\/?/, "") === "my-profile/profile/edit-profile") {
+      showPath = "my-profile/profile";
+    }
+    if (showPath === "") {
       return (
         <>
           <span>/ Dashboard</span>
@@ -176,7 +185,7 @@ const DashboardNex = () => {
         </>
       );
     }
-    const submenu = allSubmenus.find((sub) => sub.path === selected);
+    const submenu = allSubmenus.find((sub) => sub.path === showPath);
     if (submenu) {
       return (
         <>
@@ -185,7 +194,7 @@ const DashboardNex = () => {
         </>
       );
     }
-    const menu = menuData.find((item) => item.path === selected);
+    const menu = menuData.find((item) => item.path === showPath);
     if (menu) {
       return (
         <>

@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   FaFacebook,
   FaTwitter,
@@ -19,10 +20,70 @@ import {
   FaLanguage,
 } from "react-icons/fa";
 
-// Colors
+// Demo profile fallback
+const DEMO_PROFILE = {
+  firstName: "Shamim",
+  lastName: "Kabir Kazim",
+  username: "shamimkabir",
+  Email: "shamim.kabir@email.com",
+  phone: "+1 (555) 123-4567",
+  city: "Dhaka, Bangladesh",
+  facebook: "https://facebook.com/shamimkabir",
+  twitter: "https://twitter.com/shamimkabir",
+  linkedin: "https://linkedin.com/in/shamimkabir",
+  youtube: "",
+  pinterest: "",
+  about:
+    "Creative developer and enthusiastic client, passionate about building meaningful connections and robust digital solutions. Experienced in both hiring talent and delivering freelance excellence.",
+  skills: [
+    { name: "JavaScript", level: 92 },
+    { name: "React.js", level: 88 },
+    { name: "Node.js", level: 80 },
+    { name: "UI/UX Design", level: 78 },
+    { name: "Team Management", level: 85 },
+    { name: "Communication", level: 95 },
+  ],
+  education: [
+    {
+      institute: "Bangladesh University of Engineering and Technology",
+      degree: "B.Sc. in Computer Science & Engineering",
+      year: "2014 - 2018",
+    },
+    {
+      institute: "Harvard University",
+      degree: "M.Sc. in Project Management",
+      year: "2020 - 2022",
+    },
+  ],
+  experience: [
+    {
+      company: "Google",
+      role: "Frontend Developer",
+      duration: "2019 - 2021",
+      description: "Worked on scalable React UI for Google Ads platform.",
+    },
+    {
+      company: "Microsoft",
+      role: "Full Stack Engineer",
+      duration: "2021 - 2023",
+      description: "Led cross-platform web application projects for Azure.",
+    },
+  ],
+  interests: ["Collaboration", "Web Apps", "Startups", "Learning", "AI"],
+  languages: ["Bangla", "English", "Hindi"],
+  exp_years: 8,
+  reward: 15,
+  awards: 5,
+  profileRating: 4.9,
+  profileViews: 672,
+  profileLikes: 154,
+  address: "House 15, Road 10, Dhanmondi, Dhaka, Bangladesh",
+  photoURL: "https://i.postimg.cc/3RycpTtm/photo-6287455229830086616-y.jpg",
+};
+
 const segmentBgColor = "bg-[#ecf8fd]";
 const usernameTextColor = "text-green-700";
-const cartoonBorderColor = "border-[#b6e0fa]"; // light blue border for avatars
+const cartoonBorderColor = "border-[#b6e0fa]";
 
 const cartoonAvatars = [
   "https://api.dicebear.com/7.x/adventurer/svg?seed=Jack",
@@ -55,7 +116,9 @@ const SkillPercentInput = ({ value, onChange }) => (
 );
 
 const EditProfile = ({ profile, onSubmit, onBack }) => {
-  const [form, setForm] = useState(profile);
+  const navigate = useNavigate();
+  // Use DEMO_PROFILE if profile is null/undefined
+  const [form, setForm] = useState(profile || DEMO_PROFILE);
   const [interestInput, setInterestInput] = useState("");
   const [languageInput, setLanguageInput] = useState("");
   const fileInputRef = useRef(null);
@@ -66,10 +129,9 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Handle username, always keep @ at start, only allow user to edit after @
+  // Handle username, always keep @ at start
   const handleUsernameChange = (e) => {
     let value = e.target.value;
-    // Remove leading/trailing spaces and any prefix @
     value = value.replace(/^@+/, "").trim();
     setForm((prev) => ({ ...prev, username: value }));
   };
@@ -223,12 +285,14 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (onSubmit) onSubmit(form);
+    navigate("/dashboard-nex/my-profile/profile");
   };
 
-  // --- Back handler: go to profile content area (not navigation!)
+  // --- Back handler
   const handleBack = (e) => {
     e.preventDefault();
     if (onBack) onBack();
+    navigate("/dashboard-nex/my-profile/profile");
   };
 
   return (
@@ -291,42 +355,36 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
               className="hidden"
               onChange={handleImageUpload}
             />
-              <div
-                className="w-full border-b-2 border-blue-100"
-                style={{ marginTop: 10, marginBottom: 10 }}
-              ></div>
-            
-              {/* Cartoon avatar choices */}
-
-
-              <div className="flex flex-row gap-3 mt-2 justify-center w-full flex-wrap">
-                {cartoonAvatars.map((url, i) => (
-                  <button
-                    type="button"
-                    key={url}
-                    className={`rounded-full border-4 ${cartoonBorderColor} ${
-                      form.photoURL === url ? "ring-2 ring-blue-400" : ""
-                    } p-1 hover:border-blue-400 transition`}
-                    onClick={() => handleCartoonAvatarSelect(url)}
-                    title={`Choose avatar ${i + 1}`}
-                    tabIndex={0}
-                  >
-                    <img
-                      src={url}
-                      alt={`Avatar ${i + 1}`}
-                      className="w-12 h-12 rounded-full object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
-
-
-                            <div
-                className="w-full border-b-2 border-blue-100"
-                style={{ marginTop: 10, marginBottom: 10 }}
-              ></div>
-
-            {/* Username Input Area and label (NORMAL INPUT, not extra round, text green, input like others, @ inside input, separator below) */}
+            <div
+              className="w-full border-b-2 border-blue-100"
+              style={{ marginTop: 10, marginBottom: 10 }}
+            ></div>
+            {/* Cartoon avatar choices */}
+            <div className="flex flex-row gap-3 mt-2 justify-center w-full flex-wrap">
+              {cartoonAvatars.map((url, i) => (
+                <button
+                  type="button"
+                  key={url}
+                  className={`rounded-full border-4 ${cartoonBorderColor} ${
+                    form.photoURL === url ? "ring-2 ring-blue-400" : ""
+                  } p-1 hover:border-blue-400 transition`}
+                  onClick={() => handleCartoonAvatarSelect(url)}
+                  title={`Choose avatar ${i + 1}`}
+                  tabIndex={0}
+                >
+                  <img
+                    src={url}
+                    alt={`Avatar ${i + 1}`}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+            <div
+              className="w-full border-b-2 border-blue-100"
+              style={{ marginTop: 10, marginBottom: 10 }}
+            ></div>
+            {/* Username Input Area */}
             <div className="w-full mt-4 flex flex-col items-center" style={{ marginBottom: 10 }}>
               <label className="block text-xs text-gray-600 font-semibold mb-1 text-left w-full pl-2">
                 Username
@@ -343,17 +401,10 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
                   style={{ borderRadius: "8px" }}
                 />
               </div>
-
-
             </div>
           </div>
         </div>
-   
         {/* Social Links */}
-        {/* ...The rest of the code remains unchanged... */}
-        {/* (Place the rest of your code here, as in your previous version) */}
-
-        {/* Social Links - below profile image, now vertical */}
         <div
           className={`shadow-xl rounded-2xl p-6 ${segmentBg[1]}`}
           style={{
@@ -416,14 +467,7 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
             </div>
           </div>
         </div>
-        
-
-        {/* ...The rest of your code remains unchanged... */}
-        {/* (Name, About, Skills, Experience, Education, Languages, Interests, Actions) */}
-        {/* Please copy & paste your remaining segments here or keep them as in your previous working file! */}
-        {/* This update only affects the username input section for your requirements. */}
-
-                {/* Name Segment (above About, at grid row 1/2) */}
+        {/* Name Segment */}
         <div
           className={`shadow-xl rounded-2xl p-6 ${segmentBg[2]}`}
           style={{
@@ -508,8 +552,7 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
             </div>
           </div>
         </div>
-
-        {/* About Segment (below name segment) */}
+        {/* About Segment */}
         <div
           className={`shadow-xl rounded-2xl p-6 ${segmentBg[3]}`}
           style={{
@@ -528,7 +571,6 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
             className="w-full px-3 py-2 border border-blue-200 rounded bg-white"
           />
         </div>
-
         {/* Skills */}
         <div
           className={`shadow-xl rounded-2xl p-6 ${segmentBg[4]}`}
@@ -579,7 +621,6 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
             ))}
           </div>
         </div>
-
         {/* Experience */}
         <div
           className={`shadow-xl rounded-2xl p-6 ${segmentBg[5]}`}
@@ -649,7 +690,6 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
             ))}
           </div>
         </div>
-
         {/* Education */}
         <div
           className={`shadow-xl rounded-2xl p-6 ${segmentBg[6]}`}
@@ -710,7 +750,6 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
             ))}
           </div>
         </div>
-
         {/* Languages */}
         <div
           className={`shadow-xl rounded-2xl p-6 flex flex-col ${segmentBg[7]} overflow-visible`}
@@ -771,7 +810,6 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
             </div>
           </div>
         </div>
-
         {/* Interests */}
         <div
           className={`shadow-xl rounded-2xl p-6 flex flex-col ${segmentBg[7]} overflow-visible`}
@@ -834,7 +872,6 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
             </div>
           </div>
         </div>
-
         {/* Actions (hidden because now in top bar) */}
         <div
           className="hidden"

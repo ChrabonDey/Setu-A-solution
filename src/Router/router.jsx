@@ -82,7 +82,6 @@ export const router = createBrowserRouter([
     path: "/dashboard-nex",
     element: <DashboardNex />,
     children: [
-      // Default dashboard route handled in DashboardNex.jsx (BothDashboard)
       { path: "find-work", element: <DashboardNexFindWork /> },
       { path: "find-work/all", element: <DashboardNexFindWorkAll /> },
       { path: "find-work/applied", element: <DashboardNexFindWorkApplied /> },
@@ -98,10 +97,10 @@ export const router = createBrowserRouter([
 
       { path: "my-profile", element: <DashboardNexMyProfile /> },
       { path: "my-profile/profile", element: <DashboardNexMyProfileProfile /> },
+      // The edit-profile route is NOT a menu item, but is accessible via navigation
+      { path: "my-profile/profile/edit-profile", element: <EditProfile profile={null} /> },
       { path: "my-profile/reviews", element: <DashboardNexMyProfileReviews /> },
       { path: "my-profile/settings", element: <DashboardNexMyProfileSettings /> },
-
-      { path: "my-profile/edit", element: <EditProfile profile={null} /> }, // Not in menu, just as a route
 
       { path: "messages", element: <DashboardNexMessages /> },
 

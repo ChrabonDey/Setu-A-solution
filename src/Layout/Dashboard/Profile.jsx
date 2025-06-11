@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { authContext } from "../../provider/Authprovider";
 import {
   FaFacebook,
@@ -21,7 +22,6 @@ import {
   FaLanguage
 } from "react-icons/fa";
 import { MdEdit } from "react-icons/md";
-import EditProfile from "./EditProfile";
 
 const DEMO_PROFILE = {
   firstName: "Shamim",
@@ -72,7 +72,7 @@ const DEMO_PROFILE = {
     }
   ],
   interests: ["Collaboration", "Web Apps", "Startups", "Learning", "AI"],
-  languages: ["Bangla", "English", "Hindi"], // <-- Added languages here
+  languages: ["Bangla", "English", "Hindi"],
   exp_years: 8,
   reward: 15,
   awards: 5,
@@ -86,16 +86,11 @@ const DEMO_PROFILE = {
 const Profile = () => {
   const { user, loading } = useContext(authContext);
   const [profile, setProfile] = useState(null);
-  const [editing, setEditing] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setProfile(DEMO_PROFILE);
   }, [user]);
-
-  const handleProfileSave = (newProfile) => {
-    setProfile(newProfile);
-    setEditing(false);
-  };
 
   if (loading || !profile) {
     return (
@@ -103,10 +98,6 @@ const Profile = () => {
         <p className="text-xl text-gray-500">Loading...</p>
       </div>
     );
-  }
-
-  if (editing) {
-    return <EditProfile profile={profile} onSubmit={handleProfileSave} />;
   }
 
   // Color mapping for skill bars
@@ -137,7 +128,7 @@ const Profile = () => {
             <button
               title="Edit Profile"
               className="bg-white hover:bg-blue-50 border border-blue-100 shadow p-2 rounded-full transition"
-              onClick={() => setEditing(true)}
+              onClick={() => navigate("/dashboard-nex/my-profile/profile/edit-profile")}
             >
               <MdEdit className="text-blue-600" size={20} />
             </button>
@@ -212,9 +203,6 @@ const Profile = () => {
             </div>
           </div>
 
-
-
-
           {/* Languages */}
           {profile.languages && profile.languages.length > 0 && (
             <>
@@ -234,34 +222,30 @@ const Profile = () => {
                 </div>
 
                 {/* Separator after languages with 5px margin top and bottom */}
+                <div
+                  className="w-2/3 mx-auto border-b-2 border-blue-100"
+                  style={{ marginTop: "0.9125rem", marginBottom: "0.9125rem" }}
+                ></div>
 
-<div
-  className="w-2/3 mx-auto border-b-2 border-blue-100"
-  style={{ marginTop: "0.9125rem", marginBottom: "0.9125rem" }} // 5px = 0.3125rem
-></div>
-
-
-          {/* Profile Social Stats */}
-          <div className="flex justify-between items-center mt-6 px-5">
-            <div className="flex flex-col items-center gap-1">
-              <FaStar className="text-yellow-400" />
-              <span className="text-sm font-semibold text-gray-700">{profile.profileRating || 4.9}</span>
-              <span className="text-xs text-gray-400">Rating</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <FaEye className="text-blue-400" />
-              <span className="text-sm font-semibold text-gray-700">{profile.profileViews || 0}</span>
-              <span className="text-xs text-gray-400">Views</span>
-            </div>
-            <div className="flex flex-col items-center gap-1">
-              <FaThumbsUp className="text-green-400" />
-              <span className="text-sm font-semibold text-gray-700">{profile.profileLikes || 0}</span>
-              <span className="text-xs text-gray-400">Likes</span>
-            </div>
-          </div>
-
+                {/* Profile Social Stats */}
+                <div className="flex justify-between items-center mt-6 px-5">
+                  <div className="flex flex-col items-center gap-1">
+                    <FaStar className="text-yellow-400" />
+                    <span className="text-sm font-semibold text-gray-700">{profile.profileRating || 4.9}</span>
+                    <span className="text-xs text-gray-400">Rating</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1">
+                    <FaEye className="text-blue-400" />
+                    <span className="text-sm font-semibold text-gray-700">{profile.profileViews || 0}</span>
+                    <span className="text-xs text-gray-400">Views</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1">
+                    <FaThumbsUp className="text-green-400" />
+                    <span className="text-sm font-semibold text-gray-700">{profile.profileLikes || 0}</span>
+                    <span className="text-xs text-gray-400">Likes</span>
+                  </div>
+                </div>
               </div>
-              
             </>
           )}
         </div>
