@@ -1,7 +1,5 @@
 import React from 'react';
-import {
-    createBrowserRouter,
-} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import MainLayout from '../Layout/MainLayout/MainLayout';
 import Home from '../Pages/Home/Home';
 import Login from '../Pages/Login/Login';
@@ -22,9 +20,9 @@ import MyWork from '../Layout/Dashboard/MyWork';
 import JobPostForm from '../Layout/Dashboard/JobPostForm';
 import FreelancerDashboard from '../Layout/Dashboard/FreelancerDashboard';
 import DashboardNex from '../Layout/Dashboard/dashboardnex';
+import EditProfile from '../Layout/Dashboard/EditProfile';
 
 // Dummy components for each DashboardNex menu/submenu route
-const DashboardNexDashboard = () => <div>DashboardNex - Dashboard</div>;
 const DashboardNexFindWork = () => <div>DashboardNex - Find Work</div>;
 const DashboardNexFindWorkAll = () => <div>DashboardNex - Find Work (All)</div>;
 const DashboardNexFindWorkApplied = () => <div>DashboardNex - Find Work (Applied)</div>;
@@ -36,7 +34,7 @@ const DashboardNexPostJobActive = () => <div>DashboardNex - Post a Job (Active)<
 const DashboardNexPostJobFinished = () => <div>DashboardNex - Post a Job (Finished)</div>;
 const DashboardNexFreelancers = () => <div>DashboardNex - Freelancers</div>;
 const DashboardNexMyProfile = () => <div>DashboardNex - My Profile</div>;
-const DashboardNexMyProfileProfile = () => <div>DashboardNex - My Profile (Profile)</div>;
+const DashboardNexMyProfileProfile = () => <Profile />;
 const DashboardNexMyProfileReviews = () => <div>DashboardNex - My Profile (Reviews)</div>;
 const DashboardNexMyProfileSettings = () => <div>DashboardNex - My Profile (Settings)</div>;
 const DashboardNexMessages = () => <div>DashboardNex - Messages</div>;
@@ -52,121 +50,73 @@ const DashboardNexSupport = () => <div>DashboardNex - Support</div>;
 const DashboardNexAbout = () => <div>DashboardNex - About</div>;
 
 export const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <MainLayout></MainLayout>,
-      children:[
-        {
-            path:"/",
-            element:<Home></Home>
-        },
-        {
-            path:"/find-jobs",
-            element:<FindJobs></FindJobs>
-        },
-        {
-          path:"/jobs/:id",
-          element:<VewJob></VewJob>
-        },
-        {
-          path:"/view-profile/:email",
-          element:<ViewProfile></ViewProfile>
-        },
-        {
-          path:"/login",
-          element:<Login></Login>
-        },
-        {
-          path:"/signup",
-          element:<SignUp></SignUp>
-        },
-        {
-          path:"/mention",
-          element:<TestMentions></TestMentions>
-        },
-        {
-          path:"/chat/:jobId",
-          element:<ChatApp></ChatApp>
-        }
-      ]
-    },
-    {
-      path: 'dashboard',
-      element: <Dashboard></Dashboard>,
-      children:[
-        {
-          index: true,
-          element: <FreelancerDashboard />
-        },
-        {
-          path:"profile",
-          element:<Profile></Profile>,
-        },
-        {
-          path:"edit",
-          element:<Edit></Edit>
-        },
-        {
-          path:"request",
-          element:<Request></Request>
-        },
-        {
-          path:"accept",
-          element:<AcceptedJobs></AcceptedJobs>
-        },
-        {
-          path:"post",
-          element:<JobPostForm></JobPostForm>
-        },
-        {
-          path:"task",
-          element:<MyTask></MyTask>
-        },
-        {
-          path:"my-work",
-          element:<MyWork></MyWork>
-        }
-      ]
-    },
-    {
-      path: "/dashboard-nex",
-      element: <DashboardNex />,
-      children: [
-        { index: true, element: <DashboardNexDashboard /> },
-        { path: "dashboard", element: <DashboardNexDashboard /> },
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      { path: "/", element: <Home /> },
+      { path: "/find-jobs", element: <FindJobs /> },
+      { path: "/jobs/:id", element: <VewJob /> },
+      { path: "/view-profile/:email", element: <ViewProfile /> },
+      { path: "/login", element: <Login /> },
+      { path: "/signup", element: <SignUp /> },
+      { path: "/mention", element: <TestMentions /> },
+      { path: "/chat/:jobId", element: <ChatApp /> },
+    ],
+  },
+  {
+    path: 'dashboard',
+    element: <Dashboard />,
+    children: [
+      { index: true, element: <FreelancerDashboard /> },
+      { path: "profile", element: <Profile /> },
+      { path: "edit", element: <Edit /> },
+      { path: "request", element: <Request /> },
+      { path: "accept", element: <AcceptedJobs /> },
+      { path: "post", element: <JobPostForm /> },
+      { path: "task", element: <MyTask /> },
+      { path: "my-work", element: <MyWork /> },
+    ],
+  },
+  {
+    path: "/dashboard-nex",
+    element: <DashboardNex />,
+    children: [
+      // Default dashboard route handled in DashboardNex.jsx (BothDashboard)
+      { path: "find-work", element: <DashboardNexFindWork /> },
+      { path: "find-work/all", element: <DashboardNexFindWorkAll /> },
+      { path: "find-work/applied", element: <DashboardNexFindWorkApplied /> },
+      { path: "find-work/accepted", element: <DashboardNexFindWorkAccepted /> },
+      { path: "find-work/completed", element: <DashboardNexFindWorkCompleted /> },
 
-        { path: "find-work", element: <DashboardNexFindWork /> },
-        { path: "find-work/all", element: <DashboardNexFindWorkAll /> },
-        { path: "find-work/applied", element: <DashboardNexFindWorkApplied /> },
-        { path: "find-work/accepted", element: <DashboardNexFindWorkAccepted /> },
-        { path: "find-work/completed", element: <DashboardNexFindWorkCompleted /> },
+      { path: "post-job", element: <DashboardNexPostJob /> },
+      { path: "post-job/all", element: <DashboardNexPostJobAll /> },
+      { path: "post-job/active", element: <DashboardNexPostJobActive /> },
+      { path: "post-job/finished", element: <DashboardNexPostJobFinished /> },
 
-        { path: "post-job", element: <DashboardNexPostJob /> },
-        { path: "post-job/all", element: <DashboardNexPostJobAll /> },
-        { path: "post-job/active", element: <DashboardNexPostJobActive /> },
-        { path: "post-job/finished", element: <DashboardNexPostJobFinished /> },
+      { path: "freelancers", element: <DashboardNexFreelancers /> },
 
-        { path: "freelancers", element: <DashboardNexFreelancers /> },
+      { path: "my-profile", element: <DashboardNexMyProfile /> },
+      { path: "my-profile/profile", element: <DashboardNexMyProfileProfile /> },
+      { path: "my-profile/reviews", element: <DashboardNexMyProfileReviews /> },
+      { path: "my-profile/settings", element: <DashboardNexMyProfileSettings /> },
 
-        { path: "my-profile", element: <DashboardNexMyProfile /> },
-        { path: "my-profile/profile", element: <DashboardNexMyProfileProfile /> },
-        { path: "my-profile/reviews", element: <DashboardNexMyProfileReviews /> },
-        { path: "my-profile/settings", element: <DashboardNexMyProfileSettings /> },
+      { path: "my-profile/edit", element: <EditProfile profile={null} /> }, // Not in menu, just as a route
 
-        { path: "messages", element: <DashboardNexMessages /> },
+      { path: "messages", element: <DashboardNexMessages /> },
 
-        { path: "projects", element: <DashboardNexProjects /> },
-        { path: "projects/active", element: <DashboardNexProjectsActive /> },
-        { path: "projects/completed", element: <DashboardNexProjectsCompleted /> },
-        { path: "projects/pending", element: <DashboardNexProjectsPending /> },
+      { path: "projects", element: <DashboardNexProjects /> },
+      { path: "projects/active", element: <DashboardNexProjectsActive /> },
+      { path: "projects/completed", element: <DashboardNexProjectsCompleted /> },
+      { path: "projects/pending", element: <DashboardNexProjectsPending /> },
 
-        { path: "payments", element: <DashboardNexPayments /> },
-        { path: "payments/transactions", element: <DashboardNexPaymentsTransactions /> },
-        { path: "payments/withdrawals", element: <DashboardNexPaymentsWithdrawals /> },
-        { path: "payments/billing", element: <DashboardNexPaymentsBilling /> },
+      { path: "payments", element: <DashboardNexPayments /> },
+      { path: "payments/transactions", element: <DashboardNexPaymentsTransactions /> },
+      { path: "payments/withdrawals", element: <DashboardNexPaymentsWithdrawals /> },
+      { path: "payments/billing", element: <DashboardNexPaymentsBilling /> },
 
-        { path: "support", element: <DashboardNexSupport /> },
-        { path: "about", element: <DashboardNexAbout /> },
-      ]
-    }
+      { path: "support", element: <DashboardNexSupport /> },
+      { path: "about", element: <DashboardNexAbout /> },
+    ],
+  },
 ]);

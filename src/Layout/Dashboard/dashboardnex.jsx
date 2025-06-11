@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation, Outlet } from "react-router-dom";
 import "./dashboardnex.css";
 import {
   MdDashboard,
@@ -10,101 +11,196 @@ import {
   MdAssignment,
   MdPayment,
   MdHelpOutline,
-  MdHome, // Import Home icon
+  MdHome,
   MdNotificationsNone,
-  MdSearch
+  MdSearch,
 } from "react-icons/md";
-import FreelancerDashboard from "./FreelancerDashboard";
-import ClientDashboard from "./ClientDashboard";
 import BothDashboard from "./BothDashboard";
-import Profile from "./Profile"; // Import Profile.jsx
 
 const menuData = [
   {
     label: "Dashboard",
     icon: <MdDashboard size={18} />,
+    path: "", // dashboard is just /dashboard-nex
   },
   {
     label: "Find Work",
     icon: <MdWorkOutline size={18} />,
     dropdown: true,
-    submenu: ["All", "Applied", "Accepted", "Completed"],
+    submenu: [
+      { label: "All", path: "find-work/all" },
+      { label: "Applied", path: "find-work/applied" },
+      { label: "Accepted", path: "find-work/accepted" },
+      { label: "Completed", path: "find-work/completed" },
+    ],
+    path: "find-work",
   },
   {
     label: "Post a Job",
     icon: <MdOutlineLibraryAdd size={18} />,
     dropdown: true,
-    submenu: ["All", "Active", "Finished"],
+    submenu: [
+      { label: "All", path: "post-job/all" },
+      { label: "Active", path: "post-job/active" },
+      { label: "Finished", path: "post-job/finished" },
+    ],
+    path: "post-job",
   },
   {
     label: "Freelancers",
     icon: <MdGroup size={18} />,
+    path: "freelancers",
   },
   {
     label: "My Profile",
     icon: <MdPerson size={18} />,
     dropdown: true,
-    submenu: ["Profile", "Reviews", "Settings"],
+    submenu: [
+      { label: "Profile", path: "my-profile/profile" },
+      { label: "Reviews", path: "my-profile/reviews" },
+      { label: "Settings", path: "my-profile/settings" },
+    ],
+    path: "my-profile",
   },
   {
     label: "Messages",
     icon: <MdMessage size={18} />,
+    path: "messages",
   },
   {
     label: "Projects",
     icon: <MdAssignment size={18} />,
     dropdown: true,
-    submenu: ["Active", "Completed", "Pending"],
+    submenu: [
+      { label: "Active", path: "projects/active" },
+      { label: "Completed", path: "projects/completed" },
+      { label: "Pending", path: "projects/pending" },
+    ],
+    path: "projects",
   },
   {
     label: "Payments",
     icon: <MdPayment size={18} />,
     dropdown: true,
-    submenu: ["Transactions", "Withdrawals", "Billing"],
+    submenu: [
+      { label: "Transactions", path: "payments/transactions" },
+      { label: "Withdrawals", path: "payments/withdrawals" },
+      { label: "Billing", path: "payments/billing" },
+    ],
+    path: "payments",
   },
   {
     label: "Support",
     icon: <MdHelpOutline size={18} />,
+    path: "support",
   },
 ];
 
-// Home item with Home icon
 const homeMenuItem = {
   label: "Home",
   icon: <MdHome size={18} />,
+  path: "",
 };
 
 const DashboardNex = () => {
-  const [selected, setSelected] = useState("Dashboard");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [selected, setSelected] = useState("");
   const [openDropdown, setOpenDropdown] = useState("");
 
-  // Insert Home and separator before Home
-  const sidebarMenu = [
-    ...menuData.slice(0, menuData.length),
-    { separator: true },
-    homeMenuItem,
-  ];
+  // Flatten menuData for lookup
+  const allSubmenus = menuData.flatMap((item) =>
+    item.dropdown
+      ? item.submenu.map((sub) => ({
+          label: sub.label,
+          path: sub.path,
+          parent: item.label,
+          parentPath: item.path,
+        }))
+      : []
+  );
+
+  // Set selected state based on current path
+  useEffect(() => {
+    let currentPath = location.pathname.replace(/^\/dashboard-nex\/?/, "");
+    if (!currentPath || currentPath === "") {
+      setSelected(""); // dashboard root
+      setOpenDropdown("");
+      return;
+    }
+    const submenu = allSubmenus.find((sub) => currentPath === sub.path);
+    if (submenu) {
+      setSelected(submenu.path);
+      setOpenDropdown(submenu.parent);
+      return;
+    }
+    const menu = menuData.find((item) => currentPath === item.path);
+    if (menu) {
+      setSelected(menu.path);
+      setOpenDropdown("");
+      return;
+    }
+    setSelected("");
+    setOpenDropdown("");
+  }, [location.pathname]);
+
+  const sidebarMenu = [...menuData, { separator: true }, homeMenuItem];
 
   const handleNavClick = (item) => {
-    setSelected(item.label);
+    setSelected(item.path);
     setOpenDropdown("");
+    if (!item.path) {
+      navigate("/dashboard-nex");
+    } else {
+      navigate(`/dashboard-nex/${item.path}`);
+    }
   };
 
   const handleDropdownClick = (item) => {
     setOpenDropdown(openDropdown === item.label ? "" : item.label);
   };
 
-  // Render content based on selected menu
-  const renderContent = () => {
-    if (selected === "Dashboard") {
-      return <BothDashboard />;
+  const handleSubmenuClick = (sub, parent) => {
+    setSelected(sub.path);
+    setOpenDropdown(parent.label);
+    navigate(`/dashboard-nex/${sub.path}`);
+  };
+
+  // Breadcrumbs logic
+  const breadcrumbs = () => {
+    if (selected === "") {
+      return (
+        <>
+          <span>/ Dashboard</span>
+          <h1>Dashboard</h1>
+        </>
+      );
     }
-    if (selected === "Profile_My Profile" || selected === "Profile") {
-      return <Profile />;
+    const submenu = allSubmenus.find((sub) => sub.path === selected);
+    if (submenu) {
+      return (
+        <>
+          <span>/ {submenu.parent}</span>
+          <h1>{submenu.label}</h1>
+        </>
+      );
     }
-    // Add additional content renders for other menu items if needed
+    const menu = menuData.find((item) => item.path === selected);
+    if (menu) {
+      return (
+        <>
+          <span>/ {menu.label}</span>
+          <h1>{menu.label}</h1>
+        </>
+      );
+    }
     return null;
   };
+
+  // Show BothDashboard for "/dashboard-nex" and not for any child
+  const isDashboardRoot =
+    location.pathname === "/dashboard-nex" ||
+    location.pathname === "/dashboard-nex/";
 
   return (
     <div className="container">
@@ -121,7 +217,7 @@ const DashboardNex = () => {
             ) : (
               <React.Fragment key={item.label}>
                 <div
-                  className={`nav-item${selected === item.label ? " selected" : ""}${item.dropdown ? " dropdown" : ""}${openDropdown === item.label ? " open" : ""}`}
+                  className={`nav-item${selected === item.path ? " selected" : ""}${item.dropdown ? " dropdown" : ""}${openDropdown === item.label ? " open" : ""}`}
                   onClick={() => {
                     if (item.dropdown) {
                       handleDropdownClick(item);
@@ -132,9 +228,7 @@ const DashboardNex = () => {
                   tabIndex={0}
                   style={{ userSelect: "none" }}
                 >
-                  <span className="menu-icon">
-                    {item.icon}
-                  </span>
+                  <span className="menu-icon">{item.icon}</span>
                   {item.label}
                   {item.dropdown && (
                     <img
@@ -151,15 +245,14 @@ const DashboardNex = () => {
                   >
                     {item.submenu.map((sub) => (
                       <div
-                        className={`nav-item${selected === sub + "_" + item.label ? " selected" : ""}`}
-                        key={sub}
+                        className={`nav-item${selected === sub.path ? " selected" : ""}`}
+                        key={sub.path}
                         onClick={(e) => {
                           e.stopPropagation();
-                          setSelected(sub + "_" + item.label);
-                          setOpenDropdown(item.label);
+                          handleSubmenuClick(sub, item);
                         }}
                       >
-                        {sub}
+                        {sub.label}
                       </div>
                     ))}
                   </div>
@@ -172,26 +265,10 @@ const DashboardNex = () => {
       {/* Main Content */}
       <main className="main">
         <header className="header">
-          <div className="breadcrumbs">
-            <span>
-              /{" "}
-              {typeof selected === "string" && selected.includes("_")
-                ? selected.split("_")[1]
-                : selected}
-            </span>
-            <h1>
-              {typeof selected === "string" && selected.includes("_")
-                ? selected.split("_")[0]
-                : selected}
-            </h1>
-          </div>
+          <div className="breadcrumbs">{breadcrumbs()}</div>
           <div className="search-bar-wrapper">
             <MdSearch size={20} className="search-icon" />
-            <input
-              type="text"
-              className="search-bar"
-              placeholder="Search dashboard..."
-            />
+            <input type="text" className="search-bar" placeholder="Search dashboard..." />
           </div>
           <div className="header-user">
             <div className="header-notification">
@@ -208,7 +285,7 @@ const DashboardNex = () => {
           </div>
         </header>
         <div className="content-area">
-          {renderContent()}
+          {isDashboardRoot ? <BothDashboard /> : <Outlet />}
         </div>
       </main>
     </div>
