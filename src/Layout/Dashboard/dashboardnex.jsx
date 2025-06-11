@@ -59,7 +59,7 @@ const menuData = [
       { label: "Profile", path: "my-profile/profile" },
       { label: "Reviews", path: "my-profile/reviews" },
       { label: "Settings", path: "my-profile/settings" },
-      // Do NOT add edit-profile here!
+      // Don't add edit-profile here!
     ],
     path: "my-profile",
   },
@@ -113,40 +113,54 @@ const DashboardNex = () => {
   const allSubmenus = menuData.flatMap((item) =>
     item.dropdown
       ? item.submenu.map((sub) => ({
-          label: sub.label,
-          path: sub.path,
+          ...sub,
           parent: item.label,
           parentPath: item.path,
         }))
       : []
   );
 
-  // Set selected state based on current path
+  // Improved: Select the matching sidebar/submenu for deep routes
   useEffect(() => {
     let currentPath = location.pathname.replace(/^\/dashboard-nex\/?/, "");
+
+    // Direct dashboard
     if (!currentPath || currentPath === "") {
       setSelected(""); // dashboard root
       setOpenDropdown("");
       return;
     }
-    const submenu = allSubmenus.find((sub) => currentPath === sub.path);
+
+    // Find an exact submenu match
+    let submenu = allSubmenus.find((sub) => currentPath === sub.path);
+
+    // If not, try to find the submenu whose path is a prefix of currentPath (for deep routes)
+    if (!submenu) {
+      submenu = allSubmenus.find((sub) =>
+        currentPath.startsWith(sub.path)
+      );
+    }
+
     if (submenu) {
       setSelected(submenu.path);
       setOpenDropdown(submenu.parent);
       return;
     }
+
+    // Try matching a main menu item (like "messages" or "support")
     const menu = menuData.find((item) => currentPath === item.path);
+
     if (menu) {
       setSelected(menu.path);
       setOpenDropdown("");
       return;
     }
+
+    // Otherwise, deselect all
     setSelected("");
     setOpenDropdown("");
   }, [location.pathname]);
 
-  // Always keep the separator outside nav so submenu doesn't interfere
-  // (top and bottom separators)
   const sidebarMenu = [...menuData, { separator: true }, homeMenuItem];
 
   const handleNavClick = (item) => {
@@ -211,59 +225,69 @@ const DashboardNex = () => {
         <div className="logo">
           <img src="https://i.postimg.cc/L6B4CHbf/setu-log-and-name.png" alt="SETU Logo" />
         </div>
+        {/* Always visible top separator */}
         <div className="separator"></div>
         <nav className="nav">
-          {sidebarMenu.map((item, idx) =>
-            item.separator ? (
-              <div key={`separator-${idx}`} className="separator"></div>
-            ) : (
-              <React.Fragment key={item.label}>
-                <div
-                  className={`nav-item${selected === item.path ? " selected" : ""}${item.dropdown ? " dropdown" : ""}${openDropdown === item.label ? " open" : ""}`}
-                  onClick={() => {
-                    if (item.dropdown) {
-                      handleDropdownClick(item);
-                    } else {
-                      handleNavClick(item);
-                    }
-                  }}
-                  tabIndex={0}
-                  style={{ userSelect: "none" }}
-                >
-                  <span className="menu-icon">{item.icon}</span>
-                  {item.label}
-                  {item.dropdown && (
-                    <img
-                      className="dropdown-icon"
-                      src="https://i.postimg.cc/0201gnBh/dropdown-arrow-svgrepo-com.png"
-                      alt="dropdown arrow"
-                    />
-                  )}
-                </div>
+          {menuData.map((item) => (
+            <React.Fragment key={item.label}>
+              <div
+                className={`nav-item${selected === item.path ? " selected" : ""}${item.dropdown ? " dropdown" : ""}${openDropdown === item.label ? " open" : ""}`}
+                onClick={() => {
+                  if (item.dropdown) {
+                    handleDropdownClick(item);
+                  } else {
+                    handleNavClick(item);
+                  }
+                }}
+                tabIndex={0}
+                style={{ userSelect: "none" }}
+              >
+                <span className="menu-icon">{item.icon}</span>
+                {item.label}
                 {item.dropdown && (
-                  <div
-                    className="submenu"
-                    style={{ display: openDropdown === item.label ? "flex" : "none" }}
-                  >
-                    {item.submenu.map((sub) => (
-                      <div
-                        className={`nav-item${selected === sub.path ? " selected" : ""}`}
-                        key={sub.path}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleSubmenuClick(sub, item);
-                        }}
-                      >
-                        {sub.label}
-                      </div>
-                    ))}
-                  </div>
+                  <img
+                    className="dropdown-icon"
+                    src="https://i.postimg.cc/0201gnBh/dropdown-arrow-svgrepo-com.png"
+                    alt="dropdown arrow"
+                  />
                 )}
-              </React.Fragment>
-            )
-          )}
+              </div>
+              {item.dropdown && (
+                <div
+                  className="submenu"
+                  style={{ display: openDropdown === item.label ? "flex" : "none" }}
+                >
+                  {item.submenu.map((sub) => (
+                    <div
+                      className={`nav-item${selected === sub.path ? " selected" : ""}`}
+                      key={sub.path}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleSubmenuClick(sub, item);
+                      }}
+                    >
+                      {sub.label}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </React.Fragment>
+          ))}
+          <div className="separator"></div>
+
+          {/* Home always at the bottom */}
+          <div
+            className={`nav-item${selected === homeMenuItem.path ? " selected" : ""}`}
+            onClick={() => handleNavClick(homeMenuItem)}
+            tabIndex={0}
+            style={{ userSelect: "none" }}
+          >
+            <span className="menu-icon">{homeMenuItem.icon}</span>
+            {homeMenuItem.label}
+          </div>
         </nav>
-        <div className="separator"></div>
+        {/* Always visible bottom separator */}
+        
       </aside>
       <main className="main">
         <header className="header">

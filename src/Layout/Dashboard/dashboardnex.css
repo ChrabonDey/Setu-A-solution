@@ -35,12 +35,17 @@ body, html, #root {
 .sidebar {
   width: 240px;
   background: var(--sidebar-bg);
-  padding:0px 12px;
+  padding: 0px 12px;
   display: flex;
   flex-direction: column;
   border-radius: 10px;
-  margin: 30px 5px 30px 30px; /* top, right, bottom, left */
-  overflow-y: auto;
+  margin: 30px 5px 30px 30px;
+  height: calc(100vh - 60px);
+  min-height: 0;
+}
+
+.sidebar-header {
+  flex-shrink: 0;
 }
 
 .logo {
@@ -62,11 +67,15 @@ body, html, #root {
   background: #b5e8ff;
   border-radius: 10px;
   margin: 12px 0 14px 0;
+  flex-shrink: 0;
 }
 
 .nav {
+  flex: 1 1 auto;
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  min-height: 0;
 }
 
 .nav-item {
