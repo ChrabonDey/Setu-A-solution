@@ -298,7 +298,7 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
   return (
     <div className="w-full min-h-screen flex flex-col items-center justify-center bg-transparent pt-[10px] pb-10 px-4">
       {/* Top Bar */}
-      <div className="w-full max-w-7xl flex items-center justify-between px-4 md:px-10 mb-4">
+      <div className="w-full  flex items-center justify-between px-4 md:px-10 mb-4">
         <button
           type="button"
           onClick={handleBack}
@@ -318,7 +318,7 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
       <form
         id="edit-profile-form"
         onSubmit={handleSubmit}
-        className="w-full max-w-7xl grid gap-6 p-4 md:pt-4 md:pb-10 pt-2 pb-6"
+        className="w-full  grid gap-6 p-4 md:pt-4 md:pb-10 pt-2 pb-6"
         style={{
           gridTemplateColumns: "repeat(7, 1fr)",
           gridTemplateRows: "repeat(7, minmax(95px, auto))",
