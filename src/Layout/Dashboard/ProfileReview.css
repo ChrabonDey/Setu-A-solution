@@ -1,13 +1,16 @@
 .profile-review-page {
   display: flex;
+  align-items: center;
+  justify-content: center;
   flex-direction: row;
   gap: 10px; /* No extra gap between top and wrapper */
 }
 
 .profile-review-main {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
-  align-items: flex-start;
+  align-items: center;
   background: #f8fafc;
   border-radius: 16px;
   padding: 28px 32px 24px 32px;
