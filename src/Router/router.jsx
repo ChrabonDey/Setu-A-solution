@@ -22,6 +22,7 @@ import FreelancerDashboard from '../Layout/Dashboard/FreelancerDashboard';
 import DashboardNex from '../Layout/Dashboard/dashboardnex';
 import EditProfile from '../Layout/Dashboard/EditProfile';
 import BothDashboard from '../Layout/Dashboard/BothDashboard';
+import ProfileReview from '../Layout/Dashboard/ProfileReview';
 
 // Dummy components for each DashboardNex menu/submenu route
 const DashboardNexFindWork = () => <div>DashboardNex - Find Work</div>;
@@ -36,7 +37,8 @@ const DashboardNexPostJobFinished = () => <div>DashboardNex - Post a Job (Finish
 const DashboardNexFreelancers = () => <div>DashboardNex - Freelancers</div>;
 const DashboardNexMyProfile = () => <div>DashboardNex - My Profile</div>;
 const DashboardNexMyProfileProfile = () => <Profile />;
-const DashboardNexMyProfileReviews = () => <div>DashboardNex - My Profile (Reviews)</div>;
+// UPDATED: Render the actual ProfileReview component for Reviews
+const DashboardNexMyProfileReviews = () => <ProfileReview />;
 const DashboardNexMyProfileSettings = () => <div>DashboardNex - My Profile (Settings)</div>;
 const DashboardNexMessages = () => <div>DashboardNex - Messages</div>;
 const DashboardNexProjects = () => <div>DashboardNex - Projects</div>;
@@ -101,7 +103,7 @@ export const router = createBrowserRouter([
 
       { path: "my-profile", element: <DashboardNexMyProfile /> },
       { path: "my-profile/profile", element: <DashboardNexMyProfileProfile /> },
-      { path: "my-profile/reviews", element: <DashboardNexMyProfileReviews /> },
+      { path: "my-profile/reviews", element: <DashboardNexMyProfileReviews /> }, // <-- Reviews now uses ProfileReview
       { path: "my-profile/settings", element: <DashboardNexMyProfileSettings /> },
       { path: "my-profile/profile/edit-profile", element: <EditProfile /> }, // <-- Fix for edit-profile
 
