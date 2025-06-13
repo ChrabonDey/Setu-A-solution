@@ -39,6 +39,7 @@
   gap: 32px;
   min-width: 320px;
   width: 100%;
+  height:90%;
   max-width: 540px;
   flex: 1 1 400px;
   box-sizing: border-box;
@@ -188,6 +189,203 @@
 .label {
   font-size: 20px;
   color: #888;
+}
+/* --- main business card new design --- */
+.profile-review-main.clean-business-review-main {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+  padding: 24px 22px;
+  margin-bottom: 18px;
+  min-width: 320px;
+  width: 100%;
+  max-width: 540px;
+  flex: 1 1 400px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 22px;
+  border: 1px solid #e6e8eb;
+}
+
+.clean-summary.center-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #f0f0f0;
+  margin-bottom: 12px;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  z-index: 1;
+}
+
+.clean-summary-score-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  justify-content: center;
+}
+
+.clean-summary-score {
+  font-weight: 700;
+  font-size: 2.3rem;
+  color: #222;
+  letter-spacing: -0.03em;
+}
+
+.clean-summary-star {
+  color: #ffc107;
+  font-size: 1.7rem;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.clean-summary-reviews {
+  color: #888;
+  font-size: 1rem;
+  margin-top: 3px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.clean-business-review-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.clean-business-review-list::-webkit-scrollbar {
+  width: 6px;
+}
+.clean-business-review-list::-webkit-scrollbar-thumb {
+  background: #e6e8eb;
+  border-radius: 3px;
+}
+
+.clean-business-review-card {
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+  border-radius: 10px;
+  box-shadow: 0 1.5px 6px rgba(0,0,0,0.04);
+  padding: 15px 16px 11px 16px;
+  border: 1px solid #e6e8eb;
+  gap: 0.5rem;
+}
+
+.reviewers {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 0.4rem;
+}
+
+.clean-review-photo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid #e6e8eb;
+  object-fit: cover;
+}
+
+.clean-reviewer-name {
+  font-size: 1.09rem;
+  font-weight: 600;
+  color: #1a284d;
+}
+
+.clean-review-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.clean-review-comment {
+  font-size: 1rem;
+  color: #2e4c76;
+  background: #fafdff;
+  border-radius: 6px;
+  padding: 9px 11px 8px 11px;
+  border: 1px solid #ececec;
+  font-weight: 500;
+  margin-bottom: 0.3rem;
+}
+
+.review-details {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.clean-review-type {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.98rem;
+  color: #3975b7;
+  background: #f3f5f9;
+  border-radius: 6px;
+  padding: 2.5px 8px;
+  font-weight: 500;
+}
+
+.clean-type-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.clean-review-date {
+  font-size: 0.96rem;
+  color: #888;
+  font-weight: 500;
+}
+
+.clean-review-stars {
+  font-size: 1.01rem;
+  color: #ffc107;
+  letter-spacing: 0.07em;
+  font-weight: bold;
+  display: flex;
+}
+
+.clean-review-stars .star {
+  filter: grayscale(60%);
+  opacity: 0.5;
+  font-size: 1.08em;
+  transition: filter 0.2s, opacity 0.2s;
+}
+
+.clean-review-stars .star.filled {
+  filter: none;
+  opacity: 1;
+  color: #ffc107;
+  text-shadow: 0 1px 4px #fff7d6;
+}
+
+@media (max-width: 900px) {
+  .profile-review-main.clean-business-review-main {
+    padding: 12px 4px;
+  }
+}
+
+@media (max-width: 650px) {
+  .profile-review-main.clean-business-review-main {
+    padding: 6px 1.5px;
+    border-radius: 8px;
+  }
+  .clean-business-review-card {
+    padding: 6px 2px 6px 2px;
+  }
+  .clean-review-photo {
+    width: 28px;
+    height: 28px;
+  }
 }
 
 /* RESPONSIVE STYLES */
