@@ -44,8 +44,6 @@ const ProfileReview = () => {
 
   return (
     <div className="profile-review-page">
-
-
       <div className="profile-review-wrapper">
         <div className="toggle-buttons">
           <button
@@ -61,7 +59,7 @@ const ProfileReview = () => {
             Client
           </button>
         </div>
-
+        <div className="toggle-separator"></div>
         <div className="cards-container">
           {currentData.map((item, index) => (
             <div className="card" key={index}>
@@ -96,9 +94,6 @@ const ProfileReview = () => {
           </div>
         </div>
       </div>
-
-
-
     </div>
   );
 };
