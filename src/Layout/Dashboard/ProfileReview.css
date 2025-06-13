@@ -110,7 +110,7 @@
 }
 
 .toggle-separator {
-  width: 45%;
+  width: 180px;
   height: 0;
   border-bottom: 3px solid #e5f3fb;
   margin: 0 auto 30px auto;
