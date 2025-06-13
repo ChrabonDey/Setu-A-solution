@@ -1,5 +1,52 @@
 import React, { useState } from 'react';
+import {
+  FaAward,
+  FaChartLine,
+  FaCertificate,
+  FaMoneyBillWave,
+  FaComments,
+} from 'react-icons/fa';
 import './ProfileReview.css';
+
+// Helper for light background color from a color hex
+function getLightBg(hex, factor = 0.85) {
+  // Remove # if present
+  hex = hex.replace(/^#/, '');
+  // Convert r,g,b
+  let r = parseInt(hex.substr(0, 2), 16);
+  let g = parseInt(hex.substr(2, 2), 16);
+  let b = parseInt(hex.substr(4, 2), 16);
+
+  // Blend with white
+  r = Math.round(r + (255 - r) * factor);
+  g = Math.round(g + (255 - g) * factor);
+  b = Math.round(b + (255 - b) * factor);
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+const ICONS = {
+  profile: {
+    icon: <FaAward />,
+    color: '#1976d2', // blue
+  },
+  job: {
+    icon: <FaChartLine />,
+    color: '#388e3c', // green
+  },
+  skill: {
+    icon: <FaCertificate />,
+    color: '#ff9800', // orange
+  },
+  payment: {
+    icon: <FaMoneyBillWave />,
+    color: '#8e24aa', // purple
+  },
+  project: {
+    icon: <FaComments />,
+    color: '#d32f2f', // red
+  },
+};
 
 const businessReviews = [
   {
@@ -31,43 +78,43 @@ const businessReviews = [
   },
 ];
 
+const freelancerReviews = [
+  {
+    type: 'Profile Reviews',
+    count: 0,
+    iconKey: 'profile',
+  },
+  {
+    type: 'Job Reviews',
+    count: 0,
+    iconKey: 'job',
+  },
+  {
+    type: 'Skill Endorsements',
+    count: 0,
+    iconKey: 'skill',
+  },
+];
+
+const clientReviews = [
+  {
+    type: 'Profile Reviews',
+    count: 0,
+    iconKey: 'profile',
+  },
+  {
+    type: 'Payment Reviews',
+    count: 0,
+    iconKey: 'payment',
+  },
+  {
+    type: 'Project Feedback',
+    count: 0,
+    iconKey: 'project',
+  },
+];
+
 const ProfileReview = () => {
-  const freelancerReviews = [
-    {
-      type: 'Profile Reviews',
-      count: 0,
-      icon: 'https://img.icons8.com/ios-filled/50/000000/prize.png',
-    },
-    {
-      type: 'Job Reviews',
-      count: 0,
-      icon: 'https://img.icons8.com/ios-filled/50/000000/combo-chart--v1.png',
-    },
-    {
-      type: 'Skill Endorsements',
-      count: 0,
-      icon: 'https://img.icons8.com/ios-filled/50/000000/certificate.png',
-    },
-  ];
-
-  const clientReviews = [
-    {
-      type: 'Profile Reviews',
-      count: 0,
-      icon: 'https://img.icons8.com/ios-filled/50/000000/prize.png',
-    },
-    {
-      type: 'Payment Reviews',
-      count: 0,
-      icon: 'https://img.icons8.com/ios-filled/50/000000/money.png',
-    },
-    {
-      type: 'Project Feedback',
-      count: 0,
-      icon: 'https://img.icons8.com/ios-filled/50/000000/comments.png',
-    },
-  ];
-
   const [role, setRole] = useState('freelancer');
   const currentData = role === 'freelancer' ? freelancerReviews : clientReviews;
 
@@ -90,17 +137,27 @@ const ProfileReview = () => {
         </div>
         <div className="toggle-separator"></div>
         <div className="cards-container">
-          {currentData.map((item, index) => (
-            <div className="card" key={index}>
-              <div className="icon-box">
-                <img src={item.icon} alt={item.type} />
+          {currentData.map((item, index) => {
+            const iconData = ICONS[item.iconKey];
+            const bgColor = getLightBg(iconData.color);
+            return (
+              <div className="card" key={index}>
+                <span
+                  className="profile-icon"
+                  style={{
+                    color: iconData.color,
+                    backgroundColor: bgColor,
+                  }}
+                >
+                  {iconData.icon}
+                </span>
+                <div className="content">
+                  <div className="count">{item.count}</div>
+                  <div className="label">{item.type}</div>
+                </div>
               </div>
-              <div className="content">
-                <div className="count">{item.count}</div>
-                <div className="label">{item.type}</div>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

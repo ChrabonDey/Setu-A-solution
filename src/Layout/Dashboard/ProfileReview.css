@@ -45,58 +45,51 @@
   box-sizing: border-box;
 }
 
-.profile-review-top-left {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-}
-
-.profile-review-top-left h2 {
-  font-size: 1.6rem;
-  font-weight: 600;
-  margin: 0;
-  color: #24292f;
-}
-
-.profile-review-top-right {
-  min-width: 260px;
-  max-width: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-}
-
-.profile-review-right-card {
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.07);
-  border-radius: 14px;
-  padding: 22px 30px;
-  min-width: 220px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.profile-review-right-card-title {
-  font-size: 16px;
-  font-weight: 500;
-  margin-bottom: 8px;
-  color: #222;
-}
-
-.profile-review-right-card-rating {
-  display: flex;
+/* --- Updated icons for ProfileReviewWrapper --- */
+.profile-icon {
+  display: inline-flex;
   align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 20%;
   font-size: 2rem;
-  font-weight: 700;
-  margin-bottom: 6px;
+  margin-right: 15px;
+  box-shadow: 0 1px 3px rgba(60,60,60,0.08);
+  transition: box-shadow 0.2s;
+}
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 45px 30px;
+  transition: transform 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
 }
 
-.profile-review-right-card-desc {
-  color: #888;
-  font-size: 13px;
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
+.count {
+  font-size: 28px;
+  font-weight: 600;
+  color: #000;
+}
+
+.label {
+  font-size: 20px;
+  color: #888;
+}
+
+/* ...rest of the file remains unchanged... */
 
 /* Toggle buttons and real separator */
 .toggle-buttons {
@@ -143,53 +136,7 @@
   box-sizing: border-box;
 }
 
-.card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 45px 30px;
-  transition: transform 0.3s ease;
-}
-
-.card:hover {
-  transform: translateY(-4px);
-}
-
-.icon-box {
-  background: #f5dfff;
-  padding: 12px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-right: 15px;
-  min-width: 48px;
-}
-
-.icon-box img {
-  width: 42px;
-  height: 42px;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.count {
-  font-size: 28px;
-  font-weight: 600;
-  color: #000;
-}
-
-.label {
-  font-size: 20px;
-  color: #888;
-}
+/* Remove .icon-box and .icon-box img styles, now replaced by .profile-icon */
 /* --- main business card new design --- */
 .profile-review-main.clean-business-review-main {
   background: #fff;
@@ -208,11 +155,6 @@
   gap: 22px;
   border: 1px solid #e6e8eb;
 }
-
-
-
-
-
 
 .clean-summary.center-summary {
   display: flex;
