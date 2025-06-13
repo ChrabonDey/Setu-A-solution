@@ -209,6 +209,11 @@
   border: 1px solid #e6e8eb;
 }
 
+
+
+
+
+
 .clean-summary.center-summary {
   display: flex;
   align-items: center;
@@ -254,10 +259,12 @@
 .clean-business-review-list {
   display: flex;
   flex-direction: column;
+  height:100%;
   gap: 18px;
-  max-height: 320px;
+  max-height: 500px;
   overflow-y: auto;
   padding-right: 4px;
+  
 }
 .clean-business-review-list::-webkit-scrollbar {
   width: 6px;
