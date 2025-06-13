@@ -220,7 +220,7 @@ const DashboardNex = () => {
     location.pathname === "/dashboard-nex/";
 
   return (
-    <div className="container">
+    <div className="nex-container">
       <aside className="sidebar">
         <div className="logo">
           <img src="https://i.postimg.cc/L6B4CHbf/setu-log-and-name.png" alt="SETU Logo" />
