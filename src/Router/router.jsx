@@ -23,6 +23,7 @@ import DashboardNex from '../Layout/Dashboard/dashboardnex';
 import EditProfile from '../Layout/Dashboard/EditProfile';
 import BothDashboard from '../Layout/Dashboard/BothDashboard';
 import ProfileReview from '../Layout/Dashboard/ProfileReview';
+import ChatX from '../Layout/Dashboard/ChatX'; // <-- import ChatX
 
 // Dummy components for each DashboardNex menu/submenu route
 const DashboardNexFindWork = () => <div>DashboardNex - Find Work</div>;
@@ -40,7 +41,7 @@ const DashboardNexMyProfileProfile = () => <Profile />;
 // UPDATED: Render the actual ProfileReview component for Reviews
 const DashboardNexMyProfileReviews = () => <ProfileReview />;
 const DashboardNexMyProfileSettings = () => <div>DashboardNex - My Profile (Settings)</div>;
-const DashboardNexMessages = () => <div>DashboardNex - Messages</div>;
+// const DashboardNexMessages = () => <div>DashboardNex - Messages</div>; // REMOVE OLD
 const DashboardNexProjects = () => <div>DashboardNex - Projects</div>;
 const DashboardNexProjectsActive = () => <div>DashboardNex - Projects (Active)</div>;
 const DashboardNexProjectsCompleted = () => <div>DashboardNex - Projects (Completed)</div>;
@@ -107,7 +108,7 @@ export const router = createBrowserRouter([
       { path: "my-profile/settings", element: <DashboardNexMyProfileSettings /> },
       { path: "my-profile/profile/edit-profile", element: <EditProfile /> }, // <-- Fix for edit-profile
 
-      { path: "messages", element: <DashboardNexMessages /> },
+      { path: "messages", element: <ChatX /> }, // <-- Use ChatX here
 
       { path: "projects", element: <DashboardNexProjects /> },
       { path: "projects/active", element: <DashboardNexProjectsActive /> },

@@ -16,6 +16,7 @@ import {
   MdSearch,
 } from "react-icons/md";
 import BothDashboard from "./BothDashboard";
+import ChatX from "./ChatX"; // <-- Import ChatX
 
 const menuData = [
   {
@@ -66,7 +67,7 @@ const menuData = [
   {
     label: "Messages",
     icon: <MdMessage size={18} />,
-    path: "messages",
+    path: "messages", // This path will now render ChatX
   },
   {
     label: "Projects",
@@ -287,7 +288,6 @@ const DashboardNex = () => {
           </div>
         </nav>
         {/* Always visible bottom separator */}
-        
       </aside>
       <main className="main">
         <header className="header">
@@ -311,7 +311,8 @@ const DashboardNex = () => {
           </div>
         </header>
         <div className="content-area">
-          {isDashboardRoot ? <BothDashboard /> : <Outlet />}
+          {/* Route renders ChatX if path is /dashboard-nex/messages */}
+          <Outlet />
         </div>
       </main>
     </div>

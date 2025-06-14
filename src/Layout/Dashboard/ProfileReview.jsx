@@ -10,41 +10,36 @@ import './ProfileReview.css';
 
 // Helper for light background color from a color hex
 function getLightBg(hex, factor = 0.85) {
-  // Remove # if present
   hex = hex.replace(/^#/, '');
-  // Convert r,g,b
   let r = parseInt(hex.substr(0, 2), 16);
   let g = parseInt(hex.substr(2, 2), 16);
   let b = parseInt(hex.substr(4, 2), 16);
-
-  // Blend with white
   r = Math.round(r + (255 - r) * factor);
   g = Math.round(g + (255 - g) * factor);
   b = Math.round(b + (255 - b) * factor);
-
   return `rgb(${r}, ${g}, ${b})`;
 }
 
 const ICONS = {
   profile: {
     icon: <FaAward />,
-    color: '#1976d2', // blue
+    color: '#1976d2',
   },
   job: {
     icon: <FaChartLine />,
-    color: '#388e3c', // green
+    color: '#388e3c',
   },
   skill: {
     icon: <FaCertificate />,
-    color: '#ff9800', // orange
+    color: '#ff9800',
   },
   payment: {
     icon: <FaMoneyBillWave />,
-    color: '#8e24aa', // purple
+    color: '#8e24aa',
   },
   project: {
     icon: <FaComments />,
-    color: '#d32f2f', // red
+    color: '#d32f2f',
   },
 };
 
@@ -75,6 +70,33 @@ const businessReviews = [
     typeIcon: "https://img.icons8.com/ios-filled/30/certificate.png",
     stars: 5,
     comment: "Expert in React and Node.js. Deliverables were polished and on time.",
+  },
+  {
+    name: "Sam Lee",
+    photo: "https://img.icons8.com/ios-filled/48/user-male-circle.png",
+    date: "May 17, 2025",
+    type: "Project",
+    typeIcon: "https://img.icons8.com/ios-filled/30/briefcase.png",
+    stars: 4,
+    comment: "Sam provided thoughtful feedback and was a pleasure to work with.",
+  },
+  {
+    name: "Julia Kim",
+    photo: "https://img.icons8.com/ios-filled/48/user-female-circle.png",
+    date: "May 10, 2025",
+    type: "Skills",
+    typeIcon: "https://img.icons8.com/ios-filled/30/certificate.png",
+    stars: 5,
+    comment: "Julia is an exceptional team player and a fast learner.",
+  },
+  {
+    name: "David Park",
+    photo: "https://img.icons8.com/ios-filled/48/user-male-circle.png",
+    date: "Apr 30, 2025",
+    type: "Payment",
+    typeIcon: "https://img.icons8.com/ios-filled/30/money.png",
+    stars: 5,
+    comment: "Prompt payment and professional correspondence throughout.",
   },
 ];
 
@@ -171,7 +193,7 @@ const ProfileReview = () => {
             <div className="clean-summary-reviews">15 reviews</div>
           </div>
         </div>
-        <div className="clean-business-review-list">
+        <div className="clean-business-review-list review-list-two-column">
           {businessReviews.map((r, i) => (
             <div className="clean-business-review-card" key={i}>
               <div className="reviewers">
