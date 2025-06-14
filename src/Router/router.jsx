@@ -24,6 +24,7 @@ import EditProfile from '../Layout/Dashboard/EditProfile';
 import BothDashboard from '../Layout/Dashboard/BothDashboard';
 import ProfileReview from '../Layout/Dashboard/ProfileReview';
 import ChatX from '../Layout/Dashboard/ChatX'; // <-- import ChatX
+import AllJobs from '../Layout/Dashboard/AllJobs'; // <-- import AllJobs
 
 // Dummy components for each DashboardNex menu/submenu route
 const DashboardNexFindWork = () => <div>DashboardNex - Find Work</div>;
@@ -32,7 +33,7 @@ const DashboardNexFindWorkApplied = () => <div>DashboardNex - Find Work (Applied
 const DashboardNexFindWorkAccepted = () => <div>DashboardNex - Find Work (Accepted)</div>;
 const DashboardNexFindWorkCompleted = () => <div>DashboardNex - Find Work (Completed)</div>;
 const DashboardNexPostJob = () => <div>DashboardNex - Post a Job</div>;
-const DashboardNexPostJobAll = () => <div>DashboardNex - Post a Job (All)</div>;
+// const DashboardNexPostJobAll = () => <div>DashboardNex - Post a Job (All)</div>;
 const DashboardNexPostJobActive = () => <div>DashboardNex - Post a Job (Active)</div>;
 const DashboardNexPostJobFinished = () => <div>DashboardNex - Post a Job (Finished)</div>;
 const DashboardNexFreelancers = () => <div>DashboardNex - Freelancers</div>;
@@ -41,7 +42,6 @@ const DashboardNexMyProfileProfile = () => <Profile />;
 // UPDATED: Render the actual ProfileReview component for Reviews
 const DashboardNexMyProfileReviews = () => <ProfileReview />;
 const DashboardNexMyProfileSettings = () => <div>DashboardNex - My Profile (Settings)</div>;
-// const DashboardNexMessages = () => <div>DashboardNex - Messages</div>; // REMOVE OLD
 const DashboardNexProjects = () => <div>DashboardNex - Projects</div>;
 const DashboardNexProjectsActive = () => <div>DashboardNex - Projects (Active)</div>;
 const DashboardNexProjectsCompleted = () => <div>DashboardNex - Projects (Completed)</div>;
@@ -96,7 +96,7 @@ export const router = createBrowserRouter([
       { path: "find-work/completed", element: <DashboardNexFindWorkCompleted /> },
 
       { path: "post-job", element: <DashboardNexPostJob /> },
-      { path: "post-job/all", element: <DashboardNexPostJobAll /> },
+      { path: "post-job/all", element: <AllJobs /> }, // <-- Use AllJobs here!
       { path: "post-job/active", element: <DashboardNexPostJobActive /> },
       { path: "post-job/finished", element: <DashboardNexPostJobFinished /> },
 

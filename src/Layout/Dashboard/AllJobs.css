@@ -1,0 +1,387 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+.alljobs-container {
+  background: #fff;
+  border-radius: 14px;
+  padding: 28px 32px 18px 32px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  min-height: 450px;
+}
+
+.alljobs-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+.alljobs-header h2 {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #222;
+  margin: 0;
+}
+.alljobs-post-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: #2563eb;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 28px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.17s;
+}
+.alljobs-post-btn .material-icons {
+  font-size: 24px;
+}
+.alljobs-post-btn:hover {
+  background: #1d4ed8;
+}
+
+/* Overview cards */
+.alljobs-overview-cards {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.alljobs-card {
+  background: #f6f8fa;
+  border-radius: 18px;
+  box-shadow: 0 2px 7px rgba(0,0,0,0.04);
+  flex: 1 1 220px;
+  min-width: 240px;
+  max-width: 340px;
+  height: 115px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 32px;
+  transition: box-shadow 0.15s, transform 0.15s;
+  margin-bottom: 10px;
+}
+.alljobs-card:hover {
+  box-shadow: 0 4px 18px rgba(80,100,190,0.10);
+  transform: translateY(-2px) scale(1.03);
+}
+.alljobs-card-iconbox {
+  width: 58px;
+  height: 58px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 22px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.alljobs-card-icon {
+  font-size: 34px;
+  opacity: 1;
+}
+.alljobs-card-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.alljobs-card-count {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 3px;
+}
+.alljobs-card-label {
+  font-size: 17px;
+  color: #6b7280;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* Job history title and view buttons */
+.alljobs-history-title {
+  margin-bottom: 14px;
+  margin-top: 7px;
+  color: #374151;
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: 0.01em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.alljobs-history-viewbtns {
+  margin-left: 12px;
+  display: flex;
+  gap: 8px;
+}
+.alljobs-history-viewbtn {
+  border: none;
+  background: #f3f4f6;
+  color: #6b7280;
+  border-radius: 6px;
+  padding: 6px 13px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: background 0.14s, color 0.14s;
+  gap: 0px;
+  font-weight: 500;
+}
+.alljobs-history-viewbtn.active,
+.alljobs-history-viewbtn:hover {
+  background: #2563eb;
+  color: #fff;
+}
+
+.alljobs-table-wrapper {
+  overflow-x: auto;
+}
+
+.alljobs-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  background: #fff;
+  min-width: 750px;
+}
+.alljobs-table th, .alljobs-table td {
+  padding: 13px 10px;
+  text-align: left;
+}
+.alljobs-table th {
+  background: #f5f7fa;
+  color: #444;
+  font-weight: 600;
+  border-bottom: 2px solid #e5e7eb;
+}
+.alljobs-table tr:not(:last-child) td {
+  border-bottom: 1px solid #e5e7eb;
+}
+.alljobs-table td.title {
+  font-weight: 500;
+  color: #222;
+}
+
+.alljobs-status {
+  display: inline-block;
+  color: #fff;
+  padding: 4px 16px;
+  border-radius: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  margin-left: 0;
+}
+
+.alljobs-action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 6px;
+  color: #b6bad3;
+  font-size: 19px;
+  border-radius: 50%;
+  transition: background 0.13s;
+  margin-right: 3px;
+}
+.alljobs-action-btn:last-child {
+  margin-right: 0;
+}
+.alljobs-action-btn:hover {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+/* Card history grid view */
+.alljobs-cardhistory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 28px;
+  margin-bottom: 10px;
+}
+.alljobs-cardhistory-empty {
+  font-size: 1.1rem;
+  color: #aaa;
+  text-align: center;
+  padding: 30px 0;
+  grid-column: 1/-1;
+}
+.alljobs-history-card {
+  background: #f7faff;
+  border-radius: 18px;
+  box-shadow: 0 3px 12px rgba(60,80,160,0.07);
+  padding: 26px 24px 18px 24px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: box-shadow 0.18s, transform 0.18s;
+  min-height: 210px;
+  border: 1.5px solid #edf2fa;
+}
+.alljobs-history-card:hover {
+  box-shadow: 0 8px 24px rgba(40,70,180,0.13);
+  transform: translateY(-2px) scale(1.025);
+  border-color: #b6e0fe;
+}
+.alljobs-history-card-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  min-height: 40px;
+  justify-content: space-between;
+  width: 100%;
+}
+.alljobs-history-card-statusicon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 7px rgba(120,120,120,0.09);
+  background: #f3f7fd;
+  flex-shrink: 0;
+  margin-right: 0;
+}
+.alljobs-history-card-statusicon .material-icons {
+  font-size: 28px;
+  opacity: 1;
+}
+
+.alljobs-history-card-title {
+  font-size: 1.23rem;
+  font-weight: 700;
+  color: #212b36;
+  margin-bottom: 7px;
+  margin-top: 3px;
+  text-align: left;
+}
+.alljobs-history-card-desc {
+  color: #6b7280;
+  font-size: 1rem;
+  margin-bottom: 14px;
+  min-height: 30px;
+  text-align: left;
+}
+
+.alljobs-history-card-infochips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+  font-size: 1.02rem;
+  color: #42516b;
+  margin-bottom: 18px;
+  text-align: left;
+}
+.alljobs-history-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: #f3f4f6;
+  border-radius: 999px;
+  padding: 7px 15px 7px 10px;
+  font-size: 0.99rem;
+  font-weight: 500;
+  min-width: 46px;
+  min-height: 34px;
+  box-shadow: 0 1px 3px rgba(120,120,120,0.04);
+  transition: background 0.13s;
+}
+.alljobs-history-chip .material-icons {
+  font-size: 18px;
+  opacity: 0.85;
+  margin-right: 2px;
+}
+
+.alljobs-history-card-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+.alljobs-history-card-action-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 24px 11px 24px;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.13s;
+  box-shadow: 0 1px 4px rgba(80,100,190,0.05);
+  font-weight: 600;
+  font-size: 15px;
+  border: 1px solid #f0f1f4;
+  min-width: 78px;
+  color: #2563eb;
+}
+.alljobs-history-card-action-btn.view { color: #2563eb; }
+.alljobs-history-card-action-btn.edit { color: #f59e42; }
+.alljobs-history-card-action-btn.delete { color: #ef4444; }
+.alljobs-history-card-action-btn:hover {
+  background: #e0e7ef;
+  box-shadow: 0 2px 8px rgba(60,80,160,0.07);
+}
+
+@media (max-width: 1200px) {
+  .alljobs-overview-cards {
+    gap: 16px;
+  }
+  .alljobs-card {
+    min-width: 180px;
+    padding: 0 18px;
+    height: 100px;
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 900px) {
+  .alljobs-table {
+    min-width: 500px;
+    font-size: 14px;
+  }
+  .alljobs-header {
+    flex-direction: column;
+    gap: 18px;
+    align-items: flex-start;
+  }
+  .alljobs-container {
+    padding: 12px 4px 4px 4px;
+  }
+  .alljobs-overview-cards {
+    flex-direction: column;
+    gap: 13px;
+    margin-bottom: 25px;
+  }
+  .alljobs-card {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    height: 90px;
+    padding: 0 14px;
+    margin-bottom: 0;
+  }
+  .alljobs-card-details .alljobs-card-count {
+    font-size: 1.6rem;
+  }
+  .alljobs-card-label {
+    font-size: 14px;
+  }
+  .alljobs-cardhistory-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .alljobs-history-card {
+    padding: 18px 10px 10px 12px;
+  }
+}
