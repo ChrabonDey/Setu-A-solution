@@ -1,16 +1,18 @@
 import React, { useState } from "react";
 import "./AllJobs.css";
 
+// Update statuses: 'Live' (post is open, no one hired), 'Working' (freelancer hired), 'Finished', 'Cancelled'
 const dummyJobs = [
   {
     id: 1,
     title: "Landing Page Design",
-    status: "Ongoing",
+    status: "Live",
     postedOn: "2025-06-10",
     budget: "$300",
     type: "Design",
     applicants: 8,
     description: "Design a responsive landing page for a SaaS product with Figma.",
+    hired: 0,
   },
   {
     id: 2,
@@ -21,26 +23,29 @@ const dummyJobs = [
     type: "Development",
     applicants: 15,
     description: "Develop a full-featured e-commerce site using React and Node.js.",
+    hired: 2,
   },
   {
     id: 3,
     title: "SEO Optimization",
-    status: "Ongoing",
+    status: "Working",
     postedOn: "2025-06-01",
     budget: "$450",
     type: "Marketing",
     applicants: 5,
     description: "Increase organic search ranking for a local business website.",
+    hired: 1,
   },
   {
     id: 4,
     title: "Social Media Ads Campaign",
-    status: "Cancelled",
+    status: "Live",
     postedOn: "2025-03-20",
     budget: "$700",
     type: "Marketing",
     applicants: 4,
     description: "Run multi-channel ad campaigns for summer promotions.",
+    hired: 0,
   },
   {
     id: 5,
@@ -51,33 +56,38 @@ const dummyJobs = [
     type: "Design",
     applicants: 11,
     description: "Design intuitive UI/UX for a health-tracking mobile app.",
+    hired: 1,
   },
 ];
 
 const statusColors = {
-  Ongoing: "#2563eb",
+  Live: "#f59e42",
+  Working: "#2563eb",
   Finished: "#059669",
   Cancelled: "#ef4444",
 };
 
 const statusIcons = {
-  Ongoing: "autorenew",
+  Live: "hourglass_empty",
+  Working: "autorenew",
   Finished: "check_circle",
   Cancelled: "highlight_off",
   All: "work_outline",
 };
 
 const iconBgColors = {
-  All: "#fcd34d",        // yellow
-  Ongoing: "#a7f3d0",    // green
-  Finished: "#93c5fd",   // blue
-  Cancelled: "#fecaca",  // red
+  All: "#fcd34d",
+  Live: "#fef3c7",
+  Working: "#a7f3d0",
+  Finished: "#93c5fd",
+  Cancelled: "#fecaca",
 };
 
 const iconColors = {
   All: "#f59e42",
-  Ongoing: "#059669",
-  Finished: "#2563eb",
+  Live: "#f59e42",
+  Working: "#2563eb",
+  Finished: "#059669",
   Cancelled: "#ef4444",
 };
 
@@ -114,11 +124,12 @@ const infoChips = [
 
 const AllJobs = () => {
   const [jobs] = useState(dummyJobs);
-  const [historyView, setHistoryView] = useState("card"); // 'card' or 'list'
+  const [historyView, setHistoryView] = useState("card");
 
   // Job counts by status
   const total = jobs.length;
-  const ongoing = jobs.filter(j => j.status === "Ongoing").length;
+  const live = jobs.filter(j => j.status === "Live").length;
+  const working = jobs.filter(j => j.status === "Working").length;
   const finished = jobs.filter(j => j.status === "Finished").length;
   const cancelled = jobs.filter(j => j.status === "Cancelled").length;
 
@@ -132,12 +143,20 @@ const AllJobs = () => {
       label: "Total Jobs",
     },
     {
-      key: "Ongoing",
-      icon: statusIcons.Ongoing,
-      iconBg: iconBgColors.Ongoing,
-      iconColor: iconColors.Ongoing,
-      count: ongoing,
-      label: "Ongoing",
+      key: "Live",
+      icon: statusIcons.Live,
+      iconBg: iconBgColors.Live,
+      iconColor: iconColors.Live,
+      count: live,
+      label: "Live",
+    },
+    {
+      key: "Working",
+      icon: statusIcons.Working,
+      iconBg: iconBgColors.Working,
+      iconColor: iconColors.Working,
+      count: working,
+      label: "Working",
     },
     {
       key: "Finished",
@@ -254,12 +273,16 @@ const AllJobs = () => {
                     <button className="alljobs-action-btn">
                       <span className="material-icons" style={{ color: "#b6bad3" }}>visibility</span>
                     </button>
-                    <button className="alljobs-action-btn">
-                      <span className="material-icons" style={{ color: "#b6bad3" }}>edit</span>
-                    </button>
-                    <button className="alljobs-action-btn">
-                      <span className="material-icons" style={{ color: "#b6bad3" }}>delete</span>
-                    </button>
+                    {(job.hired === 0) && (
+                      <>
+                        <button className="alljobs-action-btn">
+                          <span className="material-icons" style={{ color: "#b6bad3" }}>edit</span>
+                        </button>
+                        <button className="alljobs-action-btn">
+                          <span className="material-icons" style={{ color: "#b6bad3" }}>delete</span>
+                        </button>
+                      </>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -317,12 +340,16 @@ const AllJobs = () => {
                 <button className="alljobs-history-card-action-btn view">
                   View
                 </button>
-                <button className="alljobs-history-card-action-btn edit">
-                  Edit
-                </button>
-                <button className="alljobs-history-card-action-btn delete">
-                  Delete
-                </button>
+                {(job.hired === 0) && (
+                  <>
+                    <button className="alljobs-history-card-action-btn edit">
+                      Edit
+                    </button>
+                    <button className="alljobs-history-card-action-btn delete">
+                      Delete
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))}
