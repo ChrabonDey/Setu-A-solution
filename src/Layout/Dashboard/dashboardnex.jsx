@@ -16,13 +16,13 @@ import {
   MdSearch,
 } from "react-icons/md";
 import BothDashboard from "./BothDashboard";
-import ChatX from "./ChatX"; // <-- Import ChatX
+import ChatX from "./ChatX";
 
 const menuData = [
   {
     label: "Dashboard",
     icon: <MdDashboard size={18} />,
-    path: "", // index route for dashboard
+    path: "",
   },
   {
     label: "Find Work",
@@ -42,7 +42,8 @@ const menuData = [
     dropdown: true,
     submenu: [
       { label: "All", path: "post-job/all" },
-      { label: "Active", path: "post-job/active" },
+      { label: "Live", path: "post-job/live" },
+      { label: "Working", path: "post-job/working" },
       { label: "Finished", path: "post-job/finished" },
     ],
     path: "post-job",
@@ -60,14 +61,13 @@ const menuData = [
       { label: "Profile", path: "my-profile/profile" },
       { label: "Reviews", path: "my-profile/reviews" },
       { label: "Settings", path: "my-profile/settings" },
-      // Don't add edit-profile here!
     ],
     path: "my-profile",
   },
   {
     label: "Messages",
     icon: <MdMessage size={18} />,
-    path: "messages", // This path will now render ChatX
+    path: "messages",
   },
   {
     label: "Projects",
@@ -121,21 +121,17 @@ const DashboardNex = () => {
       : []
   );
 
-  // Improved: Select the matching sidebar/submenu for deep routes
   useEffect(() => {
     let currentPath = location.pathname.replace(/^\/dashboard-nex\/?/, "");
 
-    // Direct dashboard
     if (!currentPath || currentPath === "") {
-      setSelected(""); // dashboard root
+      setSelected("");
       setOpenDropdown("");
       return;
     }
 
-    // Find an exact submenu match
     let submenu = allSubmenus.find((sub) => currentPath === sub.path);
 
-    // If not, try to find the submenu whose path is a prefix of currentPath (for deep routes)
     if (!submenu) {
       submenu = allSubmenus.find((sub) =>
         currentPath.startsWith(sub.path)
@@ -148,7 +144,6 @@ const DashboardNex = () => {
       return;
     }
 
-    // Try matching a main menu item (like "messages" or "support")
     const menu = menuData.find((item) => currentPath === item.path);
 
     if (menu) {
@@ -157,7 +152,6 @@ const DashboardNex = () => {
       return;
     }
 
-    // Otherwise, deselect all
     setSelected("");
     setOpenDropdown("");
   }, [location.pathname]);
@@ -216,17 +210,12 @@ const DashboardNex = () => {
     return null;
   };
 
-  const isDashboardRoot =
-    location.pathname === "/dashboard-nex" ||
-    location.pathname === "/dashboard-nex/";
-
   return (
     <div className="nex-container">
       <aside className="sidebar">
         <div className="logo">
           <img src="https://i.postimg.cc/L6B4CHbf/setu-log-and-name.png" alt="SETU Logo" />
         </div>
-        {/* Always visible top separator */}
         <div className="separator"></div>
         <nav className="nav">
           {menuData.map((item) => (
@@ -275,8 +264,6 @@ const DashboardNex = () => {
             </React.Fragment>
           ))}
           <div className="separator"></div>
-
-          {/* Home always at the bottom */}
           <div
             className={`nav-item${selected === homeMenuItem.path ? " selected" : ""}`}
             onClick={() => handleNavClick(homeMenuItem)}
@@ -287,7 +274,6 @@ const DashboardNex = () => {
             {homeMenuItem.label}
           </div>
         </nav>
-        {/* Always visible bottom separator */}
       </aside>
       <main className="main">
         <header className="header">
@@ -311,7 +297,6 @@ const DashboardNex = () => {
           </div>
         </header>
         <div className="content-area">
-          {/* Route renders ChatX if path is /dashboard-nex/messages */}
           <Outlet />
         </div>
       </main>

@@ -21,6 +21,7 @@ body {
     background-color: #f1f5f9;
     color: var(--dark);
     line-height: 1.6;
+    overflow: hidden !important;
 }
 
 .free-navbar {
@@ -64,7 +65,7 @@ body {
 
 .free-main-content {
     padding: 2rem;
-    overflow-y: auto;
+    
     min-height: 100vh;
 }
 

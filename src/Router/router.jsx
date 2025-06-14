@@ -23,8 +23,8 @@ import DashboardNex from '../Layout/Dashboard/dashboardnex';
 import EditProfile from '../Layout/Dashboard/EditProfile';
 import BothDashboard from '../Layout/Dashboard/BothDashboard';
 import ProfileReview from '../Layout/Dashboard/ProfileReview';
-import ChatX from '../Layout/Dashboard/ChatX'; // <-- import ChatX
-import AllJobs from '../Layout/Dashboard/AllJobs'; // <-- import AllJobs
+import ChatX from '../Layout/Dashboard/ChatX';
+import AllJobs from '../Layout/Dashboard/AllJobs';
 
 // Dummy components for each DashboardNex menu/submenu route
 const DashboardNexFindWork = () => <div>DashboardNex - Find Work</div>;
@@ -33,13 +33,12 @@ const DashboardNexFindWorkApplied = () => <div>DashboardNex - Find Work (Applied
 const DashboardNexFindWorkAccepted = () => <div>DashboardNex - Find Work (Accepted)</div>;
 const DashboardNexFindWorkCompleted = () => <div>DashboardNex - Find Work (Completed)</div>;
 const DashboardNexPostJob = () => <div>DashboardNex - Post a Job</div>;
-// const DashboardNexPostJobAll = () => <div>DashboardNex - Post a Job (All)</div>;
-const DashboardNexPostJobActive = () => <div>DashboardNex - Post a Job (Active)</div>;
+const DashboardNexPostJobLive = () => <div>DashboardNex - Post a Job (Live)</div>;
+const DashboardNexPostJobWorking = () => <div>DashboardNex - Post a Job (Working)</div>;
 const DashboardNexPostJobFinished = () => <div>DashboardNex - Post a Job (Finished)</div>;
 const DashboardNexFreelancers = () => <div>DashboardNex - Freelancers</div>;
 const DashboardNexMyProfile = () => <div>DashboardNex - My Profile</div>;
 const DashboardNexMyProfileProfile = () => <Profile />;
-// UPDATED: Render the actual ProfileReview component for Reviews
 const DashboardNexMyProfileReviews = () => <ProfileReview />;
 const DashboardNexMyProfileSettings = () => <div>DashboardNex - My Profile (Settings)</div>;
 const DashboardNexProjects = () => <div>DashboardNex - Projects</div>;
@@ -68,7 +67,6 @@ export const router = createBrowserRouter([
       { path: "/chat/:jobId", element: <ChatApp /> },
     ],
   },
-  // LEGACY dashboard route (if needed)
   {
     path: 'dashboard',
     element: <Dashboard />,
@@ -83,12 +81,11 @@ export const router = createBrowserRouter([
       { path: "my-work", element: <MyWork /> },
     ],
   },
-  // DASHBOARD-NEX (New Dashboard)
   {
     path: "/dashboard-nex",
     element: <DashboardNex />,
     children: [
-      { index: true, element: <BothDashboard /> }, // Dashboard (default)
+      { index: true, element: <BothDashboard /> },
       { path: "find-work", element: <DashboardNexFindWork /> },
       { path: "find-work/all", element: <DashboardNexFindWorkAll /> },
       { path: "find-work/applied", element: <DashboardNexFindWorkApplied /> },
@@ -96,19 +93,20 @@ export const router = createBrowserRouter([
       { path: "find-work/completed", element: <DashboardNexFindWorkCompleted /> },
 
       { path: "post-job", element: <DashboardNexPostJob /> },
-      { path: "post-job/all", element: <AllJobs /> }, // <-- Use AllJobs here!
-      { path: "post-job/active", element: <DashboardNexPostJobActive /> },
+      { path: "post-job/all", element: <AllJobs /> },
+      { path: "post-job/live", element: <DashboardNexPostJobLive /> },
+      { path: "post-job/working", element: <DashboardNexPostJobWorking /> },
       { path: "post-job/finished", element: <DashboardNexPostJobFinished /> },
 
       { path: "freelancers", element: <DashboardNexFreelancers /> },
 
       { path: "my-profile", element: <DashboardNexMyProfile /> },
       { path: "my-profile/profile", element: <DashboardNexMyProfileProfile /> },
-      { path: "my-profile/reviews", element: <DashboardNexMyProfileReviews /> }, // <-- Reviews now uses ProfileReview
+      { path: "my-profile/reviews", element: <DashboardNexMyProfileReviews /> },
       { path: "my-profile/settings", element: <DashboardNexMyProfileSettings /> },
-      { path: "my-profile/profile/edit-profile", element: <EditProfile /> }, // <-- Fix for edit-profile
+      { path: "my-profile/profile/edit-profile", element: <EditProfile /> },
 
-      { path: "messages", element: <ChatX /> }, // <-- Use ChatX here
+      { path: "messages", element: <ChatX /> },
 
       { path: "projects", element: <DashboardNexProjects /> },
       { path: "projects/active", element: <DashboardNexProjectsActive /> },
