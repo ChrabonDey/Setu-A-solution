@@ -296,7 +296,7 @@ const EditProfile = ({ profile, onSubmit, onBack }) => {
   };
 
   return (
-    <div className="w-full min-h-screen flex flex-col items-center justify-center bg-transparent pt-[10px] pb-10 px-4">
+  <div className="w-full flex flex-col bg-transparent pt-6 pb-10 px-4">
       {/* Top Bar */}
       <div className="w-full  flex items-center justify-between px-4 md:px-10 mb-4">
         <button
