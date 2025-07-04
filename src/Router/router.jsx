@@ -25,6 +25,7 @@ import BothDashboard from '../Layout/Dashboard/BothDashboard';
 import ProfileReview from '../Layout/Dashboard/ProfileReview';
 import ChatX from '../Layout/Dashboard/ChatX';
 import AllJobs from '../Layout/Dashboard/AllJobs';
+import LiveJobs from '../Layout/Dashboard/LiveJobs';
 
 // Dummy components for each DashboardNex menu/submenu route
 const DashboardNexFindWork = () => <div>DashboardNex - Find Work</div>;
@@ -94,7 +95,7 @@ export const router = createBrowserRouter([
 
       { path: "post-job", element: <DashboardNexPostJob /> },
       { path: "post-job/all", element: <AllJobs /> },
-      { path: "post-job/live", element: <DashboardNexPostJobLive /> },
+      { path: "post-job/live", element: <LiveJobs /> },
       { path: "post-job/working", element: <DashboardNexPostJobWorking /> },
       { path: "post-job/finished", element: <DashboardNexPostJobFinished /> },
 
