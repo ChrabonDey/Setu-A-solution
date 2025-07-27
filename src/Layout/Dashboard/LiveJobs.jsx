@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import "./LiveJobs.css";
 
 // Dummy live jobs data
@@ -71,47 +71,8 @@ const infoChips = [
   },
 ];
 
-// Popup component for card actions
-function CardActionPopup({ onClose, onView, onEdit, onDelete, showEditDelete = true, anchorRef }) {
-  // Close popup if clicked outside
-  const popupRef = useRef(null);
-  useEffect(() => {
-    function handleClick(e) {
-      if (
-        popupRef.current &&
-        !popupRef.current.contains(e.target) &&
-        (!anchorRef || !anchorRef.current || !anchorRef.current.contains(e.target))
-      ) {
-        onClose();
-      }
-    }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [onClose, anchorRef]);
-
-  return (
-    <div className="card-action-popup" ref={popupRef}>
-      <div className="card-action-popup-item" onClick={onView}>
-        <span className="material-icons">visibility</span> View
-      </div>
-      {showEditDelete && (
-        <>
-          <div className="card-action-popup-item" onClick={onEdit}>
-            <span className="material-icons" style={{ color: "#f59e42" }}>edit</span> Edit
-          </div>
-          <div className="card-action-popup-item" onClick={onDelete}>
-            <span className="material-icons" style={{ color: "#ef4444" }}>delete</span> Delete
-          </div>
-        </>
-      )}
-    </div>
-  );
-}
-
 const LiveJobs = () => {
   const [historyView, setHistoryView] = useState("card");
-  const [popupJobId, setPopupJobId] = useState(null);
-  const anchorRefs = useRef({});
   const jobs = dummyJobs;
 
   const live = jobs.length;
@@ -131,24 +92,15 @@ const LiveJobs = () => {
     alert("Redirect to Job Post Page (implement navigation here)");
   };
 
-  // Popup action handlers
   const handleView = (job) => {
     alert(`View job: ${job.title}`);
-    setPopupJobId(null);
   };
   const handleEdit = (job) => {
     alert(`Edit job: ${job.title}`);
-    setPopupJobId(null);
   };
   const handleDelete = (job) => {
     alert(`Delete job: ${job.title}`);
-    setPopupJobId(null);
   };
-
-  // Ensure anchorRefs for all jobs
-  jobs.forEach(job => {
-    if (!anchorRefs.current[job.id]) anchorRefs.current[job.id] = React.createRef();
-  });
 
   return (
     <div className="livejobs-container">
@@ -239,31 +191,16 @@ const LiveJobs = () => {
                   <td>{job.budget}</td>
                   <td>{job.type}</td>
                   <td>{job.applicants}</td>
-                  <td style={{ position: "relative" }}>
-                    <span
-                      className="livejobs-action-btn"
-                      ref={anchorRefs.current[job.id]}
-                      onClick={e => {
-                        e.stopPropagation();
-                        setPopupJobId(popupJobId === job.id ? null : job.id);
-                      }}
-                    >
-                      <img
-                        src="https://i.postimg.cc/xTC3MKF8/edit-3-svgrepo-com.png"
-                        alt="Actions"
-                        style={{ width: 28, height: 28 }}
-                      />
-                    </span>
-                    {popupJobId === job.id && (
-                      <CardActionPopup
-                        onClose={() => setPopupJobId(null)}
-                        onView={() => handleView(job)}
-                        onEdit={() => handleEdit(job)}
-                        onDelete={() => handleDelete(job)}
-                        showEditDelete={job.hired === 0}
-                        anchorRef={anchorRefs.current[job.id]}
-                      />
-                    )}
+                  <td>
+                    <button className="livejobs-action-btn" onClick={() => handleView(job)}>
+                      <span className="material-icons" style={{ color: "#b6bad3" }}>visibility</span>
+                    </button>
+                    <button className="livejobs-action-btn" onClick={() => handleEdit(job)}>
+                      <span className="material-icons" style={{ color: "#b6bad3" }}>edit</span>
+                    </button>
+                    <button className="livejobs-action-btn" onClick={() => handleDelete(job)}>
+                      <span className="material-icons" style={{ color: "#b6bad3" }}>delete</span>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -317,31 +254,16 @@ const LiveJobs = () => {
                   </div>
                 ))}
               </div>
-              <div className="livejobs-history-card-actions" style={{ justifyContent: "flex-end" }}>
-                <span
-                  className="livejobs-action-btn"
-                  ref={anchorRefs.current[job.id]}
-                  onClick={e => {
-                    e.stopPropagation();
-                    setPopupJobId(popupJobId === job.id ? null : job.id);
-                  }}
-                >
-                  <img
-                    src="https://i.postimg.cc/xTC3MKF8/edit-3-svgrepo-com.png"
-                    alt="Actions"
-                    style={{ width: 28, height: 28 }}
-                  />
-                </span>
-                {popupJobId === job.id && (
-                  <CardActionPopup
-                    onClose={() => setPopupJobId(null)}
-                    onView={() => handleView(job)}
-                    onEdit={() => handleEdit(job)}
-                    onDelete={() => handleDelete(job)}
-                    showEditDelete={job.hired === 0}
-                    anchorRef={anchorRefs.current[job.id]}
-                  />
-                )}
+              <div className="livejobs-history-card-actions">
+                <button className="livejobs-history-card-action-btn view" onClick={() => handleView(job)}>
+                  View
+                </button>
+                <button className="livejobs-history-card-action-btn edit" onClick={() => handleEdit(job)}>
+                  Edit
+                </button>
+                <button className="livejobs-history-card-action-btn delete" onClick={() => handleDelete(job)}>
+                  Delete
+                </button>
               </div>
             </div>
           ))}
