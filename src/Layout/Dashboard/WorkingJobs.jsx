@@ -64,21 +64,63 @@ const WorkingJobs = () => {
   const [historyView, setHistoryView] = useState("card");
   const jobs = workingJobs;
 
+  // Overview card for working jobs
+  const workingCount = jobs.length;
+  const overview = [
+    {
+      key: "Working",
+      icon: statusIcons.Working,
+      iconBg: iconBgColors.Working,
+      iconColor: iconColors.Working,
+      count: workingCount,
+      label: "Working Jobs",
+    },
+  ];
+
+  const handlePostNewJob = () => {
+    alert("Redirect to Job Post Page (implement navigation here)");
+  };
+
   const handleView = (job) => {
     alert(`View job: ${job.title}`);
-  };
-  const handleEdit = (job) => {
-    alert(`Edit job: ${job.title}`);
-  };
-  const handleDelete = (job) => {
-    alert(`Delete job: ${job.title}`);
   };
 
   return (
     <div className="workingjobs-container">
       <div className="workingjobs-header">
         <h2>Working Jobs</h2>
+        <button className="livejobs-post-btn" onClick={handlePostNewJob}>
+          <span className="material-icons">add_circle</span>
+          Post New Job
+        </button>
       </div>
+      {/* Overview cards */}
+      <div className="workingjobs-overview-cards">
+        {overview.map((stat) => (
+          <div className="workingjobs-card" key={stat.key}>
+            <div
+              className="workingjobs-card-iconbox"
+              style={{
+                background: stat.iconBg,
+              }}
+            >
+              <span
+                className="material-icons workingjobs-card-icon"
+                style={{
+                  color: stat.iconColor,
+                }}
+              >
+                {stat.icon}
+              </span>
+            </div>
+            <div className="workingjobs-card-details">
+              <div className="workingjobs-card-count">{stat.count}</div>
+              <div className="workingjobs-card-label">{stat.label}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
       <div className="workingjobs-history-title">
         Working Job Posts
         <div className="workingjobs-history-viewbtns">
@@ -136,12 +178,6 @@ const WorkingJobs = () => {
                     <button className="workingjobs-action-btn" onClick={() => handleView(job)}>
                       <span className="material-icons" style={{ color: "#2563eb" }}>visibility</span>
                     </button>
-                    <button className="workingjobs-action-btn" onClick={() => handleEdit(job)}>
-                      <span className="material-icons" style={{ color: "#f59e42" }}>edit</span>
-                    </button>
-                    <button className="workingjobs-action-btn" onClick={() => handleDelete(job)}>
-                      <span className="material-icons" style={{ color: "#ef4444" }}>delete</span>
-                    </button>
                   </td>
                 </tr>
               ))}
@@ -198,12 +234,6 @@ const WorkingJobs = () => {
               <div className="workingjobs-history-card-actions">
                 <button className="workingjobs-history-card-action-btn view" onClick={() => handleView(job)}>
                   View
-                </button>
-                <button className="workingjobs-history-card-action-btn edit" onClick={() => handleEdit(job)}>
-                  Edit
-                </button>
-                <button className="workingjobs-history-card-action-btn delete" onClick={() => handleDelete(job)}>
-                  Delete
                 </button>
               </div>
             </div>
