@@ -28,6 +28,7 @@ import AllJobs from '../Layout/Dashboard/AllJobs';
 import LiveJobs from '../Layout/Dashboard/LiveJobs';
 import WorkingJobs from '../Layout/Dashboard/WorkingJobs';
 import FinishedJobs from '../Layout/Dashboard/FinishedJobs';
+import FindWorkAll from '../Layout/Dashboard/FindWorkAll';
 
 // Dummy components for each DashboardNex menu/submenu route
 const DashboardNexFindWork = () => <div>DashboardNex - Find Work</div>;
@@ -90,13 +91,17 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <BothDashboard /> },
       { path: "find-work", element: <DashboardNexFindWork /> },
-      { path: "find-work/all", element: <DashboardNexFindWorkAll /> },
+      { path: "find-work/all", element: <FindWorkAll /> },
       { path: "find-work/applied", element: <DashboardNexFindWorkApplied /> },
       { path: "find-work/accepted", element: <DashboardNexFindWorkAccepted /> },
       { path: "find-work/completed", element: <DashboardNexFindWorkCompleted /> },
 
       { path: "post-job", element: <DashboardNexPostJob /> },
       { path: "post-job/all", element: <AllJobs /> },
+      { path: "post-job/all/post-new-job", element: <JobPostForm /> },
+      { path: "post-job/live/post-new-job", element: <JobPostForm /> }, // <-- ADD THIS ROUTE
+      { path: "post-job/working/post-new-job", element: <JobPostForm /> },
+      { path: "post-job/finished/post-new-job", element: <JobPostForm /> },
       { path: "post-job/live", element: <LiveJobs /> },
       { path: "post-job/working", element: <WorkingJobs /> },
       { path: "post-job/finished", element: <FinishedJobs /> },

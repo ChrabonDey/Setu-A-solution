@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import "./FinishedJobs.css"; // Make sure the file name matches exactly!
+import { useNavigate } from "react-router-dom";
+import "./FinishedJobs.css";
 
 // Dummy "finished" jobs data
 const finishedJobs = [
@@ -74,6 +75,7 @@ const infoChips = [
 const FinishedJobs = () => {
   const [historyView, setHistoryView] = useState("card");
   const jobs = finishedJobs;
+  const navigate = useNavigate();
 
   // Overview card for finished jobs
   const finishedCount = jobs.length;
@@ -88,10 +90,6 @@ const FinishedJobs = () => {
     },
   ];
 
-  const handlePostNewJob = () => {
-    alert("Redirect to Job Post Page (implement navigation here)");
-  };
-
   const handleView = (job) => {
     alert(`View job: ${job.title}`);
   };
@@ -100,7 +98,10 @@ const FinishedJobs = () => {
     <div className="finishedjobs-container">
       <div className="finishedjobs-header">
         <h2>Finished Jobs</h2>
-        <button className="finishedjobs-post-btn" onClick={handlePostNewJob}>
+        <button
+          className="finishedjobs-post-btn"
+          onClick={() => navigate("/dashboard-nex/post-job/finished/post-new-job")}
+        >
           <span className="material-icons">add_circle</span>
           Post New Job
         </button>

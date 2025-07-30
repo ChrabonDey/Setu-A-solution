@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./LiveJobs.css";
 
 // Dummy live jobs data
@@ -74,6 +75,8 @@ const infoChips = [
 const LiveJobs = () => {
   const [historyView, setHistoryView] = useState("card");
   const jobs = dummyJobs;
+  const [/*showJobForm*/, /*setShowJobForm*/] = useState(false); // No longer used
+  const navigate = useNavigate();
 
   const live = jobs.length;
 
@@ -87,10 +90,6 @@ const LiveJobs = () => {
       label: "Live Jobs",
     },
   ];
-
-  const handlePostNewJob = () => {
-    alert("Redirect to Job Post Page (implement navigation here)");
-  };
 
   const handleView = (job) => {
     alert(`View job: ${job.title}`);
@@ -106,7 +105,10 @@ const LiveJobs = () => {
     <div className="livejobs-container">
       <div className="livejobs-header">
         <h2>Live Jobs</h2>
-        <button className="livejobs-post-btn" onClick={handlePostNewJob}>
+        <button
+          className="livejobs-post-btn"
+          onClick={() => navigate("/dashboard-nex/post-job/live/post-new-job")}
+        >
           <span className="material-icons">add_circle</span>
           Post New Job
         </button>

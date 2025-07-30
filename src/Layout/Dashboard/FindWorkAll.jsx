@@ -1,94 +1,86 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import "./AllJobs.css";
+import "./FindWorkAll.css";
 
+// Dummy jobs data for demonstration (customize as needed)
 const dummyJobs = [
   {
     id: 1,
     title: "Landing Page Design",
-    status: "Live",
+    status: "All",
     postedOn: "2025-06-10",
     budget: "$300",
     type: "Design",
     applicants: 8,
     description: "Design a responsive landing page for a SaaS product with Figma.",
-    hired: 0,
   },
   {
     id: 2,
     title: "E-commerce Website",
-    status: "Finished",
+    status: "Accepted",
     postedOn: "2025-05-15",
     budget: "$1200",
     type: "Development",
     applicants: 15,
     description: "Develop a full-featured e-commerce site using React and Node.js.",
-    hired: 2,
   },
   {
     id: 3,
     title: "SEO Optimization",
-    status: "Working",
+    status: "Applied",
     postedOn: "2025-06-01",
     budget: "$450",
     type: "Marketing",
     applicants: 5,
     description: "Increase organic search ranking for a local business website.",
-    hired: 1,
   },
   {
     id: 4,
     title: "Social Media Ads Campaign",
-    status: "Live",
+    status: "All",
     postedOn: "2025-03-20",
     budget: "$700",
     type: "Marketing",
     applicants: 4,
     description: "Run multi-channel ad campaigns for summer promotions.",
-    hired: 0,
   },
   {
     id: 5,
     title: "Mobile App UI/UX",
-    status: "Finished",
+    status: "Completed",
     postedOn: "2025-04-18",
     budget: "$900",
     type: "Design",
     applicants: 11,
     description: "Design intuitive UI/UX for a health-tracking mobile app.",
-    hired: 1,
   },
 ];
 
 const statusColors = {
-  Live: "#f59e42",
-  Working: "#2563eb",
-  Finished: "#059669",
-  Cancelled: "#ef4444",
+  All: "#2563eb",
+  Applied: "#f59e42",
+  Accepted: "#059669",
+  Completed: "#9333ea",
 };
 
 const statusIcons = {
-  Live: "hourglass_empty",
-  Working: "autorenew",
-  Finished: "check_circle",
-  Cancelled: "highlight_off",
   All: "work_outline",
+  Applied: "hourglass_empty",
+  Accepted: "check_circle",
+  Completed: "emoji_events",
 };
 
 const iconBgColors = {
-  All: "#fcd34d",
-  Live: "#fef3c7",
-  Working: "#a7f3d0",
-  Finished: "#93c5fd",
-  Cancelled: "#fecaca",
+  All: "#fef3c7",
+  Applied: "#fcd34d",
+  Accepted: "#a7f3d0",
+  Completed: "#f3e8ff",
 };
 
 const iconColors = {
-  All: "#f59e42",
-  Live: "#f59e42",
-  Working: "#2563eb",
-  Finished: "#059669",
-  Cancelled: "#ef4444",
+  All: "#2563eb",
+  Applied: "#f59e42",
+  Accepted: "#059669",
+  Completed: "#9333ea",
 };
 
 const infoChips = [
@@ -122,17 +114,25 @@ const infoChips = [
   },
 ];
 
-const AllJobs = () => {
+const FindWorkAll = () => {
   const [jobs] = useState(dummyJobs);
   const [historyView, setHistoryView] = useState("card");
-  const navigate = useNavigate();
+  const [filter, setFilter] = useState("All");
+  const [search, setSearch] = useState("");
 
-  // Job counts by status
-  const total = jobs.length;
-  const live = jobs.filter(j => j.status === "Live").length;
-  const working = jobs.filter(j => j.status === "Working").length;
-  const finished = jobs.filter(j => j.status === "Finished").length;
-  const cancelled = jobs.filter(j => j.status === "Cancelled").length;
+  // Tabs: All, Applied, Accepted, Completed
+  const tabs = [
+    { key: "All", label: "All" },
+    { key: "Applied", label: "Applied" },
+    { key: "Accepted", label: "Accepted" },
+    { key: "Completed", label: "Completed" },
+  ];
+
+  // Tab counts
+  const all = jobs.length;
+  const applied = jobs.filter(j => j.status === "Applied").length;
+  const accepted = jobs.filter(j => j.status === "Accepted").length;
+  const completed = jobs.filter(j => j.status === "Completed").length;
 
   const overview = [
     {
@@ -140,77 +140,88 @@ const AllJobs = () => {
       icon: statusIcons.All,
       iconBg: iconBgColors.All,
       iconColor: iconColors.All,
-      count: total,
-      label: "Total Jobs",
+      count: all,
+      label: "All",
     },
     {
-      key: "Live",
-      icon: statusIcons.Live,
-      iconBg: iconBgColors.Live,
-      iconColor: iconColors.Live,
-      count: live,
-      label: "Live",
+      key: "Applied",
+      icon: statusIcons.Applied,
+      iconBg: iconBgColors.Applied,
+      iconColor: iconColors.Applied,
+      count: applied,
+      label: "Applied",
     },
     {
-      key: "Working",
-      icon: statusIcons.Working,
-      iconBg: iconBgColors.Working,
-      iconColor: iconColors.Working,
-      count: working,
-      label: "Working",
+      key: "Accepted",
+      icon: statusIcons.Accepted,
+      iconBg: iconBgColors.Accepted,
+      iconColor: iconColors.Accepted,
+      count: accepted,
+      label: "Accepted",
     },
     {
-      key: "Finished",
-      icon: statusIcons.Finished,
-      iconBg: iconBgColors.Finished,
-      iconColor: iconColors.Finished,
-      count: finished,
-      label: "Finished",
-    },
-    {
-      key: "Cancelled",
-      icon: statusIcons.Cancelled,
-      iconBg: iconBgColors.Cancelled,
-      iconColor: iconColors.Cancelled,
-      count: cancelled,
-      label: "Cancelled",
+      key: "Completed",
+      icon: statusIcons.Completed,
+      iconBg: iconBgColors.Completed,
+      iconColor: iconColors.Completed,
+      count: completed,
+      label: "Completed",
     },
   ];
+
+  // Filtered jobs for current tab and search
+  const filteredJobs = jobs.filter(job => {
+    const matchTab = filter === "All" ? true : job.status === filter;
+    const matchSearch =
+      job.title.toLowerCase().includes(search.toLowerCase()) ||
+      job.description.toLowerCase().includes(search.toLowerCase());
+    return matchTab && matchSearch;
+  });
+
+  // Handlers
+  const handleSearch = (e) => setSearch(e.target.value);
+  const handleTab = (tab) => setFilter(tab);
 
   const handleView = (job) => {
     alert(`View job: ${job.title}`);
   };
-  const handleEdit = (job) => {
-    alert(`Edit job: ${job.title}`);
-  };
-  const handleDelete = (job) => {
-    alert(`Delete job: ${job.title}`);
-  };
 
   return (
-    <div className="alljobs-container">
-      <div className="alljobs-header">
-        <h2>All Posted Jobs</h2>
-        <button
-          className="alljobs-post-btn"
-          onClick={() => navigate("/dashboard-nex/post-job/all/post-new-job")}
-        >
-          <span className="material-icons">add_circle</span>
-          Post New Job
-        </button>
+    <div className="findworkall-container">
+      <div className="findworkall-header">
+        <h2>Find Work</h2>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <input
+            className="findworkall-search"
+            type="search"
+            value={search}
+            onChange={handleSearch}
+            placeholder="Search for a job..."
+          />
+        </div>
       </div>
-      {/* Overview cards */}
-      <div className="alljobs-overview-cards">
+
+      {/* Overview cards as tabs */}
+      <div className="findworkall-overview-cards">
         {overview.map((stat) => (
-          <div className="alljobs-card" key={stat.key}>
+          <div
+            key={stat.key}
+            className={`findworkall-card${filter === stat.key ? " selected" : ""}`}
+            style={{
+              cursor: "pointer",
+              border: filter === stat.key ? "2px solid #2563eb" : undefined,
+              background: filter === stat.key ? "#e0e7ef" : undefined,
+            }}
+            onClick={() => handleTab(stat.key)}
+          >
             <div
-              className="alljobs-card-iconbox"
+              className="findworkall-card-iconbox"
               style={{
                 background: stat.iconBg,
               }}
             >
               <span
-                className="material-icons alljobs-card-icon"
+                className="material-icons findworkall-card-icon"
                 style={{
                   color: stat.iconColor,
                 }}
@@ -218,26 +229,26 @@ const AllJobs = () => {
                 {stat.icon}
               </span>
             </div>
-            <div className="alljobs-card-details">
-              <div className="alljobs-card-count">{stat.count}</div>
-              <div className="alljobs-card-label">{stat.label}</div>
+            <div className="findworkall-card-details">
+              <div className="findworkall-card-count">{stat.count}</div>
+              <div className="findworkall-card-label">{stat.label}</div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="alljobs-history-title">
-        Job History
-        <div className="alljobs-history-viewbtns">
+      <div className="findworkall-history-title">
+        {filter} Jobs
+        <div className="findworkall-history-viewbtns">
           <button
-            className={`alljobs-history-viewbtn${historyView === "card" ? " active" : ""}`}
+            className={`findworkall-history-viewbtn${historyView === "card" ? " active" : ""}`}
             onClick={() => setHistoryView("card")}
             title="Card View"
           >
             <span className="material-icons">grid_view</span>
           </button>
           <button
-            className={`alljobs-history-viewbtn${historyView === "list" ? " active" : ""}`}
+            className={`findworkall-history-viewbtn${historyView === "list" ? " active" : ""}`}
             onClick={() => setHistoryView("list")}
             title="List View"
           >
@@ -247,8 +258,8 @@ const AllJobs = () => {
       </div>
 
       {historyView === "list" ? (
-        <div className="alljobs-table-wrapper">
-          <table className="alljobs-table">
+        <div className="findworkall-table-wrapper">
+          <table className="findworkall-table">
             <thead>
               <tr>
                 <th>Title</th>
@@ -261,12 +272,12 @@ const AllJobs = () => {
               </tr>
             </thead>
             <tbody>
-              {jobs.map((job) => (
+              {filteredJobs.map((job) => (
                 <tr key={job.id}>
                   <td className="title">{job.title}</td>
                   <td>
                     <span
-                      className="alljobs-status"
+                      className="findworkall-status"
                       style={{
                         background: statusColors[job.status] || "#e5e7eb",
                         marginLeft: 0,
@@ -280,23 +291,13 @@ const AllJobs = () => {
                   <td>{job.type}</td>
                   <td>{job.applicants}</td>
                   <td>
-                    <button className="alljobs-action-btn" onClick={() => handleView(job)}>
-                      <span className="material-icons" style={{ color: "#b6bad3" }}>visibility</span>
+                    <button className="findworkall-action-btn" onClick={() => handleView(job)}>
+                      <span className="material-icons" style={{ color: "#2563eb" }}>visibility</span>
                     </button>
-                    {(job.hired === 0) && (
-                      <>
-                        <button className="alljobs-action-btn" onClick={() => handleEdit(job)}>
-                          <span className="material-icons" style={{ color: "#b6bad3" }}>edit</span>
-                        </button>
-                        <button className="alljobs-action-btn" onClick={() => handleDelete(job)}>
-                          <span className="material-icons" style={{ color: "#b6bad3" }}>delete</span>
-                        </button>
-                      </>
-                    )}
                   </td>
                 </tr>
               ))}
-              {jobs.length === 0 && (
+              {filteredJobs.length === 0 && (
                 <tr>
                   <td colSpan={7} style={{ textAlign: "center", color: "#888" }}>
                     No jobs found.
@@ -307,14 +308,14 @@ const AllJobs = () => {
           </table>
         </div>
       ) : (
-        <div className="alljobs-cardhistory-grid">
-          {jobs.length === 0 && (
-            <div className="alljobs-cardhistory-empty">No jobs found.</div>
+        <div className="findworkall-cardhistory-grid">
+          {filteredJobs.length === 0 && (
+            <div className="findworkall-cardhistory-empty">No jobs found.</div>
           )}
-          {jobs.map((job) => (
-            <div className="alljobs-history-card" key={job.id}>
-              <div className="alljobs-history-card-header">
-                <div className="alljobs-history-card-statusicon">
+          {filteredJobs.map((job) => (
+            <div className="findworkall-history-card" key={job.id}>
+              <div className="findworkall-history-card-header">
+                <div className="findworkall-history-card-statusicon">
                   <span
                     className="material-icons"
                     style={{ color: iconColors[job.status] || "#999" }}
@@ -323,7 +324,7 @@ const AllJobs = () => {
                   </span>
                 </div>
                 <span
-                  className="alljobs-status"
+                  className="findworkall-status"
                   style={{
                     background: statusColors[job.status] || "#e5e7eb",
                     marginLeft: "0",
@@ -332,12 +333,12 @@ const AllJobs = () => {
                   {job.status}
                 </span>
               </div>
-              <div className="alljobs-history-card-title">{job.title}</div>
-              <div className="alljobs-history-card-desc">{job.description}</div>
-              <div className="alljobs-history-card-infochips">
+              <div className="findworkall-history-card-title">{job.title}</div>
+              <div className="findworkall-history-card-desc">{job.description}</div>
+              <div className="findworkall-history-card-infochips">
                 {infoChips.map(chip => (
                   <div
-                    className="alljobs-history-chip"
+                    className="findworkall-history-chip"
                     key={chip.key}
                     style={{ background: chip.bg, color: chip.color }}
                   >
@@ -346,20 +347,10 @@ const AllJobs = () => {
                   </div>
                 ))}
               </div>
-              <div className="alljobs-history-card-actions">
-                <button className="alljobs-history-card-action-btn view" onClick={() => handleView(job)}>
+              <div className="findworkall-history-card-actions">
+                <button className="findworkall-history-card-action-btn view" onClick={() => handleView(job)}>
                   View
                 </button>
-                {(job.hired === 0) && (
-                  <>
-                    <button className="alljobs-history-card-action-btn edit" onClick={() => handleEdit(job)}>
-                      Edit
-                    </button>
-                    <button className="alljobs-history-card-action-btn delete" onClick={() => handleDelete(job)}>
-                      Delete
-                    </button>
-                  </>
-                )}
               </div>
             </div>
           ))}
@@ -369,4 +360,4 @@ const AllJobs = () => {
   );
 };
 
-export default AllJobs;
+export default FindWorkAll;

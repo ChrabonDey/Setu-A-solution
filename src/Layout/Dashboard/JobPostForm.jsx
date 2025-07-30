@@ -47,8 +47,14 @@ const JobPostForm = () => {
   };
 
   return (
-    <div className="job-form-wrapper">
-      <form className="job-form-container" onSubmit={handleSubmit}>
+    <div className="job-form-wrapper" style={{
+      background: 'none',
+      boxShadow: 'none'
+    }}>
+      <form className="job-form-container" onSubmit={handleSubmit} style={{
+        background: 'none',
+        boxShadow: 'none'
+      }}>
         <div className="post-job-actions-bar">
           <div className="post-job-actions-inner">
             <div className="post-job-gradient-text">Create a job </div>
@@ -56,7 +62,7 @@ const JobPostForm = () => {
         </div>
         {/* Step 1: Job Details, Description, Attachment */}
         {step === 1 && (
-          <div className="job-form-card">
+          <div className="job-form-card" style={{ background: 'none', boxShadow: 'none' }}>
             <SectionTitle title="Add Job Details & Description" />
             <div className="job-form-grid">
               <InputField label="Job Title" placeholder="e.g., Design a University Event Poster" />
@@ -96,7 +102,7 @@ const JobPostForm = () => {
 
         {/* Step 2: Skills & Experience */}
         {step === 2 && (
-          <div className="job-form-card">
+          <div className="job-form-card" style={{ background: 'none', boxShadow: 'none' }}>
             <SectionTitle title="Skills & Experience" />
             <div className="job-form-column">
               <div>
@@ -127,7 +133,7 @@ const JobPostForm = () => {
 
         {/* Step 3: Budget & Payment */}
         {step === 3 && (
-          <div className="job-form-card">
+          <div className="job-form-card" style={{ background: 'none', boxShadow: 'none' }}>
             <SectionTitle title="Budget & Payment" />
             <div className="job-form-grid">
               <InputField label="Budget (in BDT)" type="number" placeholder="Enter amount" />
@@ -149,7 +155,7 @@ const JobPostForm = () => {
 
         {/* Step 4: Location & Final Confirmation */}
         {step === 4 && (
-          <div className="job-form-card">
+          <div className="job-form-card" style={{ background: 'none', boxShadow: 'none' }}>
             <SectionTitle title="Preferred Location & Final Confirmation" />
             <div className="job-form-grid">
               <SelectField label="Preferred Region" options={['Dhaka', 'Chittagong', 'Online Only']} />
