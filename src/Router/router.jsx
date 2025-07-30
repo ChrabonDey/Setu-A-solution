@@ -29,6 +29,7 @@ import LiveJobs from '../Layout/Dashboard/LiveJobs';
 import WorkingJobs from '../Layout/Dashboard/WorkingJobs';
 import FinishedJobs from '../Layout/Dashboard/FinishedJobs';
 import FindWorkAll from '../Layout/Dashboard/FindWorkAll';
+import FindWorkApplied from '../Layout/Dashboard/FindWorkApplied';
 
 // Dummy components for each DashboardNex menu/submenu route
 const DashboardNexFindWork = () => <div>DashboardNex - Find Work</div>;
@@ -92,7 +93,7 @@ export const router = createBrowserRouter([
       { index: true, element: <BothDashboard /> },
       { path: "find-work", element: <DashboardNexFindWork /> },
       { path: "find-work/all", element: <FindWorkAll /> },
-      { path: "find-work/applied", element: <DashboardNexFindWorkApplied /> },
+      { path: "find-work/applied", element: <FindWorkApplied /> },
       { path: "find-work/accepted", element: <DashboardNexFindWorkAccepted /> },
       { path: "find-work/completed", element: <DashboardNexFindWorkCompleted /> },
 

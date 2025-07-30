@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
-.findworkall-container {
+.findworkapplied-container {
   border-radius: 14px;
   padding: 28px 32px 18px 32px;
   display: flex;
@@ -8,19 +8,19 @@
   background: #fff;
 }
 
-.findworkall-header {
+.findworkapplied-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 28px;
 }
-.findworkall-header h2 {
+.findworkapplied-header h2 {
   font-size: 1.55rem;
   font-weight: 700;
   color: #222;
   margin: 0;
 }
-.findworkall-search-btn {
+.findworkapplied-search-btn {
   display: flex;
   align-items: center;
   gap: 7px;
@@ -34,21 +34,21 @@
   cursor: pointer;
   transition: background 0.17s;
 }
-.findworkall-search-btn .material-icons {
+.findworkapplied-search-btn .material-icons {
   font-size: 24px;
 }
-.findworkall-search-btn:hover {
+.findworkapplied-search-btn:hover {
   background: #1d4ed8;
 }
 
-/* Overview cards (tabs) */
-.findworkall-overview-cards {
+/* Overview card */
+.findworkapplied-overview-cards {
   display: flex;
   gap: 32px;
   margin-bottom: 26px;
   flex-wrap: wrap;
 }
-.findworkall-card {
+.findworkapplied-card {
   background: #f6f8fa;
   border-radius: 18px;
   box-shadow: 0 2px 7px rgba(0,0,0,0.04);
@@ -63,18 +63,14 @@
   padding: 0 26px;
   transition: box-shadow 0.15s, transform 0.15s, border 0.16s, background 0.16s;
   margin-bottom: 10px;
-  cursor: pointer;
+  cursor: default;
   border: 2px solid transparent;
 }
-.findworkall-card.selected {
+.findworkapplied-card.selected {
   border: 2px solid #2563eb;
   background: #e0e7ef;
 }
-.findworkall-card:hover {
-  box-shadow: 0 4px 18px rgba(80,100,190,0.10);
-  transform: translateY(-2px) scale(1.03);
-}
-.findworkall-card-iconbox {
+.findworkapplied-card-iconbox {
   width: 48px;
   height: 48px;
   border-radius: 13px;
@@ -84,23 +80,23 @@
   margin-right: 18px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.03);
 }
-.findworkall-card-icon {
+.findworkapplied-card-icon {
   font-size: 29px;
   opacity: 1;
 }
-.findworkall-card-details {
+.findworkapplied-card-details {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
 }
-.findworkall-card-count {
+.findworkapplied-card-count {
   font-size: 1.6rem;
   font-weight: 700;
   color: #1e293b;
   margin-bottom: 3px;
 }
-.findworkall-card-label {
+.findworkapplied-card-label {
   font-size: 15px;
   color: #6b7280;
   font-weight: 500;
@@ -108,7 +104,7 @@
 }
 
 /* Job history title and view buttons */
-.findworkall-history-title {
+.findworkapplied-history-title {
   margin-bottom: 14px;
   margin-top: 7px;
   color: #374151;
@@ -119,15 +115,15 @@
   align-items: center;
   justify-content: space-between;
 }
-.findworkall-history-viewbtns {
+.findworkapplied-history-viewbtns {
   margin-left: 12px;
   display: flex;
   gap: 8px;
 }
-.findworkall-history-viewbtn {
+.findworkapplied-history-viewbtn {
   border: none;
   background: #f3f4f6;
-  color: #6b7280;
+  color: #2563eb;
   border-radius: 6px;
   padding: 6px 13px;
   font-size: 20px;
@@ -138,41 +134,41 @@
   gap: 0px;
   font-weight: 500;
 }
-.findworkall-history-viewbtn.active,
-.findworkall-history-viewbtn:hover {
+.findworkapplied-history-viewbtn.active,
+.findworkapplied-history-viewbtn:hover {
   background: #2563eb;
   color: #fff;
 }
 
 /* Table/List styles */
-.findworkall-table-wrapper {
+.findworkapplied-table-wrapper {
   overflow-x: auto;
 }
-.findworkall-table {
+.findworkapplied-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 15px;
   background: #fff;
   min-width: 750px;
 }
-.findworkall-table th, .findworkall-table td {
+.findworkapplied-table th, .findworkapplied-table td {
   padding: 13px 10px;
   text-align: left;
 }
-.findworkall-table th {
+.findworkapplied-table th {
   background: #f5f7fa;
   color: #444;
   font-weight: 600;
   border-bottom: 2px solid #e5e7eb;
 }
-.findworkall-table tr:not(:last-child) td {
+.findworkapplied-table tr:not(:last-child) td {
   border-bottom: 1px solid #e5e7eb;
 }
-.findworkall-table td.title {
+.findworkapplied-table td.title {
   font-weight: 500;
   color: #222;
 }
-.findworkall-status {
+.findworkapplied-status {
   display: inline-block;
   color: #fff;
   padding: 4px 16px;
@@ -181,41 +177,42 @@
   font-weight: 500;
   letter-spacing: 0.01em;
   margin-left: 0;
+  background: #2563eb;
 }
-.findworkall-action-btn {
+.findworkapplied-action-btn {
   background: none;
   border: none;
   cursor: pointer;
   padding: 4px 6px;
-  color: #b6bad3;
+  color: #2563eb;
   font-size: 19px;
   border-radius: 50%;
   transition: background 0.13s;
   margin-right: 3px;
 }
-.findworkall-action-btn:last-child {
+.findworkapplied-action-btn:last-child {
   margin-right: 0;
 }
-.findworkall-action-btn:hover {
+.findworkapplied-action-btn:hover {
   background: #eef2ff;
   color: #2563eb;
 }
 
 /* Card history grid view */
-.findworkall-cardhistory-grid {
+.findworkapplied-cardhistory-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
   gap: 28px;
   margin-bottom: 10px;
 }
-.findworkall-cardhistory-empty {
+.findworkapplied-cardhistory-empty {
   font-size: 1.1rem;
   color: #aaa;
   text-align: center;
   padding: 30px 0;
   grid-column: 1/-1;
 }
-.findworkall-history-card {
+.findworkapplied-history-card {
   background: #f7faff;
   border-radius: 18px;
   box-shadow: 0 3px 12px rgba(60,80,160,0.07);
@@ -227,12 +224,12 @@
   min-height: 180px;
   border: 1.5px solid #edf2fa;
 }
-.findworkall-history-card:hover {
+.findworkapplied-history-card:hover {
   box-shadow: 0 8px 24px rgba(40,70,180,0.13);
   transform: translateY(-2px) scale(1.025);
   border-color: #b6e0fe;
 }
-.findworkall-history-card-header {
+.findworkapplied-history-card-header {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
@@ -240,7 +237,7 @@
   justify-content: space-between;
   width: 100%;
 }
-.findworkall-history-card-statusicon {
+.findworkapplied-history-card-statusicon {
   width: 44px;
   height: 44px;
   border-radius: 12px;
@@ -252,12 +249,12 @@
   flex-shrink: 0;
   margin-right: 0;
 }
-.findworkall-history-card-statusicon .material-icons {
+.findworkapplied-history-card-statusicon .material-icons {
   font-size: 28px;
   opacity: 1;
 }
 
-.findworkall-history-card-title {
+.findworkapplied-history-card-title {
   font-size: 1.09rem;
   font-weight: 700;
   color: #212b36;
@@ -265,7 +262,7 @@
   margin-top: 3px;
   text-align: left;
 }
-.findworkall-history-card-desc {
+.findworkapplied-history-card-desc {
   color: #6b7280;
   font-size: 0.97rem;
   margin-bottom: 14px;
@@ -273,7 +270,7 @@
   text-align: left;
 }
 
-.findworkall-history-card-infochips {
+.findworkapplied-history-card-infochips {
   display: flex;
   flex-wrap: wrap;
   gap: 10px 18px;
@@ -282,7 +279,7 @@
   margin-bottom: 14px;
   text-align: left;
 }
-.findworkall-history-chip {
+.findworkapplied-history-chip {
   display: flex;
   align-items: center;
   gap: 5px;
@@ -296,19 +293,19 @@
   box-shadow: 0 1px 3px rgba(120,120,120,0.04);
   transition: background 0.13s;
 }
-.findworkall-history-chip .material-icons {
+.findworkapplied-history-chip .material-icons {
   font-size: 18px;
   opacity: 0.85;
   margin-right: 2px;
 }
 
-.findworkall-history-card-actions {
+.findworkapplied-history-card-actions {
   display: flex;
   gap: 12px;
   margin-top: 7px;
   justify-content: flex-start;
 }
-.findworkall-history-card-action-btn {
+.findworkapplied-history-card-action-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -326,19 +323,19 @@
   min-width: 70px;
   color: #2563eb;
 }
-.findworkall-history-card-action-btn.view { color: #2563eb; }
-.findworkall-history-card-action-btn.edit { color: #f59e42; }
-.findworkall-history-card-action-btn.delete { color: #ef4444; }
-.findworkall-history-card-action-btn:hover {
+.findworkapplied-history-card-action-btn.view { color: #2563eb; }
+.findworkapplied-history-card-action-btn.edit { color: #f59e42; }
+.findworkapplied-history-card-action-btn.delete { color: #ef4444; }
+.findworkapplied-history-card-action-btn:hover {
   background: #e0e7ef;
   box-shadow: 0 2px 8px rgba(60,80,160,0.07);
 }
 
 @media (max-width: 1200px) {
-  .findworkall-overview-cards {
+  .findworkapplied-overview-cards {
     gap: 16px;
   }
-  .findworkall-card {
+  .findworkapplied-card {
     min-width: 140px;
     padding: 0 10px;
     height: 80px;
@@ -347,24 +344,24 @@
 }
 
 @media (max-width: 900px) {
-  .findworkall-table {
+  .findworkapplied-table {
     min-width: 500px;
     font-size: 14px;
   }
-  .findworkall-header {
+  .findworkapplied-header {
     flex-direction: column;
     gap: 18px;
     align-items: flex-start;
   }
-  .findworkall-container {
+  .findworkapplied-container {
     padding: 12px 4px 4px 4px;
   }
-  .findworkall-overview-cards {
+  .findworkapplied-overview-cards {
     flex-direction: column;
     gap: 13px;
     margin-bottom: 18px;
   }
-  .findworkall-card {
+  .findworkapplied-card {
     width: 100%;
     min-width: 0;
     max-width: 100%;
@@ -372,17 +369,17 @@
     padding: 0 10px;
     margin-bottom: 0;
   }
-  .findworkall-card-details .findworkall-card-count {
+  .findworkapplied-card-details .findworkapplied-card-count {
     font-size: 1.3rem;
   }
-  .findworkall-card-label {
+  .findworkapplied-card-label {
     font-size: 13px;
   }
-  .findworkall-cardhistory-grid {
+  .findworkapplied-cardhistory-grid {
     grid-template-columns: 1fr;
     gap: 10px;
   }
-  .findworkall-history-card {
+  .findworkapplied-history-card {
     padding: 11px 6px 7px 8px;
   }
 }

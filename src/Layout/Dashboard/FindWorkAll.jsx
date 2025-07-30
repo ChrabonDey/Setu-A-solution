@@ -118,7 +118,7 @@ const FindWorkAll = () => {
   const [jobs] = useState(dummyJobs);
   const [historyView, setHistoryView] = useState("card");
   const [filter, setFilter] = useState("All");
-  const [search, setSearch] = useState("");
+  // No search state, button instead
 
   // Tabs: All, Applied, Accepted, Completed
   const tabs = [
@@ -169,36 +169,31 @@ const FindWorkAll = () => {
     },
   ];
 
-  // Filtered jobs for current tab and search
+  // Filtered jobs for current tab
   const filteredJobs = jobs.filter(job => {
     const matchTab = filter === "All" ? true : job.status === filter;
-    const matchSearch =
-      job.title.toLowerCase().includes(search.toLowerCase()) ||
-      job.description.toLowerCase().includes(search.toLowerCase());
-    return matchTab && matchSearch;
+    return matchTab;
   });
 
   // Handlers
-  const handleSearch = (e) => setSearch(e.target.value);
   const handleTab = (tab) => setFilter(tab);
 
   const handleView = (job) => {
     alert(`View job: ${job.title}`);
   };
 
+  const handleSearchButton = () => {
+    alert("Open job search modal or navigate to a search page!");
+  };
+
   return (
     <div className="findworkall-container">
       <div className="findworkall-header">
         <h2>Find Work</h2>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <input
-            className="findworkall-search"
-            type="search"
-            value={search}
-            onChange={handleSearch}
-            placeholder="Search for a job..."
-          />
-        </div>
+        <button className="findworkall-search-btn" onClick={handleSearchButton}>
+          <span className="material-icons">search</span>
+          Search for a job
+        </button>
       </div>
 
       {/* Overview cards as tabs */}
